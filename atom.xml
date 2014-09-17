@@ -4,7 +4,7 @@
   <subtitle><![CDATA[技术生活都要折腾]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://essay.igevin.info/"/>
-  <updated>2014-09-14T09:15:07.498Z</updated>
+  <updated>2014-09-17T13:07:41.544Z</updated>
   <id>http://essay.igevin.info/</id>
   
   <author>
@@ -15,246 +15,11 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[Yet another awesome collection]]></title>
-    <link href="http://essay.igevin.info/2014/09/14/github/yet%20another%20awesome%20collection/"/>
-    <id>http://essay.igevin.info/2014/09/14/github/yet another awesome collection/</id>
-    <published>2014-09-14T08:42:01.000Z</published>
-    <updated>2014-09-14T09:13:47.000Z</updated>
-    <content type="html"><![CDATA[<p>github上有一大堆『awesome-*』的repository相当有料。</p>
-<p>最近我重复造了一个轮子，把这堆资源整理到repository <a href="https://github.com/flyhigher139/awesome-collection" target="_blank" rel="external">awesome-collection</a>中，这个repository中也包含了别人造的一些轮子，以后这个repository的维护会以我个人感情色彩进行内容的添加、删除或者合并。</p>
-<p>本文把这些轮子枚举如下，想看干活的童靴可以随意打开一个轮子：</p>
-<ul>
-<li><a href="https://github.com/sindresorhus/awesome" target="_blank" rel="external">Awesome</a> - A curated list of awesome lists</li>
-<li><a href="https://github.com/bradoyler/awesome-all" target="_blank" rel="external">awesome-all</a> – A curated list of awesome lists of awesome frameworks, libraries and software</li>
-<li><a href="https://github.com/emijrp/awesome-awesome" target="_blank" rel="external">awesome-awesome</a> by @emijrp – A curated list of awesome curated lists of many topics.</li>
-<li><a href="https://github.com/erichs/awesome-awesome" target="_blank" rel="external">awesome-awesome</a> by @erichs – A curated list of awesome curated lists! Inspired by inspiration.</li>
-<li><a href="https://github.com/oyvindrobertsen/awesome-awesome" target="_blank" rel="external">awesome-awesome</a> by @oyvindrobertsen – A curated list of curated lists of libraries, resources and shiny things for various languages.</li>
-<li><a href="https://github.com/bayandin/awesome-awesomeness" target="_blank" rel="external">awesome-awesomeness</a> – A curated list of awesome awesomeness</li>
-<li><a href="https://github.com/fleveque/awesome-awesomes" target="_blank" rel="external">awesome-awesomes</a> – Awesome collection of awesome lists of libraries, tools, frameworks and software for any programming language</li>
-<li><a href="https://github.com/flyhigher139/awesome-collection" target="_blank" rel="external">awesome-collection</a> - 这是我那个轮子</li>
-</ul>
-<ul>
-<li><a href="https://github.com/jnv/lists" target="_blank" rel="external">lists</a>  - The definitive list of (awesome) lists curated on GitHub<br>(这个虽然没有赋予『awesome-*』的名字，但内容更多更全，甚至在我这个repo刚刚创建的时候，就把我的库填入其中了，推荐)</li>
-</ul>
-<p>—-what’s more—-</p>
-<p>欢迎大家fork或者pull request to <a href="https://github.com/flyhigher139/awesome-collection" target="_blank" rel="external">awesome-collection</a></p>
-]]></content>
-    
-    
-      <category term="GitHub" scheme="http://essay.igevin.info/tags/GitHub/"/>
-    
-      <category term="GitHub" scheme="http://essay.igevin.info/categories/GitHub/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[如何生成SSH key]]></title>
-    <link href="http://essay.igevin.info/2014/08/28/github/How-to-create-SSH-key/"/>
-    <id>http://essay.igevin.info/2014/08/28/github/How-to-create-SSH-key/</id>
-    <published>2014-08-28T08:42:01.000Z</published>
-    <updated>2014-08-29T12:30:35.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="如何生成SSH_key">如何生成SSH key</h1>
-<p>SSH key提供了一种与GitHub通信的方式，通过这种方式，能够在不输入密码的情况下，将GitHub作为自己的remote端服务器，进行版本控制</p>
-<h2 id="步骤">步骤</h2>
-<ul>
-<li>检查SSH keys是否存在</li>
-<li>生成新的ssh key</li>
-<li>将ssh key添加到GitHub中</li>
-</ul>
-<p><img src="http://gevin-zone.qiniudn.com/gevin-essay-how-to-generate-SSH-key.png" alt="如何生成SSH KEY" title="如何生成SSH KEY"></p>
-<h2 id="1-_检查SSH_keys是否存在">1. 检查SSH keys是否存在</h2>
-<p>输入下面的命令，如果有文件<code>id_rsa.pub</code> 或 <code>id_dsa.pub</code>，则直接进入步骤3将SSH key添加到GitHub中，否则进入第二步生成SSH key</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ls</span> -<span class="keyword">al</span> ~/.ssh</div><div class="line"># Lists the <span class="keyword">files</span> in your .ssh directory, <span class="keyword">if</span> they exist</div></pre></td></tr></table></figure>
-
-<h2 id="2-_生成新的ssh_key">2. 生成新的ssh key</h2>
-<p><strong>第一步：生成public/private rsa key pair</strong><br>在命令行中输入<code>ssh-keygen -t rsa -C &quot;your_email@example.com&quot;</code></p>
-<p>默认会在相应路径下（/your_home_path）生成<code>id_rsa</code>和<code>id_rsa.pub</code>两个文件，如下面代码所示</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -C <span class="string">"your_email@example.com"</span></div><div class="line"><span class="comment"># Creates a new ssh key using the provided email</span></div><div class="line">Generating public/<span class="keyword">private</span> rsa key pair.</div><div class="line">Enter <span class="built_in">file</span> <span class="operator">in</span> which <span class="built_in">to</span> save <span class="operator">the</span> key (/your_home_path/.ssh/id_rsa):</div></pre></td></tr></table></figure>
-
-<p><strong>第二步：输入passphrase（本步骤可以跳过）</strong></p>
-<p>设置passphrase后，进行版本控制时，每次与GitHub通信都会要求输入passphrase，以避免某些“失误”</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Enter passphrase (<span class="keyword">empty</span> <span class="keyword">for</span> no passphrase): [<span class="keyword">Type</span> a passphrase]</div><div class="line">Enter same passphrase again: [<span class="keyword">Type</span> passphrase again]</div></pre></td></tr></table></figure>
-
-<p>sample result:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Your identification has been saved <span class="keyword">in</span> /your_home_path/.ssh/id_rsa.</div><div class="line">Your <span class="keyword">public</span> <span class="keyword">key</span> has been saved <span class="keyword">in</span> /your_home_path/.ssh/id_rsa.pub.</div><div class="line">The <span class="keyword">key</span> fingerprint <span class="keyword">is</span>:</div><div class="line"><span class="preprocessor">#01:0f:f4:3b:ca:85:d6:17:a1:7d:f0:68:9d:f0:a2:db your_email@example.com</span></div></pre></td></tr></table></figure>
-
-<p><strong>第三步：将新生成的key添加到ssh-agent中:</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># start the ssh-agent in the background</span></div><div class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(ssh-agent -s)</span>"</span></div><div class="line">Agent pid <span class="number">59566</span></div><div class="line">ssh-add ~/.ssh/id_rsa</div></pre></td></tr></table></figure>
-
-<h2 id="3-_将ssh_key添加到GitHub中">3. 将ssh key添加到GitHub中</h2>
-<p>用自己喜欢的文本编辑器打开<code>id_rsa.pub</code>文件，里面的信息即为SSH key，将这些信息复制到GitHub的<code>Add SSH key</code>页面即可</p>
-<p>不同的操作系统，均有一些命令，直接将SSH key从文件拷贝到粘贴板中，如下：</p>
-<p><strong>mac</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">pbcopy</span> &lt; ~/.ssh/id_rsa.pub</div><div class="line"><span class="comment"># Copies the contents of the id_rsa.pub file to your clipboard</span></div></pre></td></tr></table></figure>
-
-<p><strong>windows</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">clip</span> &lt; ~/.ssh/id_rsa.pub</div><div class="line"><span class="comment"># Copies the contents of the id_rsa.pub file to your clipboard</span></div></pre></td></tr></table></figure>
-
-<p><strong>linux</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install xclip</div><div class="line"># Downloads <span class="literal">and</span> installs xclip. <span class="keyword">If</span> you don't have <span class="escape">`a</span>pt-get<span class="escape">`,</span> you might need to use another installer (like <span class="escape">`y</span>um<span class="escape">`)</span></div><div class="line"></div><div class="line">xclip -sel clip &lt; ~/.ssh/id_rsa.pub</div><div class="line"># Copies the contents of the id_rsa.pub file to your <span class="built_in"><span class="keyword">clipboard</span></span></div></pre></td></tr></table></figure>
-
-]]></content>
-    
-    
-      <category term="GitHub" scheme="http://essay.igevin.info/tags/GitHub/"/>
-    
-      <category term="GitHub" scheme="http://essay.igevin.info/categories/GitHub/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[如何生成SSH key]]></title>
-    <link href="http://essay.igevin.info/2014/08/28/How-to-create-SSH-key/"/>
-    <id>http://essay.igevin.info/2014/08/28/How-to-create-SSH-key/</id>
-    <published>2014-08-28T08:42:01.000Z</published>
-    <updated>2014-08-28T11:31:47.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="如何生成SSH_key">如何生成SSH key</h1>
-<p>SSH key提供了一种与GitHub通信的方式，通过这种方式，能够在不输入密码的情况下，将GitHub作为自己的remote端服务器，进行版本控制</p>
-<h2 id="步骤">步骤</h2>
-<ul>
-<li>检查SSH keys是否存在</li>
-<li>生成新的ssh key</li>
-<li>将ssh key添加到GitHub中</li>
-</ul>
-<p><img src="http://gevin-zone.qiniudn.com/gevin-essay-how-to-generate-SSH-key.png" alt="如何生成SSH KEY" title="如何生成SSH KEY"></p>
-<h2 id="1-_检查SSH_keys是否存在">1. 检查SSH keys是否存在</h2>
-<p>输入下面的命令，如果有文件<code>id_rsa.pub</code> 或 <code>id_dsa.pub</code>，则直接进入步骤3将SSH key添加到GitHub中，否则进入第二步生成SSH key</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ls</span> -<span class="keyword">al</span> ~/.ssh</div><div class="line"># Lists the <span class="keyword">files</span> in your .ssh directory, <span class="keyword">if</span> they exist</div></pre></td></tr></table></figure>
-
-<h2 id="2-_生成新的ssh_key">2. 生成新的ssh key</h2>
-<p><strong>第一步：生成public/private rsa key pair</strong><br>在命令行中输入<code>ssh-keygen -t rsa -C &quot;your_email@example.com&quot;</code></p>
-<p>默认会在相应路径下（/your_home_path）生成<code>id_rsa</code>和<code>id_rsa.pub</code>两个文件，如下面代码所示</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -C <span class="string">"your_email@example.com"</span></div><div class="line"><span class="comment"># Creates a new ssh key using the provided email</span></div><div class="line">Generating public/<span class="keyword">private</span> rsa key pair.</div><div class="line">Enter <span class="built_in">file</span> <span class="operator">in</span> which <span class="built_in">to</span> save <span class="operator">the</span> key (/your_home_path/.ssh/id_rsa):</div></pre></td></tr></table></figure>
-
-<p><strong>第二步：输入passphrase（本步骤可以跳过）</strong></p>
-<p>设置passphrase后，进行版本控制时，每次与GitHub通信都会要求输入passphrase，以避免某些“失误”</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Enter passphrase (<span class="keyword">empty</span> <span class="keyword">for</span> no passphrase): [<span class="keyword">Type</span> a passphrase]</div><div class="line">Enter same passphrase again: [<span class="keyword">Type</span> passphrase again]</div></pre></td></tr></table></figure>
-
-<p>sample result:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Your identification has been saved <span class="keyword">in</span> /your_home_path/.ssh/id_rsa.</div><div class="line">Your <span class="keyword">public</span> <span class="keyword">key</span> has been saved <span class="keyword">in</span> /your_home_path/.ssh/id_rsa.pub.</div><div class="line">The <span class="keyword">key</span> fingerprint <span class="keyword">is</span>:</div><div class="line"><span class="preprocessor">#01:0f:f4:3b:ca:85:d6:17:a1:7d:f0:68:9d:f0:a2:db your_email@example.com</span></div></pre></td></tr></table></figure>
-
-<p><strong>第三步：将新生成的key添加到ssh-agent中:</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># start the ssh-agent in the background</span></div><div class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(ssh-agent -s)</span>"</span></div><div class="line">Agent pid <span class="number">59566</span></div><div class="line">ssh-add ~/.ssh/id_rsa</div></pre></td></tr></table></figure>
-
-<h2 id="3-_将ssh_key添加到GitHub中">3. 将ssh key添加到GitHub中</h2>
-<p>用自己喜欢的文本编辑器打开<code>id_rsa.pub</code>文件，里面的信息即为SSH key，将这些信息复制到GitHub的<code>Add SSH key</code>页面即可</p>
-<p>不同的操作系统，均有一些命令，直接将SSH key从文件拷贝到粘贴板中，如下：</p>
-<p><strong>mac</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">pbcopy</span> &lt; ~/.ssh/id_rsa.pub</div><div class="line"><span class="comment"># Copies the contents of the id_rsa.pub file to your clipboard</span></div></pre></td></tr></table></figure>
-
-<p><strong>windows</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">clip</span> &lt; ~/.ssh/id_rsa.pub</div><div class="line"><span class="comment"># Copies the contents of the id_rsa.pub file to your clipboard</span></div></pre></td></tr></table></figure>
-
-<p><strong>linux</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install xclip</div><div class="line"># Downloads <span class="literal">and</span> installs xclip. <span class="keyword">If</span> you don't have <span class="escape">`a</span>pt-get<span class="escape">`,</span> you might need to use another installer (like <span class="escape">`y</span>um<span class="escape">`)</span></div><div class="line"></div><div class="line">xclip -sel clip &lt; ~/.ssh/id_rsa.pub</div><div class="line"># Copies the contents of the id_rsa.pub file to your <span class="built_in"><span class="keyword">clipboard</span></span></div></pre></td></tr></table></figure>
-
-]]></content>
-    
-    
-      <category term="GitHub" scheme="http://essay.igevin.info/tags/GitHub/"/>
-    
-      <category term="GitHub" scheme="http://essay.igevin.info/categories/GitHub/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[如何有效使用印象笔记]]></title>
-    <link href="http://essay.igevin.info/2014/08/26/tools/2014-03-24-how-to-use-evernote-efficiently/"/>
-    <id>http://essay.igevin.info/2014/08/26/tools/2014-03-24-how-to-use-evernote-efficiently/</id>
-    <published>2014-08-26T12:53:03.000Z</published>
-    <updated>2014-08-26T12:53:03.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="http://gevin-zone.qiniudn.com/evernote.jpg" alt="image"></p>
-<p>印象笔记有多种用法，比如印象笔记官方收集的<a href="http://weibo.com/2797465504/AduqhbYgz" target="_blank" rel="external">这些</a>和<a href="http://weibo.com/2797465504/AeoSsjAe3" target="_blank" rel="external">那些</a>奇葩用法。</p>
-<p>如果将印象笔记作为知识管理工具，管理自己的大脑，如何使用就需要点技巧了。</p>
-<p>本文分享的是Gevin使用印象笔记的一些经验，不见得多少高效，但至少是有效的。如果大家对如何使用印象笔记有好的建议，或者想分享下自己的用法，欢迎留言～ 下面正文开始：</p>
-<h2 id="记笔记">记笔记</h2>
-<p>虽说笔记大部分时候都是给自己看的，但记笔记的时候还是要注意一下笔记的可读性，凌乱的内容恐怕自己也不喜欢回头再看。如何写好笔记，不是本文的主题，用我以前一篇文章<a href="http://blog.igevin.info/2011/06/write-cool-blog/" target="_blank" rel="external">『如何写漂亮的博客』</a>来抛砖引玉吧</p>
-<p>喜欢markdown的童鞋，可以用<a href="http://maxiang.info/" target="_blank" rel="external">马克飞象</a>来记笔记，省去排版的麻烦</p>
-<h2 id="信息的组织和管理">信息的组织和管理</h2>
-<p>如果想有效管理印象笔记中的内容，需要为每个笔记设置<strong>有用的目录和标签</strong>，目录和标签都可以将笔记分类，也都可以用于查找指定条件（如隶属那个目录或打上某个标签）的内容，不同之处在于一个笔记只能放在一个目录中，但却可以打上N个标签。因此，管理印象笔记中的内容时，不妨用目录来为内容分类，标签作为内容的关键字，便于检索。</p>
-<p>目录和标签少的时候，上述方法是很有效的，但目录和标签多了，我们会面临一个新的问题：如何管理目录和标签，以便我们能更有效的管理内容？</p>
-<h3 id="先说目录">先说目录</h3>
-<p>目录多少其实不是问题，关键在于如何迅速找到相应目录。</p>
-<p>不妨以数字或者字母作为目录的开头，如“01资料”、“02工作”，或者“g工作”、“z资料”，这样，所有的目录是以一种<strong>便于我们自己检索</strong>的方式有序排列的</p>
-<p>印象笔记还允许用户对目录再做一次分类，即笔记本组功能。可以把类似属性的目录划分到用一个笔记本组中，笔记本组的命名，也可以结合上面描述的方式。</p>
-<p>最后，对目录如何组织有兴趣的童鞋，还可以再看看豆瓣上<a href="http://www.douban.com/online/11202436/" target="_blank" rel="external">这个活动</a></p>
-<h3 id="再说说标签">再说说标签</h3>
-<p>标签也是可以建立层级关系的，而且可以建立多层嵌套的层级关系（笔记本组是不能嵌套的）。但我不认为嵌套标签是一种很好的组织方式，至少不应该为目录和标签都以嵌套的方式来管理，这会在内容管理的逻辑上造成混乱</p>
-<p>标签应该是平级的，所谓『标签云』么</p>
-<h2 id="信息的收集">信息的收集</h2>
-<ul>
-<li><p>手机上记录备忘或者ToDO，可以用<a href="http://appcenter.yinxiang.com/app/evermemo/iphone/" target="_blank" rel="external">EverMemo</a></p>
-</li>
-<li><p>微信上可以关注公共账号『我的印象笔记』，将有价值的信息可以分享给这个账号即可保存到印象笔记中 —<a href="http://appcenter.yinxiang.com/app/myyxbj/wechat/" target="_blank" rel="external">详情</a></p>
-</li>
-<li><p>微博上可以follow『我的印象笔记』的微博账号，有用的微博信息在转发或者评论中“@我的印象笔记” 即可 — <a href="http://appcenter.yinxiang.com/app/myyxbj/weibo/" target="_blank" rel="external">详情</a></p>
-</li>
-<li><p>对于网页上有价值的信息，可以安装浏览器插件『剪藏』，直接将这些信息保存到印象笔记中</p>
-</li>
-<li><p><a href="https://ifttt.com/evernote" target="_blank" rel="external">ifttt</a>也是一个很好的将信息整合到印象笔记的application</p>
-</li>
-<li><p>善用佳软上还有更全面的<a href="http://xbeta.info/gtd-evernote.htm#toc1" target="_blank" rel="external">内容</a>供大家参考（内容有点老了，但很经典）</p>
-</li>
-</ul>
-<h2 id="模板">模板</h2>
-<p>印象笔记官方，还制作/收集了一些模板，以提高工作/学习的效率：</p>
-<ul>
-<li><a href="https://app.yinxiang.com/shard/s7/sh/ef283470-f245-406e-9a8e-af1632265415/c7dcc95d8392783598e646b5728d4503" target="_blank" rel="external">番茄工作法</a></li>
-<li><a href="https://app.yinxiang.com/shard/s7/sh/c991c121-1abb-485f-a3de-83524733ec8d/877e118ef08451d3d4ed320d4e6e7b71" target="_blank" rel="external">四象限法则</a></li>
-<li><a href="https://app.yinxiang.com/shard/s7/sh/fa909912-8886-4715-a2ab-422e693b6fec/7e1ee12e97eeac5af984d3c5dc2d691e" target="_blank" rel="external">让效率翻5倍的工作模板</a></li>
-<li><p><a href="https://app.yinxiang.com/shard/s7/sh/e17e1199-2f7a-471d-a920-55108cdc0325/2f60f2ba37832ffe3b22f7d3012b9868" target="_blank" rel="external">最具执行力的日程规划模板</a></p>
-</li>
-<li><p><a href="https://app.yinxiang.com/shard/s7/sh/2e041eb5-adeb-46ef-b79f-be9ceab8033b/62f5e3ddb8476e7f0e83850da4236db3" target="_blank" rel="external">康奈尔笔记模版</a></p>
-</li>
-<li><p><a href="https://app.yinxiang.com/shard/s7/sh/c896f30c-2bc2-41a9-b330-4525256927a3/f46b6a8a81ed5a21e94085ee86b3ba33" target="_blank" rel="external">踏青装备清单</a></p>
-</li>
-</ul>
-<h2 id="最后">最后</h2>
-<p>我就说这么多啦，接下来听/看着了～</p>
-]]></content>
-    
-    
-      <category term="杂谈" scheme="http://essay.igevin.info/tags/%E6%9D%82%E8%B0%88/"/>
-    
-      <category term="工具" scheme="http://essay.igevin.info/categories/%E5%B7%A5%E5%85%B7/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Hello World]]></title>
-    <link href="http://essay.igevin.info/2014/08/26/hello-world/"/>
-    <id>http://essay.igevin.info/2014/08/26/hello-world/</id>
-    <published>2014-08-26T12:53:03.000Z</published>
-    <updated>2014-08-26T12:53:03.000Z</updated>
-    <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/tommy351/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2>
-<h3 id="Create_a_new_post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-]]></content>
-    
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[github上有趣的资料]]></title>
-    <link href="http://essay.igevin.info/2014/08/26/github/2014-03-21-github-study-materials/"/>
-    <id>http://essay.igevin.info/2014/08/26/github/2014-03-21-github-study-materials/</id>
-    <published>2014-08-26T12:53:03.000Z</published>
-    <updated>2014-08-26T12:53:03.000Z</updated>
+    <title><![CDATA[GitHub上有趣的资料]]></title>
+    <link href="http://essay.igevin.info/2014/09/17/github/2014-03-21-github-study-materials/"/>
+    <id>http://essay.igevin.info/2014/09/17/github/2014-03-21-github-study-materials/</id>
+    <published>2014-09-17T13:01:16.000Z</published>
+    <updated>2014-09-17T13:01:16.000Z</updated>
     <content type="html"><![CDATA[<h1 id="GitHub_Starred_Projects_|_document">GitHub Starred Projects | document</h1>
 <p>本文整理了一些github上有趣的资料，并在github上创建了repository—<a href="https://github.com/flyhigher139/repo_starred" target="_blank" rel="external">repo_starred</a>进行维护,有兴趣的童鞋可以fork或者给我发issue共同维护，正文如下,最新版本请看上面链接中的github repo</p>
 <h2 id="navigation">navigation</h2>
@@ -481,7 +246,242 @@
     
       <category term="code" scheme="http://essay.igevin.info/tags/code/"/>
     
-      <category term="github" scheme="http://essay.igevin.info/categories/github/"/>
+      <category term="GitHub" scheme="http://essay.igevin.info/categories/GitHub/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Yet another awesome collection]]></title>
+    <link href="http://essay.igevin.info/2014/09/17/github/yet-another-awesome-collection/"/>
+    <id>http://essay.igevin.info/2014/09/17/github/yet-another-awesome-collection/</id>
+    <published>2014-09-17T12:57:30.000Z</published>
+    <updated>2014-09-17T12:57:30.000Z</updated>
+    <content type="html"><![CDATA[<p>github上有一大堆『awesome-*』的repository相当有料。</p>
+<p>最近我重复造了一个轮子，把这堆资源整理到repository <a href="https://github.com/flyhigher139/awesome-collection" target="_blank" rel="external">awesome-collection</a>中，这个repository中也包含了别人造的一些轮子，以后这个repository的维护难免受我的知识结构所限，内容的添加、删除或者合并如果不太准确，欢迎大家Pull Request，也欢迎大家Fork这个repo。</p>
+<p>本文把这些轮子枚举如下，想看干货的童靴可以随意打开一个轮子：</p>
+<ul>
+<li><a href="https://github.com/sindresorhus/awesome" target="_blank" rel="external">Awesome</a> - A curated list of awesome lists</li>
+<li><a href="https://github.com/bradoyler/awesome-all" target="_blank" rel="external">awesome-all</a> – A curated list of awesome lists of awesome frameworks, libraries and software</li>
+<li><a href="https://github.com/emijrp/awesome-awesome" target="_blank" rel="external">awesome-awesome</a> by @emijrp – A curated list of awesome curated lists of many topics.</li>
+<li><a href="https://github.com/erichs/awesome-awesome" target="_blank" rel="external">awesome-awesome</a> by @erichs – A curated list of awesome curated lists! Inspired by inspiration.</li>
+<li><a href="https://github.com/oyvindrobertsen/awesome-awesome" target="_blank" rel="external">awesome-awesome</a> by @oyvindrobertsen – A curated list of curated lists of libraries, resources and shiny things for various languages.</li>
+<li><a href="https://github.com/bayandin/awesome-awesomeness" target="_blank" rel="external">awesome-awesomeness</a> – A curated list of awesome awesomeness</li>
+<li><a href="https://github.com/fleveque/awesome-awesomes" target="_blank" rel="external">awesome-awesomes</a> – Awesome collection of awesome lists of libraries, tools, frameworks and software for any programming language</li>
+<li><a href="https://github.com/flyhigher139/awesome-collection" target="_blank" rel="external">awesome-collection</a> - 这是我那个轮子</li>
+</ul>
+<ul>
+<li><a href="https://github.com/jnv/lists" target="_blank" rel="external">lists</a>  - The definitive list of (awesome) lists curated on GitHub<br>(这个虽然没有赋予『awesome-*』的名字，但内容更多更全，甚至在我这个repo刚刚创建的时候，就把我的库填入其中了，推荐)</li>
+</ul>
+<p>—-what’s more—-</p>
+<p>欢迎大家fork或者pull request to <a href="https://github.com/flyhigher139/awesome-collection" target="_blank" rel="external">awesome-collection</a></p>
+]]></content>
+    
+    
+      <category term="open source" scheme="http://essay.igevin.info/tags/open-source/"/>
+    
+      <category term="GitHub" scheme="http://essay.igevin.info/categories/GitHub/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[如何生成SSH key]]></title>
+    <link href="http://essay.igevin.info/2014/08/28/github/How-to-create-SSH-key/"/>
+    <id>http://essay.igevin.info/2014/08/28/github/How-to-create-SSH-key/</id>
+    <published>2014-08-28T08:42:01.000Z</published>
+    <updated>2014-08-29T12:30:35.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="如何生成SSH_key">如何生成SSH key</h1>
+<p>SSH key提供了一种与GitHub通信的方式，通过这种方式，能够在不输入密码的情况下，将GitHub作为自己的remote端服务器，进行版本控制</p>
+<h2 id="步骤">步骤</h2>
+<ul>
+<li>检查SSH keys是否存在</li>
+<li>生成新的ssh key</li>
+<li>将ssh key添加到GitHub中</li>
+</ul>
+<p><img src="http://gevin-zone.qiniudn.com/gevin-essay-how-to-generate-SSH-key.png" alt="如何生成SSH KEY" title="如何生成SSH KEY"></p>
+<h2 id="1-_检查SSH_keys是否存在">1. 检查SSH keys是否存在</h2>
+<p>输入下面的命令，如果有文件<code>id_rsa.pub</code> 或 <code>id_dsa.pub</code>，则直接进入步骤3将SSH key添加到GitHub中，否则进入第二步生成SSH key</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ls</span> -<span class="keyword">al</span> ~/.ssh</div><div class="line"># Lists the <span class="keyword">files</span> in your .ssh directory, <span class="keyword">if</span> they exist</div></pre></td></tr></table></figure>
+
+<h2 id="2-_生成新的ssh_key">2. 生成新的ssh key</h2>
+<p><strong>第一步：生成public/private rsa key pair</strong><br>在命令行中输入<code>ssh-keygen -t rsa -C &quot;your_email@example.com&quot;</code></p>
+<p>默认会在相应路径下（/your_home_path）生成<code>id_rsa</code>和<code>id_rsa.pub</code>两个文件，如下面代码所示</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -C <span class="string">"your_email@example.com"</span></div><div class="line"><span class="comment"># Creates a new ssh key using the provided email</span></div><div class="line">Generating public/<span class="keyword">private</span> rsa key pair.</div><div class="line">Enter <span class="built_in">file</span> <span class="operator">in</span> which <span class="built_in">to</span> save <span class="operator">the</span> key (/your_home_path/.ssh/id_rsa):</div></pre></td></tr></table></figure>
+
+<p><strong>第二步：输入passphrase（本步骤可以跳过）</strong></p>
+<p>设置passphrase后，进行版本控制时，每次与GitHub通信都会要求输入passphrase，以避免某些“失误”</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Enter passphrase (<span class="keyword">empty</span> <span class="keyword">for</span> no passphrase): [<span class="keyword">Type</span> a passphrase]</div><div class="line">Enter same passphrase again: [<span class="keyword">Type</span> passphrase again]</div></pre></td></tr></table></figure>
+
+<p>sample result:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Your identification has been saved <span class="keyword">in</span> /your_home_path/.ssh/id_rsa.</div><div class="line">Your <span class="keyword">public</span> <span class="keyword">key</span> has been saved <span class="keyword">in</span> /your_home_path/.ssh/id_rsa.pub.</div><div class="line">The <span class="keyword">key</span> fingerprint <span class="keyword">is</span>:</div><div class="line"><span class="preprocessor">#01:0f:f4:3b:ca:85:d6:17:a1:7d:f0:68:9d:f0:a2:db your_email@example.com</span></div></pre></td></tr></table></figure>
+
+<p><strong>第三步：将新生成的key添加到ssh-agent中:</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># start the ssh-agent in the background</span></div><div class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(ssh-agent -s)</span>"</span></div><div class="line">Agent pid <span class="number">59566</span></div><div class="line">ssh-add ~/.ssh/id_rsa</div></pre></td></tr></table></figure>
+
+<h2 id="3-_将ssh_key添加到GitHub中">3. 将ssh key添加到GitHub中</h2>
+<p>用自己喜欢的文本编辑器打开<code>id_rsa.pub</code>文件，里面的信息即为SSH key，将这些信息复制到GitHub的<code>Add SSH key</code>页面即可</p>
+<p>不同的操作系统，均有一些命令，直接将SSH key从文件拷贝到粘贴板中，如下：</p>
+<p><strong>mac</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">pbcopy</span> &lt; ~/.ssh/id_rsa.pub</div><div class="line"><span class="comment"># Copies the contents of the id_rsa.pub file to your clipboard</span></div></pre></td></tr></table></figure>
+
+<p><strong>windows</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">clip</span> &lt; ~/.ssh/id_rsa.pub</div><div class="line"><span class="comment"># Copies the contents of the id_rsa.pub file to your clipboard</span></div></pre></td></tr></table></figure>
+
+<p><strong>linux</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install xclip</div><div class="line"># Downloads <span class="literal">and</span> installs xclip. <span class="keyword">If</span> you don't have <span class="escape">`a</span>pt-get<span class="escape">`,</span> you might need to use another installer (like <span class="escape">`y</span>um<span class="escape">`)</span></div><div class="line"></div><div class="line">xclip -sel clip &lt; ~/.ssh/id_rsa.pub</div><div class="line"># Copies the contents of the id_rsa.pub file to your <span class="built_in"><span class="keyword">clipboard</span></span></div></pre></td></tr></table></figure>
+
+]]></content>
+    
+    
+      <category term="GitHub" scheme="http://essay.igevin.info/tags/GitHub/"/>
+    
+      <category term="GitHub" scheme="http://essay.igevin.info/categories/GitHub/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[如何生成SSH key]]></title>
+    <link href="http://essay.igevin.info/2014/08/28/How-to-create-SSH-key/"/>
+    <id>http://essay.igevin.info/2014/08/28/How-to-create-SSH-key/</id>
+    <published>2014-08-28T08:42:01.000Z</published>
+    <updated>2014-08-28T11:31:47.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="如何生成SSH_key">如何生成SSH key</h1>
+<p>SSH key提供了一种与GitHub通信的方式，通过这种方式，能够在不输入密码的情况下，将GitHub作为自己的remote端服务器，进行版本控制</p>
+<h2 id="步骤">步骤</h2>
+<ul>
+<li>检查SSH keys是否存在</li>
+<li>生成新的ssh key</li>
+<li>将ssh key添加到GitHub中</li>
+</ul>
+<p><img src="http://gevin-zone.qiniudn.com/gevin-essay-how-to-generate-SSH-key.png" alt="如何生成SSH KEY" title="如何生成SSH KEY"></p>
+<h2 id="1-_检查SSH_keys是否存在">1. 检查SSH keys是否存在</h2>
+<p>输入下面的命令，如果有文件<code>id_rsa.pub</code> 或 <code>id_dsa.pub</code>，则直接进入步骤3将SSH key添加到GitHub中，否则进入第二步生成SSH key</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ls</span> -<span class="keyword">al</span> ~/.ssh</div><div class="line"># Lists the <span class="keyword">files</span> in your .ssh directory, <span class="keyword">if</span> they exist</div></pre></td></tr></table></figure>
+
+<h2 id="2-_生成新的ssh_key">2. 生成新的ssh key</h2>
+<p><strong>第一步：生成public/private rsa key pair</strong><br>在命令行中输入<code>ssh-keygen -t rsa -C &quot;your_email@example.com&quot;</code></p>
+<p>默认会在相应路径下（/your_home_path）生成<code>id_rsa</code>和<code>id_rsa.pub</code>两个文件，如下面代码所示</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -C <span class="string">"your_email@example.com"</span></div><div class="line"><span class="comment"># Creates a new ssh key using the provided email</span></div><div class="line">Generating public/<span class="keyword">private</span> rsa key pair.</div><div class="line">Enter <span class="built_in">file</span> <span class="operator">in</span> which <span class="built_in">to</span> save <span class="operator">the</span> key (/your_home_path/.ssh/id_rsa):</div></pre></td></tr></table></figure>
+
+<p><strong>第二步：输入passphrase（本步骤可以跳过）</strong></p>
+<p>设置passphrase后，进行版本控制时，每次与GitHub通信都会要求输入passphrase，以避免某些“失误”</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Enter passphrase (<span class="keyword">empty</span> <span class="keyword">for</span> no passphrase): [<span class="keyword">Type</span> a passphrase]</div><div class="line">Enter same passphrase again: [<span class="keyword">Type</span> passphrase again]</div></pre></td></tr></table></figure>
+
+<p>sample result:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Your identification has been saved <span class="keyword">in</span> /your_home_path/.ssh/id_rsa.</div><div class="line">Your <span class="keyword">public</span> <span class="keyword">key</span> has been saved <span class="keyword">in</span> /your_home_path/.ssh/id_rsa.pub.</div><div class="line">The <span class="keyword">key</span> fingerprint <span class="keyword">is</span>:</div><div class="line"><span class="preprocessor">#01:0f:f4:3b:ca:85:d6:17:a1:7d:f0:68:9d:f0:a2:db your_email@example.com</span></div></pre></td></tr></table></figure>
+
+<p><strong>第三步：将新生成的key添加到ssh-agent中:</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># start the ssh-agent in the background</span></div><div class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(ssh-agent -s)</span>"</span></div><div class="line">Agent pid <span class="number">59566</span></div><div class="line">ssh-add ~/.ssh/id_rsa</div></pre></td></tr></table></figure>
+
+<h2 id="3-_将ssh_key添加到GitHub中">3. 将ssh key添加到GitHub中</h2>
+<p>用自己喜欢的文本编辑器打开<code>id_rsa.pub</code>文件，里面的信息即为SSH key，将这些信息复制到GitHub的<code>Add SSH key</code>页面即可</p>
+<p>不同的操作系统，均有一些命令，直接将SSH key从文件拷贝到粘贴板中，如下：</p>
+<p><strong>mac</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">pbcopy</span> &lt; ~/.ssh/id_rsa.pub</div><div class="line"><span class="comment"># Copies the contents of the id_rsa.pub file to your clipboard</span></div></pre></td></tr></table></figure>
+
+<p><strong>windows</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">clip</span> &lt; ~/.ssh/id_rsa.pub</div><div class="line"><span class="comment"># Copies the contents of the id_rsa.pub file to your clipboard</span></div></pre></td></tr></table></figure>
+
+<p><strong>linux</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install xclip</div><div class="line"># Downloads <span class="literal">and</span> installs xclip. <span class="keyword">If</span> you don't have <span class="escape">`a</span>pt-get<span class="escape">`,</span> you might need to use another installer (like <span class="escape">`y</span>um<span class="escape">`)</span></div><div class="line"></div><div class="line">xclip -sel clip &lt; ~/.ssh/id_rsa.pub</div><div class="line"># Copies the contents of the id_rsa.pub file to your <span class="built_in"><span class="keyword">clipboard</span></span></div></pre></td></tr></table></figure>
+
+]]></content>
+    
+    
+      <category term="GitHub" scheme="http://essay.igevin.info/tags/GitHub/"/>
+    
+      <category term="GitHub" scheme="http://essay.igevin.info/categories/GitHub/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[如何有效使用印象笔记]]></title>
+    <link href="http://essay.igevin.info/2014/08/26/tools/2014-03-24-how-to-use-evernote-efficiently/"/>
+    <id>http://essay.igevin.info/2014/08/26/tools/2014-03-24-how-to-use-evernote-efficiently/</id>
+    <published>2014-08-26T12:53:03.000Z</published>
+    <updated>2014-08-26T12:53:03.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://gevin-zone.qiniudn.com/evernote.jpg" alt="image"></p>
+<p>印象笔记有多种用法，比如印象笔记官方收集的<a href="http://weibo.com/2797465504/AduqhbYgz" target="_blank" rel="external">这些</a>和<a href="http://weibo.com/2797465504/AeoSsjAe3" target="_blank" rel="external">那些</a>奇葩用法。</p>
+<p>如果将印象笔记作为知识管理工具，管理自己的大脑，如何使用就需要点技巧了。</p>
+<p>本文分享的是Gevin使用印象笔记的一些经验，不见得多少高效，但至少是有效的。如果大家对如何使用印象笔记有好的建议，或者想分享下自己的用法，欢迎留言～ 下面正文开始：</p>
+<h2 id="记笔记">记笔记</h2>
+<p>虽说笔记大部分时候都是给自己看的，但记笔记的时候还是要注意一下笔记的可读性，凌乱的内容恐怕自己也不喜欢回头再看。如何写好笔记，不是本文的主题，用我以前一篇文章<a href="http://blog.igevin.info/2011/06/write-cool-blog/" target="_blank" rel="external">『如何写漂亮的博客』</a>来抛砖引玉吧</p>
+<p>喜欢markdown的童鞋，可以用<a href="http://maxiang.info/" target="_blank" rel="external">马克飞象</a>来记笔记，省去排版的麻烦</p>
+<h2 id="信息的组织和管理">信息的组织和管理</h2>
+<p>如果想有效管理印象笔记中的内容，需要为每个笔记设置<strong>有用的目录和标签</strong>，目录和标签都可以将笔记分类，也都可以用于查找指定条件（如隶属那个目录或打上某个标签）的内容，不同之处在于一个笔记只能放在一个目录中，但却可以打上N个标签。因此，管理印象笔记中的内容时，不妨用目录来为内容分类，标签作为内容的关键字，便于检索。</p>
+<p>目录和标签少的时候，上述方法是很有效的，但目录和标签多了，我们会面临一个新的问题：如何管理目录和标签，以便我们能更有效的管理内容？</p>
+<h3 id="先说目录">先说目录</h3>
+<p>目录多少其实不是问题，关键在于如何迅速找到相应目录。</p>
+<p>不妨以数字或者字母作为目录的开头，如“01资料”、“02工作”，或者“g工作”、“z资料”，这样，所有的目录是以一种<strong>便于我们自己检索</strong>的方式有序排列的</p>
+<p>印象笔记还允许用户对目录再做一次分类，即笔记本组功能。可以把类似属性的目录划分到用一个笔记本组中，笔记本组的命名，也可以结合上面描述的方式。</p>
+<p>最后，对目录如何组织有兴趣的童鞋，还可以再看看豆瓣上<a href="http://www.douban.com/online/11202436/" target="_blank" rel="external">这个活动</a></p>
+<h3 id="再说说标签">再说说标签</h3>
+<p>标签也是可以建立层级关系的，而且可以建立多层嵌套的层级关系（笔记本组是不能嵌套的）。但我不认为嵌套标签是一种很好的组织方式，至少不应该为目录和标签都以嵌套的方式来管理，这会在内容管理的逻辑上造成混乱</p>
+<p>标签应该是平级的，所谓『标签云』么</p>
+<h2 id="信息的收集">信息的收集</h2>
+<ul>
+<li><p>手机上记录备忘或者ToDO，可以用<a href="http://appcenter.yinxiang.com/app/evermemo/iphone/" target="_blank" rel="external">EverMemo</a></p>
+</li>
+<li><p>微信上可以关注公共账号『我的印象笔记』，将有价值的信息可以分享给这个账号即可保存到印象笔记中 —<a href="http://appcenter.yinxiang.com/app/myyxbj/wechat/" target="_blank" rel="external">详情</a></p>
+</li>
+<li><p>微博上可以follow『我的印象笔记』的微博账号，有用的微博信息在转发或者评论中“@我的印象笔记” 即可 — <a href="http://appcenter.yinxiang.com/app/myyxbj/weibo/" target="_blank" rel="external">详情</a></p>
+</li>
+<li><p>对于网页上有价值的信息，可以安装浏览器插件『剪藏』，直接将这些信息保存到印象笔记中</p>
+</li>
+<li><p><a href="https://ifttt.com/evernote" target="_blank" rel="external">ifttt</a>也是一个很好的将信息整合到印象笔记的application</p>
+</li>
+<li><p>善用佳软上还有更全面的<a href="http://xbeta.info/gtd-evernote.htm#toc1" target="_blank" rel="external">内容</a>供大家参考（内容有点老了，但很经典）</p>
+</li>
+</ul>
+<h2 id="模板">模板</h2>
+<p>印象笔记官方，还制作/收集了一些模板，以提高工作/学习的效率：</p>
+<ul>
+<li><a href="https://app.yinxiang.com/shard/s7/sh/ef283470-f245-406e-9a8e-af1632265415/c7dcc95d8392783598e646b5728d4503" target="_blank" rel="external">番茄工作法</a></li>
+<li><a href="https://app.yinxiang.com/shard/s7/sh/c991c121-1abb-485f-a3de-83524733ec8d/877e118ef08451d3d4ed320d4e6e7b71" target="_blank" rel="external">四象限法则</a></li>
+<li><a href="https://app.yinxiang.com/shard/s7/sh/fa909912-8886-4715-a2ab-422e693b6fec/7e1ee12e97eeac5af984d3c5dc2d691e" target="_blank" rel="external">让效率翻5倍的工作模板</a></li>
+<li><p><a href="https://app.yinxiang.com/shard/s7/sh/e17e1199-2f7a-471d-a920-55108cdc0325/2f60f2ba37832ffe3b22f7d3012b9868" target="_blank" rel="external">最具执行力的日程规划模板</a></p>
+</li>
+<li><p><a href="https://app.yinxiang.com/shard/s7/sh/2e041eb5-adeb-46ef-b79f-be9ceab8033b/62f5e3ddb8476e7f0e83850da4236db3" target="_blank" rel="external">康奈尔笔记模版</a></p>
+</li>
+<li><p><a href="https://app.yinxiang.com/shard/s7/sh/c896f30c-2bc2-41a9-b330-4525256927a3/f46b6a8a81ed5a21e94085ee86b3ba33" target="_blank" rel="external">踏青装备清单</a></p>
+</li>
+</ul>
+<h2 id="最后">最后</h2>
+<p>我就说这么多啦，接下来听/看着了～</p>
+]]></content>
+    
+    
+      <category term="杂谈" scheme="http://essay.igevin.info/tags/%E6%9D%82%E8%B0%88/"/>
+    
+      <category term="工具" scheme="http://essay.igevin.info/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <link href="http://essay.igevin.info/2014/08/26/hello-world/"/>
+    <id>http://essay.igevin.info/2014/08/26/hello-world/</id>
+    <published>2014-08-26T12:53:03.000Z</published>
+    <updated>2014-08-26T12:53:03.000Z</updated>
+    <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/tommy351/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick_Start">Quick Start</h2>
+<h3 id="Create_a_new_post">Create a new post</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+
+<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run_server">Run server</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+
+<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate_static_files">Generate static files</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+
+<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+
+<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+    
     
   </entry>
   

@@ -2,38 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://essay.igevin.info/2014/08/28/github/How-to-create-SSH-key/</loc>
-    <lastmod>2014-09-17T13:27:11.000Z</lastmod>
+    <loc>http://essay.igevin.info/2014/03/21/2014-03-24-how-to-use-evernote-efficiently/</loc>
+    <lastmod>2014-09-30T14:18:12.000Z</lastmod>
   </url>
   
   <url>
-    <loc>http://essay.igevin.info/2014/09/17/github/yet-another-awesome-collection/</loc>
-    <lastmod>2014-09-17T13:27:03.000Z</lastmod>
+    <loc>http://essay.igevin.info/2013/05/17/2013-05-01-how-pm-know-tech/</loc>
+    <lastmod>2014-09-30T14:17:53.000Z</lastmod>
   </url>
   
   <url>
-    <loc>http://essay.igevin.info/2014/03/21/github/2014-03-21-github-study-materials/</loc>
-    <lastmod>2014-09-17T13:21:25.000Z</lastmod>
+    <loc>http://essay.igevin.info/2014/09/30/deploy%20django%20with%20nginx%20and%20uwsgi%20on%20Ubuntu/</loc>
+    <lastmod>2014-09-30T14:17:14.000Z</lastmod>
   </url>
   
   <url>
     <loc>http://essay.igevin.info/2014/08/28/How-to-create-SSH-key/</loc>
-    <lastmod>2014-08-28T11:31:47.000Z</lastmod>
+    <lastmod>2014-09-17T13:27:11.000Z</lastmod>
   </url>
   
   <url>
-    <loc>http://essay.igevin.info/2014/08/26/programmer/2013-05-01-how-pm-know-tech/</loc>
-    <lastmod>2014-08-26T12:53:03.000Z</lastmod>
+    <loc>http://essay.igevin.info/2014/09/17/yet-another-awesome-collection/</loc>
+    <lastmod>2014-09-17T13:27:03.000Z</lastmod>
   </url>
   
   <url>
-    <loc>http://essay.igevin.info/2014/08/26/hello-world/</loc>
-    <lastmod>2014-08-26T12:53:03.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://essay.igevin.info/2014/08/26/tools/2014-03-24-how-to-use-evernote-efficiently/</loc>
-    <lastmod>2014-08-26T12:53:03.000Z</lastmod>
+    <loc>http://essay.igevin.info/2014/03/21/2014-03-21-github-study-materials/</loc>
+    <lastmod>2014-09-17T13:21:25.000Z</lastmod>
   </url>
   
 </urlset>

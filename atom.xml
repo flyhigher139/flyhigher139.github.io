@@ -4,7 +4,7 @@
   <subtitle><![CDATA[技术生活都要折腾]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://essay.igevin.info/"/>
-  <updated>2014-09-17T13:32:48.110Z</updated>
+  <updated>2014-09-30T14:18:36.996Z</updated>
   <id>http://essay.igevin.info/</id>
   
   <author>
@@ -15,9 +15,143 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[基于nginx和uWSGI在Ubuntu上部署Django]]></title>
+    <link href="http://essay.igevin.info/2014/09/30/deploy%20django%20with%20nginx%20and%20uwsgi%20on%20Ubuntu/"/>
+    <id>http://essay.igevin.info/2014/09/30/deploy django with nginx and uwsgi on Ubuntu/</id>
+    <published>2014-09-29T16:00:00.000Z</published>
+    <updated>2014-09-30T14:17:14.000Z</updated>
+    <content type="html"><![CDATA[<p>本文主要参考<a href="http://uwsgi-docs.readthedocs.org/en/latest/tutorials/Django_and_nginx.html" target="_blank" rel="external"> uWSGI</a>的文档</p>
+<h1 id="1-_nginx">1. nginx</h1>
+<h3 id="安装">安装</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">sudo</span> apt-get install nginx</div></pre></td></tr></table></figure>
+
+<h3 id="启动、停止和重启">启动、停止和重启</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">sudo</span> /etc/init.d/nginx start</div><div class="line"><span class="built_in">sudo</span> /etc/init.d/nginx stop</div><div class="line"><span class="built_in">sudo</span> /etc/init.d/nginx restart</div></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">sudo</span> service nginx start</div><div class="line"><span class="built_in">sudo</span> service nginx stop</div><div class="line"><span class="built_in">sudo</span> service nginx restart</div></pre></td></tr></table></figure>
+
+<h1 id="2-_uWSGI安装">2. uWSGI安装</h1>
+<p>用python的pip安装最简单：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">apt-get install python-dev <span class="comment">#不安装这个，下面的安装可能会失败</span></div><div class="line">pip install uwsgi</div></pre></td></tr></table></figure>
+
+<h1 id="3-_基于uWSGI和nginx部署Django">3. 基于uWSGI和nginx部署Django</h1>
+<h2 id="原理">原理</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">the web client &lt;-&gt; the web server(nginx) &lt;-&gt; the socket &lt;-&gt; uwsgi &lt;-&gt; Django</div></pre></td></tr></table></figure>
+
+<h2 id="基本测试">基本测试</h2>
+<h3 id="测试uWSGI是否正常">测试uWSGI是否正常</h3>
+<p>在django项目的根目录下创建test.py文件，添加源码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># test.py</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">application</span><span class="params">(env, start_response)</span>:</span></div><div class="line">    start_response(<span class="string">'200 OK'</span>, [(<span class="string">'Content-Type'</span>,<span class="string">'text/html'</span>)])</div><div class="line">    <span class="keyword">return</span> [<span class="string">"Hello World"</span>] <span class="comment"># python2</span></div><div class="line">    <span class="comment">#return [b"Hello World"] # python3</span></div></pre></td></tr></table></figure>
+
+<p>然后，Run uWSGI:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --http :<span class="number">8000</span> --wsgi-file test.py</div></pre></td></tr></table></figure>
+
+<p>参数含义:</p>
+<ul>
+<li><code>http :8000</code>: 使用http协议，8000端口</li>
+<li><code>wsgi-file</code> test.py: 加载指定文件 test.py</li>
+</ul>
+<p>打开下面url，浏览器上应该显示<code>hello world</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://example.com:<span class="number">8000</span></div></pre></td></tr></table></figure>
+
+<p>如果显示正确，说明下面3个环节是通畅的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">the web client &lt;-&gt; uWSGI &lt;-&gt; Python</div></pre></td></tr></table></figure>
+
+<h3 id="测试Django项目是否正常">测试Django项目是否正常</h3>
+<p>首先确保project本身是正常的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py runserver <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">8000</span></div></pre></td></tr></table></figure>
+
+<p>如果没问题，使用uWSGI把project拉起来：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --http :<span class="number">8000</span> --module mysite.wsgi</div></pre></td></tr></table></figure>
+
+<ul>
+<li><code>module mysite.wsgi</code>: 加载wsgi module</li>
+</ul>
+<p>如果project能够正常被拉起，说明以下环节是通的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">the web client &lt;-&gt; uWSGI &lt;-&gt; Django</div></pre></td></tr></table></figure>
+
+<h2 id="配置nginx">配置nginx</h2>
+<p>安装nginx完成后，如果能正常打开<code>http://hostname</code>，说明下面环节是通畅的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">the web client &lt;-&gt; the web server</div></pre></td></tr></table></figure>
+
+<h3 id="增加nginx配置">增加nginx配置</h3>
+<ul>
+<li>将<code>uwsgi_params</code>文件拷贝到项目文件夹下。<code>uwsgi_params</code>文件在<code>/etc/nginx/</code>目录下，也可以从<a href="https://github.com/nginx/nginx/blob/master/conf/uwsgi_params" target="_blank" rel="external">这个页面</a>下载</li>
+<li>在项目文件夹下创建文件<code>mysite_nginx.conf</code>,填入并修改下面内容：</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># mysite_nginx.conf</span></div><div class="line"></div><div class="line"><span class="comment"># the upstream component nginx needs to connect to</span></div><div class="line"><span class="title">upstream</span> django {</div><div class="line">    <span class="comment"># server unix:///path/to/your/mysite/mysite.sock; # for a file socket</span></div><div class="line">    <span class="title">server</span> <span class="number">127.0.0.1:8001</span>; <span class="comment"># for a web port socket (we'll use this first)</span></div><div class="line">}</div><div class="line"><span class="comment"># configuration of the server</span></div><div class="line"><span class="title">server</span> {</div><div class="line">    <span class="comment"># the port your site will be served on</span></div><div class="line">    <span class="title">listen</span>      <span class="number">8000</span>;</div><div class="line">    <span class="comment"># the domain name it will serve for</span></div><div class="line">    <span class="title">server_name</span> .example.com; <span class="comment"># substitute your machine's IP address or FQDN</span></div><div class="line">    <span class="title">charset</span>     utf-<span class="number">8</span>;</div><div class="line"></div><div class="line">    <span class="comment"># max upload size</span></div><div class="line">    <span class="title">client_max_body_size</span> <span class="number">75M</span>;   <span class="comment"># adjust to taste</span></div><div class="line"></div><div class="line">    <span class="comment"># Django media</span></div><div class="line">    <span class="title">location</span> /media  {</div><div class="line">        <span class="title">alias</span> /path/to/your/mysite/media;  <span class="comment"># your Django project's media files - amend as required</span></div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="title">location</span> /static {</div><div class="line">        <span class="title">alias</span> /path/to/your/mysite/static; <span class="comment"># your Django project's static files - amend as required</span></div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment"># Finally, send all non-media requests to the Django server.</span></div><div class="line">    <span class="title">location</span> / {</div><div class="line">        <span class="title">uwsgi_pass</span>  django;</div><div class="line">        <span class="title">include</span>     /path/to/your/mysite/uwsgi_params; <span class="comment"># the uwsgi_params file you installed</span></div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>这个configuration文件告诉nginx从文件系统中拉起media和static文件作为服务，同时相应django的request</p>
+<h3 id="部署static文件">部署static文件</h3>
+<p>在django的setting文件中，添加下面一行内容：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">STATIC_ROOT = os.path.<span class="keyword">join</span>(BASE_DIR, <span class="string">"static/"</span>)</div></pre></td></tr></table></figure>
+
+<p>然后运行：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">python</span> manage.<span class="keyword">py</span> collectstatic</div></pre></td></tr></table></figure>
+
+<h3 id="测试nginx">测试nginx</h3>
+<p>首先重启nginx服务：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">sudo</span> /etc/init.d/nginx restart</div></pre></td></tr></table></figure>
+
+<p>然后检查media文件是否已经正常拉起：<br>在目录<code>/path/to/your/project/project/media directory</code>下添加文件<code>meida.png</code>，然后访问<a href="http://example.com:8000/media/media.png" target="_blank" rel="external">http://example.com:8000/media/media.png</a> ，成功后进行下一步测试。</p>
+<h2 id="nginx_and_uWSGI_and_test-py">nginx and uWSGI and test.py</h2>
+<p>执行下面代码测试能否让nginx在页面上显示<code>hello, world</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">uwsgi</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">socket</span> <span class="comment">:8001</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">wsgi</span><span class="literal">-</span><span class="comment">file</span> <span class="comment">test</span><span class="string">.</span><span class="comment">py</span></div></pre></td></tr></table></figure>
+
+<p>访问<a href="http://example.com:8000" target="_blank" rel="external">http://example.com:8000</a> ,如果显示<code>hello world</code>，则下面环节是否通畅:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">the web client &lt;-&gt; the web server &lt;-&gt; the socket &lt;-&gt; uWSGI &lt;-&gt; Python</div></pre></td></tr></table></figure>
+
+<h3 id="用UNIX_socket取代TCP_port">用UNIX socket取代TCP port</h3>
+<p>对<code>mysite_nginx.conf</code>做如下修改：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">server unix:///path/<span class="keyword">to</span>/your/mysite/mysite.sock; # <span class="keyword">for</span> a <span class="keyword">file</span> socket</div><div class="line"># server <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">8001</span>; # <span class="keyword">for</span> a web <span class="keyword">port</span> socket (we<span class="attribute">'ll</span> <span class="keyword">use</span> this first)</div></pre></td></tr></table></figure>
+
+<p>重启nginx，并在此运行<code>uWSGI</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --socket mysite.sock --wsgi-<span class="keyword">file</span> test.<span class="keyword">py</span></div></pre></td></tr></table></figure>
+
+<p>打开 <a href="http://example.com:8000/" target="_blank" rel="external">http://example.com:8000/</a> ，看看是否成功</p>
+<h4 id="如果没有成功:">如果没有成功:</h4>
+<p>检查 nginx error log(/var/log/nginx/error.log)。如果错误如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">connect() to <span class="symbol">unix:</span>/<span class="regexp">//path</span><span class="regexp">/to/your</span><span class="regexp">/mysite/mysite</span>.sock failed (<span class="number">13</span><span class="symbol">:</span> <span class="constant">Permission</span></div><div class="line">denied)</div></pre></td></tr></table></figure>
+
+<p>添加socket权限再次运行：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --<span class="keyword">socket</span> mysite.sock --wsgi-file test.py --<span class="keyword">chmod</span>-<span class="keyword">socket</span>=<span class="number">666</span> <span class="comment"># (very permissive)</span></div></pre></td></tr></table></figure>
+
+<p>or</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --<span class="keyword">socket</span> mysite.sock --wsgi-file test.py --<span class="keyword">chmod</span>-<span class="keyword">socket</span>=<span class="number">664</span> <span class="comment"># (more sensible)</span></div></pre></td></tr></table></figure>
+
+<h2 id="Running_the_Django_application_with_uswgi_and_nginx">Running the Django application with uswgi and nginx</h2>
+<p>如果上面一切都显示正常，则下面命令可以拉起django application</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">uwsgi</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">socket</span> <span class="comment">mysite</span><span class="string">.</span><span class="comment">sock</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">module</span> <span class="comment">mysite</span><span class="string">.</span><span class="comment">wsgi</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">chmod</span><span class="literal">-</span><span class="comment">socket=664</span></div></pre></td></tr></table></figure>
+
+<h3 id="Configuring_uWSGI_to_run_with_a_-ini_file">Configuring uWSGI to run with a .ini file</h3>
+<p>每次都运行上面命令拉起django application实在麻烦，使用.ini文件能简化工作，方法如下：</p>
+<p>在application目录下创建文件<code>mysite_uwsgi.ini</code>，填入并修改下面内容：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor"># mysite_uwsgi.ini file</span></div><div class="line">[uwsgi]</div><div class="line"></div><div class="line"><span class="preprocessor"># Django-related settings</span></div><div class="line"><span class="preprocessor"># the base directory (full path)</span></div><div class="line">chdir           = /path/to/your/project</div><div class="line"><span class="preprocessor"># Django's wsgi file</span></div><div class="line">module          = project.wsgi</div><div class="line"><span class="preprocessor"># the virtualenv (full path)</span></div><div class="line">home            = /path/to/virtualenv</div><div class="line"></div><div class="line"><span class="preprocessor"># process-related settings</span></div><div class="line"><span class="preprocessor"># master</span></div><div class="line">master          = <span class="literal">true</span></div><div class="line"><span class="preprocessor"># maximum number of worker processes</span></div><div class="line">processes       = <span class="number">10</span></div><div class="line"><span class="preprocessor"># the socket (use the full path to be safe</span></div><div class="line">socket          = /path/to/your/project/mysite.sock</div><div class="line"><span class="preprocessor"># ... with appropriate permissions - may be needed</span></div><div class="line"><span class="preprocessor"># chmod-socket    = 664</span></div><div class="line"><span class="preprocessor"># clear environment on exit</span></div><div class="line">vacuum          = <span class="literal">true</span></div></pre></td></tr></table></figure>
+
+<p>现在，只要执行以下命令，就能够拉起django application：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">uwsgi</span> --ini mysite_uwsgi.ini <span class="comment"># the --ini option is used to specify a file</span></div></pre></td></tr></table></figure>
+
+<h3 id="Make_uWSGI_startup_when_the_system_boots">Make uWSGI startup when the system boots</h3>
+<p>编辑文件<code>/etc/rc.local</code>, 添加下面内容到这行代码之前<code>exit 0</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/local/bin/uwsgi --socket /path/to/mysite.sock --module /path/to/mysite.wsgi --chmod-socket=<span class="number">666</span></div></pre></td></tr></table></figure>
+
+<h3 id="uWSGI的更多配置">uWSGI的更多配置</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">env = DJANGO_SETTINGS_MODULE=mysite.settings <span class="comment"># set an environment variable</span></div><div class="line">pidfile = /tmp/project-master.pid <span class="comment"># create a pidfile</span></div><div class="line">harakiri = <span class="number">20</span> <span class="comment"># respawn processes taking more than 20 seconds</span></div><div class="line">limit-as = <span class="number">128</span> <span class="comment"># limit the project to 128 MB</span></div><div class="line">max-requests = <span class="number">5000</span> <span class="comment"># respawn processes after serving 5000 requests</span></div><div class="line">daemonize = /var/log/uwsgi/yourproject.log <span class="comment"># background the process & log</span></div></pre></td></tr></table></figure>
+
+]]></content>
+    
+    
+      <category term="nginx" scheme="http://essay.igevin.info/tags/nginx/"/>
+    
+      <category term="tech" scheme="http://essay.igevin.info/categories/tech/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Yet another awesome collection]]></title>
-    <link href="http://essay.igevin.info/2014/09/17/github/yet-another-awesome-collection/"/>
-    <id>http://essay.igevin.info/2014/09/17/github/yet-another-awesome-collection/</id>
+    <link href="http://essay.igevin.info/2014/09/17/yet-another-awesome-collection/"/>
+    <id>http://essay.igevin.info/2014/09/17/yet-another-awesome-collection/</id>
     <published>2014-09-17T08:42:01.000Z</published>
     <updated>2014-09-17T13:27:03.000Z</updated>
     <content type="html"><![CDATA[<p>github上有一大堆『awesome-*』的repository相当有料。</p>
@@ -49,8 +183,8 @@
   
   <entry>
     <title><![CDATA[如何生成SSH key]]></title>
-    <link href="http://essay.igevin.info/2014/08/28/github/How-to-create-SSH-key/"/>
-    <id>http://essay.igevin.info/2014/08/28/github/How-to-create-SSH-key/</id>
+    <link href="http://essay.igevin.info/2014/08/28/How-to-create-SSH-key/"/>
+    <id>http://essay.igevin.info/2014/08/28/How-to-create-SSH-key/</id>
     <published>2014-08-28T08:42:01.000Z</published>
     <updated>2014-09-17T13:27:11.000Z</updated>
     <content type="html"><![CDATA[<p>SSH key提供了一种与GitHub通信的方式，通过这种方式，能够在不输入密码的情况下，将GitHub作为自己的remote端服务器，进行版本控制</p>
@@ -102,217 +236,9 @@
   </entry>
   
   <entry>
-    <title><![CDATA[如何生成SSH key]]></title>
-    <link href="http://essay.igevin.info/2014/08/28/How-to-create-SSH-key/"/>
-    <id>http://essay.igevin.info/2014/08/28/How-to-create-SSH-key/</id>
-    <published>2014-08-28T08:42:01.000Z</published>
-    <updated>2014-08-28T11:31:47.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="如何生成SSH_key">如何生成SSH key</h1>
-<p>SSH key提供了一种与GitHub通信的方式，通过这种方式，能够在不输入密码的情况下，将GitHub作为自己的remote端服务器，进行版本控制</p>
-<h2 id="步骤">步骤</h2>
-<ul>
-<li>检查SSH keys是否存在</li>
-<li>生成新的ssh key</li>
-<li>将ssh key添加到GitHub中</li>
-</ul>
-<p><img src="http://gevin-zone.qiniudn.com/gevin-essay-how-to-generate-SSH-key.png" alt="如何生成SSH KEY" title="如何生成SSH KEY"></p>
-<h2 id="1-_检查SSH_keys是否存在">1. 检查SSH keys是否存在</h2>
-<p>输入下面的命令，如果有文件<code>id_rsa.pub</code> 或 <code>id_dsa.pub</code>，则直接进入步骤3将SSH key添加到GitHub中，否则进入第二步生成SSH key</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ls</span> -<span class="keyword">al</span> ~/.ssh</div><div class="line"># Lists the <span class="keyword">files</span> in your .ssh directory, <span class="keyword">if</span> they exist</div></pre></td></tr></table></figure>
-
-<h2 id="2-_生成新的ssh_key">2. 生成新的ssh key</h2>
-<p><strong>第一步：生成public/private rsa key pair</strong><br>在命令行中输入<code>ssh-keygen -t rsa -C &quot;your_email@example.com&quot;</code></p>
-<p>默认会在相应路径下（/your_home_path）生成<code>id_rsa</code>和<code>id_rsa.pub</code>两个文件，如下面代码所示</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -C <span class="string">"your_email@example.com"</span></div><div class="line"><span class="comment"># Creates a new ssh key using the provided email</span></div><div class="line">Generating public/<span class="keyword">private</span> rsa key pair.</div><div class="line">Enter <span class="built_in">file</span> <span class="operator">in</span> which <span class="built_in">to</span> save <span class="operator">the</span> key (/your_home_path/.ssh/id_rsa):</div></pre></td></tr></table></figure>
-
-<p><strong>第二步：输入passphrase（本步骤可以跳过）</strong></p>
-<p>设置passphrase后，进行版本控制时，每次与GitHub通信都会要求输入passphrase，以避免某些“失误”</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Enter passphrase (<span class="keyword">empty</span> <span class="keyword">for</span> no passphrase): [<span class="keyword">Type</span> a passphrase]</div><div class="line">Enter same passphrase again: [<span class="keyword">Type</span> passphrase again]</div></pre></td></tr></table></figure>
-
-<p>sample result:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Your identification has been saved <span class="keyword">in</span> /your_home_path/.ssh/id_rsa.</div><div class="line">Your <span class="keyword">public</span> <span class="keyword">key</span> has been saved <span class="keyword">in</span> /your_home_path/.ssh/id_rsa.pub.</div><div class="line">The <span class="keyword">key</span> fingerprint <span class="keyword">is</span>:</div><div class="line"><span class="preprocessor">#01:0f:f4:3b:ca:85:d6:17:a1:7d:f0:68:9d:f0:a2:db your_email@example.com</span></div></pre></td></tr></table></figure>
-
-<p><strong>第三步：将新生成的key添加到ssh-agent中:</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># start the ssh-agent in the background</span></div><div class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(ssh-agent -s)</span>"</span></div><div class="line">Agent pid <span class="number">59566</span></div><div class="line">ssh-add ~/.ssh/id_rsa</div></pre></td></tr></table></figure>
-
-<h2 id="3-_将ssh_key添加到GitHub中">3. 将ssh key添加到GitHub中</h2>
-<p>用自己喜欢的文本编辑器打开<code>id_rsa.pub</code>文件，里面的信息即为SSH key，将这些信息复制到GitHub的<code>Add SSH key</code>页面即可</p>
-<p>不同的操作系统，均有一些命令，直接将SSH key从文件拷贝到粘贴板中，如下：</p>
-<p><strong>mac</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">pbcopy</span> &lt; ~/.ssh/id_rsa.pub</div><div class="line"><span class="comment"># Copies the contents of the id_rsa.pub file to your clipboard</span></div></pre></td></tr></table></figure>
-
-<p><strong>windows</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">clip</span> &lt; ~/.ssh/id_rsa.pub</div><div class="line"><span class="comment"># Copies the contents of the id_rsa.pub file to your clipboard</span></div></pre></td></tr></table></figure>
-
-<p><strong>linux</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install xclip</div><div class="line"># Downloads <span class="literal">and</span> installs xclip. <span class="keyword">If</span> you don't have <span class="escape">`a</span>pt-get<span class="escape">`,</span> you might need to use another installer (like <span class="escape">`y</span>um<span class="escape">`)</span></div><div class="line"></div><div class="line">xclip -sel clip &lt; ~/.ssh/id_rsa.pub</div><div class="line"># Copies the contents of the id_rsa.pub file to your <span class="built_in"><span class="keyword">clipboard</span></span></div></pre></td></tr></table></figure>
-
-]]></content>
-    
-    
-      <category term="GitHub" scheme="http://essay.igevin.info/tags/GitHub/"/>
-    
-      <category term="GitHub" scheme="http://essay.igevin.info/categories/GitHub/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[如何有效使用印象笔记]]></title>
-    <link href="http://essay.igevin.info/2014/08/26/tools/2014-03-24-how-to-use-evernote-efficiently/"/>
-    <id>http://essay.igevin.info/2014/08/26/tools/2014-03-24-how-to-use-evernote-efficiently/</id>
-    <published>2014-08-26T12:53:03.000Z</published>
-    <updated>2014-08-26T12:53:03.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="http://gevin-zone.qiniudn.com/evernote.jpg" alt="image"></p>
-<p>印象笔记有多种用法，比如印象笔记官方收集的<a href="http://weibo.com/2797465504/AduqhbYgz" target="_blank" rel="external">这些</a>和<a href="http://weibo.com/2797465504/AeoSsjAe3" target="_blank" rel="external">那些</a>奇葩用法。</p>
-<p>如果将印象笔记作为知识管理工具，管理自己的大脑，如何使用就需要点技巧了。</p>
-<p>本文分享的是Gevin使用印象笔记的一些经验，不见得多少高效，但至少是有效的。如果大家对如何使用印象笔记有好的建议，或者想分享下自己的用法，欢迎留言～ 下面正文开始：</p>
-<h2 id="记笔记">记笔记</h2>
-<p>虽说笔记大部分时候都是给自己看的，但记笔记的时候还是要注意一下笔记的可读性，凌乱的内容恐怕自己也不喜欢回头再看。如何写好笔记，不是本文的主题，用我以前一篇文章<a href="http://blog.igevin.info/2011/06/write-cool-blog/" target="_blank" rel="external">『如何写漂亮的博客』</a>来抛砖引玉吧</p>
-<p>喜欢markdown的童鞋，可以用<a href="http://maxiang.info/" target="_blank" rel="external">马克飞象</a>来记笔记，省去排版的麻烦</p>
-<h2 id="信息的组织和管理">信息的组织和管理</h2>
-<p>如果想有效管理印象笔记中的内容，需要为每个笔记设置<strong>有用的目录和标签</strong>，目录和标签都可以将笔记分类，也都可以用于查找指定条件（如隶属那个目录或打上某个标签）的内容，不同之处在于一个笔记只能放在一个目录中，但却可以打上N个标签。因此，管理印象笔记中的内容时，不妨用目录来为内容分类，标签作为内容的关键字，便于检索。</p>
-<p>目录和标签少的时候，上述方法是很有效的，但目录和标签多了，我们会面临一个新的问题：如何管理目录和标签，以便我们能更有效的管理内容？</p>
-<h3 id="先说目录">先说目录</h3>
-<p>目录多少其实不是问题，关键在于如何迅速找到相应目录。</p>
-<p>不妨以数字或者字母作为目录的开头，如“01资料”、“02工作”，或者“g工作”、“z资料”，这样，所有的目录是以一种<strong>便于我们自己检索</strong>的方式有序排列的</p>
-<p>印象笔记还允许用户对目录再做一次分类，即笔记本组功能。可以把类似属性的目录划分到用一个笔记本组中，笔记本组的命名，也可以结合上面描述的方式。</p>
-<p>最后，对目录如何组织有兴趣的童鞋，还可以再看看豆瓣上<a href="http://www.douban.com/online/11202436/" target="_blank" rel="external">这个活动</a></p>
-<h3 id="再说说标签">再说说标签</h3>
-<p>标签也是可以建立层级关系的，而且可以建立多层嵌套的层级关系（笔记本组是不能嵌套的）。但我不认为嵌套标签是一种很好的组织方式，至少不应该为目录和标签都以嵌套的方式来管理，这会在内容管理的逻辑上造成混乱</p>
-<p>标签应该是平级的，所谓『标签云』么</p>
-<h2 id="信息的收集">信息的收集</h2>
-<ul>
-<li><p>手机上记录备忘或者ToDO，可以用<a href="http://appcenter.yinxiang.com/app/evermemo/iphone/" target="_blank" rel="external">EverMemo</a></p>
-</li>
-<li><p>微信上可以关注公共账号『我的印象笔记』，将有价值的信息可以分享给这个账号即可保存到印象笔记中 —<a href="http://appcenter.yinxiang.com/app/myyxbj/wechat/" target="_blank" rel="external">详情</a></p>
-</li>
-<li><p>微博上可以follow『我的印象笔记』的微博账号，有用的微博信息在转发或者评论中“@我的印象笔记” 即可 — <a href="http://appcenter.yinxiang.com/app/myyxbj/weibo/" target="_blank" rel="external">详情</a></p>
-</li>
-<li><p>对于网页上有价值的信息，可以安装浏览器插件『剪藏』，直接将这些信息保存到印象笔记中</p>
-</li>
-<li><p><a href="https://ifttt.com/evernote" target="_blank" rel="external">ifttt</a>也是一个很好的将信息整合到印象笔记的application</p>
-</li>
-<li><p>善用佳软上还有更全面的<a href="http://xbeta.info/gtd-evernote.htm#toc1" target="_blank" rel="external">内容</a>供大家参考（内容有点老了，但很经典）</p>
-</li>
-</ul>
-<h2 id="模板">模板</h2>
-<p>印象笔记官方，还制作/收集了一些模板，以提高工作/学习的效率：</p>
-<ul>
-<li><a href="https://app.yinxiang.com/shard/s7/sh/ef283470-f245-406e-9a8e-af1632265415/c7dcc95d8392783598e646b5728d4503" target="_blank" rel="external">番茄工作法</a></li>
-<li><a href="https://app.yinxiang.com/shard/s7/sh/c991c121-1abb-485f-a3de-83524733ec8d/877e118ef08451d3d4ed320d4e6e7b71" target="_blank" rel="external">四象限法则</a></li>
-<li><a href="https://app.yinxiang.com/shard/s7/sh/fa909912-8886-4715-a2ab-422e693b6fec/7e1ee12e97eeac5af984d3c5dc2d691e" target="_blank" rel="external">让效率翻5倍的工作模板</a></li>
-<li><p><a href="https://app.yinxiang.com/shard/s7/sh/e17e1199-2f7a-471d-a920-55108cdc0325/2f60f2ba37832ffe3b22f7d3012b9868" target="_blank" rel="external">最具执行力的日程规划模板</a></p>
-</li>
-<li><p><a href="https://app.yinxiang.com/shard/s7/sh/2e041eb5-adeb-46ef-b79f-be9ceab8033b/62f5e3ddb8476e7f0e83850da4236db3" target="_blank" rel="external">康奈尔笔记模版</a></p>
-</li>
-<li><p><a href="https://app.yinxiang.com/shard/s7/sh/c896f30c-2bc2-41a9-b330-4525256927a3/f46b6a8a81ed5a21e94085ee86b3ba33" target="_blank" rel="external">踏青装备清单</a></p>
-</li>
-</ul>
-<h2 id="最后">最后</h2>
-<p>我就说这么多啦，接下来听/看着了～</p>
-]]></content>
-    
-    
-      <category term="杂谈" scheme="http://essay.igevin.info/tags/%E6%9D%82%E8%B0%88/"/>
-    
-      <category term="工具" scheme="http://essay.igevin.info/categories/%E5%B7%A5%E5%85%B7/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Hello World]]></title>
-    <link href="http://essay.igevin.info/2014/08/26/hello-world/"/>
-    <id>http://essay.igevin.info/2014/08/26/hello-world/</id>
-    <published>2014-08-26T12:53:03.000Z</published>
-    <updated>2014-08-26T12:53:03.000Z</updated>
-    <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/tommy351/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2>
-<h3 id="Create_a_new_post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-]]></content>
-    
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[产品经理要懂多少技术]]></title>
-    <link href="http://essay.igevin.info/2014/08/26/programmer/2013-05-01-how-pm-know-tech/"/>
-    <id>http://essay.igevin.info/2014/08/26/programmer/2013-05-01-how-pm-know-tech/</id>
-    <published>2014-08-26T12:53:03.000Z</published>
-    <updated>2014-08-26T12:53:03.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="http://gevin-zone.qiniudn.com/gevin_essayjobs6A_meitu_1.jpg" alt="image"></p>
-<p>本文首载于<a href="http://www.geekpark.net/read/view/167249" target="_blank" rel="external">极客公园</a>，本文重新排版配图</p>
-<hr>
-<p> <strong>『核心提示』 产品经理不需要在技术上登峰造极，但必须要赢得程序猿的尊敬。</strong> </p>
-<hr>
-<p><br></p>
-<p>产品经理是个辛苦的工作，除了要最热爱产品，练功坐禅研究用户体验外，还要和一大堆人打交道——写代码的，做设计的，搞运营的，做市场的。前两类人算是艺术家，自然会带点艺术家特有的奇葩气质，第一类人又是和产品经理打交道的人里面最聪明的，一个不小心，没准就被程序猿们划入“白痴”族群，作为茶余饭后鄙视的对象。</p>
-<p>那么，产品经理要懂多少技术，才能游刃有余的和程序猿们打交道呢？</p>
-<p>在Gevin看来，成功的产品经理必须是被程序猿尊敬的。虽然程序猿的水平和素质也良莠不齐，但要做一个成功的产品经理，必须假设面对的是一帮最优秀的程序猿，这样才不至于被当作白痴来骂。因此程序猿应该是这样一帮人，他们是聪明的，坚毅的，勇于克服困难的；中间也不乏文艺类的，或懂艺术，或注重体验，或关心人文。产品经理也不必为了能和各种程序猿沟通，使自己面面俱到，但至少对自己要有一个明确的定位，并把自己的定位展现在程序猿面前。<br>Gevin 会把产品经理分为两类：</p>
-<ul>
-<li>A 改变世界的海贼</li>
-<li>B 自给自足的农夫</li>
-</ul>
-<p><strong>A类是那些真正热爱互联网的人</strong>，有自己的梦想，希望在互联网的海洋里冒险驰骋，不断创新，不断探索前行，看中的是这份冒险精神，享受的是冒险成功后的喜悦，他们也许会失败，但虽败犹荣，他们一旦成功，则会带来革命性的东西，甚至改变世界。<strong>B 类只是在互联网上求生存的人</strong>，他们并不热爱互联网，如果有更好的生存平台，他们可以放弃互联网；他们会踏实的基于数据做些分析，把一些实际可靠的元素融入产品，只要赚钱就行，创新和探索这些不靠谱的东西，尽量不碰。</p>
-<p><img src="http://gevin-zone.qiniudn.com/gevin_essayhistoire-one-piece.png" alt="image"></p>
-<p>产品经理在开始做事之前，需要明确自己是 A 类还是 B 类，与程序猿沟通时，通过语言或者行动表明自己的定位。如果你是 A 类，优秀的程序猿会成为你强大的助手，如果你是 B 类，好的程序猿也会帮你衣钵满载。但如果你有 A 类的心，却做 B 类的事，不被骂白痴才怪；如果你按 B 类的要求与程序猿沟通，却心怀 A 类的雄心，高傲的程序猿会认为你在玩弄他。</p>
-<p>A 类的产品经理，对技术的要求高，能力覆盖范围广，程序猿对 B 类产品经理的要求，只是 A 类的一个子集。下面提到的产品经理，如无特别说明，是指 A 类。</p>
-<p>程序猿也知道产品经理是要与多种职责的人打交道的，要有较强的综合能力，不会在技术领域拿自己的强项和产品经理过不去，但他们同时认为一个优秀的产品经理要具备一些能力，能力不足的产品经理不会被程序猿尊敬。这些能力包括：</p>
-<ul>
-<li>对技术的理解</li>
-<li>美学的修养</li>
-<li>强大的学习能力</li>
-<li>无限热情</li>
-</ul>
-<h3 id="对技术的理解">对技术的理解</h3>
-<p>产品经理不懂技术当然不行，但产品经理也没必要掌握技术细节。产品的技术实现是由程序猿完成的，产品经理只要做到理解程序猿，尽量和程序猿做“无损沟通”即可。</p>
-<p>非技术出身的产品经理是比较辛苦的，因为你要在技术上下不少功夫。技术不简单，种类多，各有特色，发展日新月异，是产品经理和程序猿要时刻关注的主题。即便是对技术做整体的宏观的把握，也不是一个不懂技术的人一时半会就能融会贯通的。非技术出身的产品经理首先要迈过技术上的一道坎，让不懂技术的人看来，你是一个技术领域的内行。技术出身的产品经理，对技术的理解自然不是问题，但在和程序猿沟通时，会不自觉疏忽的是，容易过分纠结于细节，尤其是曾经在技术领域有不菲造诣的产品经理。产品经理不是对产品做技术实现的人，技术更新那么快，技术细节本身甚至技术实现的理念，会迅速更新迭代，产品经理和程序猿死磕技术细节得不偿失。</p>
-<p>上文提到的“无损沟通”，是指产品经理和程序猿在沟通中彼此完全理解，不存在疏漏和误解。这是不可能的，但这必须是二者沟通的目标。</p>
-<p>产品经理和程序猿沟通时，两个方面尤其重要：</p>
-<ul>
-<li>A：对需求的沟通</li>
-<li>B：对技术实现的沟通</li>
-</ul>
-<p>对需求的沟通主要应用于产品经理向程序猿阐述需求的场景中。程序猿实现产品功能，是基于对需求的理解；在功能实现过程中和实现完成后，需求的变化又可能带来产品实现上的灾难。如果程序猿不能准确理解产品经理对需求的描述，很可能实现的功能与产品经理的想法大相径庭，浪费大家的时间；如果产品经理想法不够明确，导致需求变来变去，无疑是对程序猿的恶意攻击。需求上任意一个小小的变化，在代码实现中的都有可能产生巨大麻烦，甚至会动摇代码的整体架构。从程序猿的角度来说，虽然程序猿在技术实现时以构建稳定的系统为目标，尽量灵活应对需求的变化，让系统易于扩展和维护，但这也是要基于程序猿们对需求的理解，以及对潜在的需求变化的预测。如果在沟通过程中做不到让程序猿准确把握需求，那就不用考虑产品实现的满意度了。</p>
-<p>对技术实现的沟通主要应用于程序猿向产品经理沟通的场景中。如果产品经理对技术理解不够，程序猿很难向产品经理讲明白自己的工作现状，当产品经理想要改变需求或者希望为产品添加新的特性时，也无法准确理解程序猿对此产生的各种反应。</p>
-<p>只有依靠足够技术基础，产品经理才能理解程序猿对工作和任务的描述，把握技术实现的难度，制定更加合适的计划。至于多少技术才算“足够”，需要产品经理和程序猿慢慢中磨合了。</p>
-<p>最后，请相信程序猿，请在技术上放手！</p>
-<h3 id="美学修养">美学修养</h3>
-<p>为什么程序猿可能会关注这一点？虽然程序猿不会像设计师那样与产品经理讨论产品的设计和交互等问题，但也会关注下用户体验的，而且优秀的程序猿也是艺术家，没准还是个真实的画家，要想赢得程序猿的尊敬，美学修养低于程序猿说不过去吧？</p>
-<h3 id="学习能力">学习能力</h3>
-<p>产品经理和程序猿，是互联网上最需要频繁接受并掌握新知识的人。新知识新概念接受的慢，谁放心把产品交给这样的产品经理？何况产品经理要与聪明的程序猿们交流沟通，学习能力差的产品经理在沟通过程中会遇到各种困难，各种无法理解，在工作过程中也无法应该程序猿的尊敬。</p>
-<h3 id="无限热情">无限热情</h3>
-<p>这是产品经理最重要的素质，也是程序猿最需要从产品经理身上获取的元素。产品经理是最热爱自己产品的人，如果产品经理不能把自己的热情传递出去，程序猿也不会实心实意做产品的实现，实现一个没有激情的产品经理的想法，实在不是一件很 cool 的事情！</p>
-<h3 id="小结">小结</h3>
-<p>产品经理若要和程序猿默契配合，最重要的是要赢得程序猿们的尊敬。产品经理并不是懂的技术越细越好，而是要在宏观上对技术有总体上的把握，在微观上懂得放手，相信程序猿，并锻炼好自己其他几项能力。</p>
-<p><strong>做一个站在科技和人文交叉口上的产品经理吧！带着自己的梦想和激情去改变世界，会有一帮优秀的程序猿帮你的！</strong></p>
-]]></content>
-    
-    
-      <category term="产品" scheme="http://essay.igevin.info/tags/%E4%BA%A7%E5%93%81/"/>
-    
-      <category term="程序员" scheme="http://essay.igevin.info/categories/%E7%A8%8B%E5%BA%8F%E5%91%98/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[GitHub上有趣的资料]]></title>
-    <link href="http://essay.igevin.info/2014/03/21/github/2014-03-21-github-study-materials/"/>
-    <id>http://essay.igevin.info/2014/03/21/github/2014-03-21-github-study-materials/</id>
+    <link href="http://essay.igevin.info/2014/03/21/2014-03-21-github-study-materials/"/>
+    <id>http://essay.igevin.info/2014/03/21/2014-03-21-github-study-materials/</id>
     <published>2014-03-21T08:42:01.000Z</published>
     <updated>2014-09-17T13:21:25.000Z</updated>
     <content type="html"><![CDATA[<h1 id="GitHub_Starred_Projects_|_document">GitHub Starred Projects | document</h1>
@@ -542,6 +468,130 @@
       <category term="code" scheme="http://essay.igevin.info/tags/code/"/>
     
       <category term="github" scheme="http://essay.igevin.info/categories/github/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[如何有效使用印象笔记]]></title>
+    <link href="http://essay.igevin.info/2014/03/21/2014-03-24-how-to-use-evernote-efficiently/"/>
+    <id>http://essay.igevin.info/2014/03/21/2014-03-24-how-to-use-evernote-efficiently/</id>
+    <published>2014-03-20T16:00:00.000Z</published>
+    <updated>2014-09-30T14:18:12.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://gevin-zone.qiniudn.com/evernote.jpg" alt="image"></p>
+<p>印象笔记有多种用法，比如印象笔记官方收集的<a href="http://weibo.com/2797465504/AduqhbYgz" target="_blank" rel="external">这些</a>和<a href="http://weibo.com/2797465504/AeoSsjAe3" target="_blank" rel="external">那些</a>奇葩用法。</p>
+<p>如果将印象笔记作为知识管理工具，管理自己的大脑，如何使用就需要点技巧了。</p>
+<p>本文分享的是Gevin使用印象笔记的一些经验，不见得多少高效，但至少是有效的。如果大家对如何使用印象笔记有好的建议，或者想分享下自己的用法，欢迎留言～ 下面正文开始：</p>
+<h2 id="记笔记">记笔记</h2>
+<p>虽说笔记大部分时候都是给自己看的，但记笔记的时候还是要注意一下笔记的可读性，凌乱的内容恐怕自己也不喜欢回头再看。如何写好笔记，不是本文的主题，用我以前一篇文章<a href="http://blog.igevin.info/2011/06/write-cool-blog/" target="_blank" rel="external">『如何写漂亮的博客』</a>来抛砖引玉吧</p>
+<p>喜欢markdown的童鞋，可以用<a href="http://maxiang.info/" target="_blank" rel="external">马克飞象</a>来记笔记，省去排版的麻烦</p>
+<h2 id="信息的组织和管理">信息的组织和管理</h2>
+<p>如果想有效管理印象笔记中的内容，需要为每个笔记设置<strong>有用的目录和标签</strong>，目录和标签都可以将笔记分类，也都可以用于查找指定条件（如隶属那个目录或打上某个标签）的内容，不同之处在于一个笔记只能放在一个目录中，但却可以打上N个标签。因此，管理印象笔记中的内容时，不妨用目录来为内容分类，标签作为内容的关键字，便于检索。</p>
+<p>目录和标签少的时候，上述方法是很有效的，但目录和标签多了，我们会面临一个新的问题：如何管理目录和标签，以便我们能更有效的管理内容？</p>
+<h3 id="先说目录">先说目录</h3>
+<p>目录多少其实不是问题，关键在于如何迅速找到相应目录。</p>
+<p>不妨以数字或者字母作为目录的开头，如“01资料”、“02工作”，或者“g工作”、“z资料”，这样，所有的目录是以一种<strong>便于我们自己检索</strong>的方式有序排列的</p>
+<p>印象笔记还允许用户对目录再做一次分类，即笔记本组功能。可以把类似属性的目录划分到用一个笔记本组中，笔记本组的命名，也可以结合上面描述的方式。</p>
+<p>最后，对目录如何组织有兴趣的童鞋，还可以再看看豆瓣上<a href="http://www.douban.com/online/11202436/" target="_blank" rel="external">这个活动</a></p>
+<h3 id="再说说标签">再说说标签</h3>
+<p>标签也是可以建立层级关系的，而且可以建立多层嵌套的层级关系（笔记本组是不能嵌套的）。但我不认为嵌套标签是一种很好的组织方式，至少不应该为目录和标签都以嵌套的方式来管理，这会在内容管理的逻辑上造成混乱</p>
+<p>标签应该是平级的，所谓『标签云』么</p>
+<h2 id="信息的收集">信息的收集</h2>
+<ul>
+<li><p>手机上记录备忘或者ToDO，可以用<a href="http://appcenter.yinxiang.com/app/evermemo/iphone/" target="_blank" rel="external">EverMemo</a></p>
+</li>
+<li><p>微信上可以关注公共账号『我的印象笔记』，将有价值的信息可以分享给这个账号即可保存到印象笔记中 —<a href="http://appcenter.yinxiang.com/app/myyxbj/wechat/" target="_blank" rel="external">详情</a></p>
+</li>
+<li><p>微博上可以follow『我的印象笔记』的微博账号，有用的微博信息在转发或者评论中“@我的印象笔记” 即可 — <a href="http://appcenter.yinxiang.com/app/myyxbj/weibo/" target="_blank" rel="external">详情</a></p>
+</li>
+<li><p>对于网页上有价值的信息，可以安装浏览器插件『剪藏』，直接将这些信息保存到印象笔记中</p>
+</li>
+<li><p><a href="https://ifttt.com/evernote" target="_blank" rel="external">ifttt</a>也是一个很好的将信息整合到印象笔记的application</p>
+</li>
+<li><p>善用佳软上还有更全面的<a href="http://xbeta.info/gtd-evernote.htm#toc1" target="_blank" rel="external">内容</a>供大家参考（内容有点老了，但很经典）</p>
+</li>
+</ul>
+<h2 id="模板">模板</h2>
+<p>印象笔记官方，还制作/收集了一些模板，以提高工作/学习的效率：</p>
+<ul>
+<li><a href="https://app.yinxiang.com/shard/s7/sh/ef283470-f245-406e-9a8e-af1632265415/c7dcc95d8392783598e646b5728d4503" target="_blank" rel="external">番茄工作法</a></li>
+<li><a href="https://app.yinxiang.com/shard/s7/sh/c991c121-1abb-485f-a3de-83524733ec8d/877e118ef08451d3d4ed320d4e6e7b71" target="_blank" rel="external">四象限法则</a></li>
+<li><a href="https://app.yinxiang.com/shard/s7/sh/fa909912-8886-4715-a2ab-422e693b6fec/7e1ee12e97eeac5af984d3c5dc2d691e" target="_blank" rel="external">让效率翻5倍的工作模板</a></li>
+<li><p><a href="https://app.yinxiang.com/shard/s7/sh/e17e1199-2f7a-471d-a920-55108cdc0325/2f60f2ba37832ffe3b22f7d3012b9868" target="_blank" rel="external">最具执行力的日程规划模板</a></p>
+</li>
+<li><p><a href="https://app.yinxiang.com/shard/s7/sh/2e041eb5-adeb-46ef-b79f-be9ceab8033b/62f5e3ddb8476e7f0e83850da4236db3" target="_blank" rel="external">康奈尔笔记模版</a></p>
+</li>
+<li><p><a href="https://app.yinxiang.com/shard/s7/sh/c896f30c-2bc2-41a9-b330-4525256927a3/f46b6a8a81ed5a21e94085ee86b3ba33" target="_blank" rel="external">踏青装备清单</a></p>
+</li>
+</ul>
+<h2 id="最后">最后</h2>
+<p>我就说这么多啦，接下来听/看着了～</p>
+]]></content>
+    
+    
+      <category term="杂谈" scheme="http://essay.igevin.info/tags/%E6%9D%82%E8%B0%88/"/>
+    
+      <category term="工具" scheme="http://essay.igevin.info/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[产品经理要懂多少技术]]></title>
+    <link href="http://essay.igevin.info/2013/05/17/2013-05-01-how-pm-know-tech/"/>
+    <id>http://essay.igevin.info/2013/05/17/2013-05-01-how-pm-know-tech/</id>
+    <published>2013-05-16T16:00:00.000Z</published>
+    <updated>2014-09-30T14:17:53.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://gevin-zone.qiniudn.com/gevin_essayjobs6A_meitu_1.jpg" alt="image"></p>
+<p>本文首载于<a href="http://www.geekpark.net/read/view/167249" target="_blank" rel="external">极客公园</a>，本文重新排版配图</p>
+<hr>
+<p> <strong>『核心提示』 产品经理不需要在技术上登峰造极，但必须要赢得程序猿的尊敬。</strong></p>
+<hr>
+<p><br></p>
+<p>产品经理是个辛苦的工作，除了要最热爱产品，练功坐禅研究用户体验外，还要和一大堆人打交道——写代码的，做设计的，搞运营的，做市场的。前两类人算是艺术家，自然会带点艺术家特有的奇葩气质，第一类人又是和产品经理打交道的人里面最聪明的，一个不小心，没准就被程序猿们划入“白痴”族群，作为茶余饭后鄙视的对象。</p>
+<p>那么，产品经理要懂多少技术，才能游刃有余的和程序猿们打交道呢？</p>
+<p>在Gevin看来，成功的产品经理必须是被程序猿尊敬的。虽然程序猿的水平和素质也良莠不齐，但要做一个成功的产品经理，必须假设面对的是一帮最优秀的程序猿，这样才不至于被当作白痴来骂。因此程序猿应该是这样一帮人，他们是聪明的，坚毅的，勇于克服困难的；中间也不乏文艺类的，或懂艺术，或注重体验，或关心人文。产品经理也不必为了能和各种程序猿沟通，使自己面面俱到，但至少对自己要有一个明确的定位，并把自己的定位展现在程序猿面前。<br>Gevin 会把产品经理分为两类：</p>
+<ul>
+<li>A 改变世界的海贼</li>
+<li>B 自给自足的农夫</li>
+</ul>
+<p><strong>A类是那些真正热爱互联网的人</strong>，有自己的梦想，希望在互联网的海洋里冒险驰骋，不断创新，不断探索前行，看中的是这份冒险精神，享受的是冒险成功后的喜悦，他们也许会失败，但虽败犹荣，他们一旦成功，则会带来革命性的东西，甚至改变世界。<strong>B 类只是在互联网上求生存的人</strong>，他们并不热爱互联网，如果有更好的生存平台，他们可以放弃互联网；他们会踏实的基于数据做些分析，把一些实际可靠的元素融入产品，只要赚钱就行，创新和探索这些不靠谱的东西，尽量不碰。</p>
+<p><img src="http://gevin-zone.qiniudn.com/gevin_essayhistoire-one-piece.png" alt="image"></p>
+<p>产品经理在开始做事之前，需要明确自己是 A 类还是 B 类，与程序猿沟通时，通过语言或者行动表明自己的定位。如果你是 A 类，优秀的程序猿会成为你强大的助手，如果你是 B 类，好的程序猿也会帮你衣钵满载。但如果你有 A 类的心，却做 B 类的事，不被骂白痴才怪；如果你按 B 类的要求与程序猿沟通，却心怀 A 类的雄心，高傲的程序猿会认为你在玩弄他。</p>
+<p>A 类的产品经理，对技术的要求高，能力覆盖范围广，程序猿对 B 类产品经理的要求，只是 A 类的一个子集。下面提到的产品经理，如无特别说明，是指 A 类。</p>
+<p>程序猿也知道产品经理是要与多种职责的人打交道的，要有较强的综合能力，不会在技术领域拿自己的强项和产品经理过不去，但他们同时认为一个优秀的产品经理要具备一些能力，能力不足的产品经理不会被程序猿尊敬。这些能力包括：</p>
+<ul>
+<li>对技术的理解</li>
+<li>美学的修养</li>
+<li>强大的学习能力</li>
+<li>无限热情</li>
+</ul>
+<h3 id="对技术的理解">对技术的理解</h3>
+<p>产品经理不懂技术当然不行，但产品经理也没必要掌握技术细节。产品的技术实现是由程序猿完成的，产品经理只要做到理解程序猿，尽量和程序猿做“无损沟通”即可。</p>
+<p>非技术出身的产品经理是比较辛苦的，因为你要在技术上下不少功夫。技术不简单，种类多，各有特色，发展日新月异，是产品经理和程序猿要时刻关注的主题。即便是对技术做整体的宏观的把握，也不是一个不懂技术的人一时半会就能融会贯通的。非技术出身的产品经理首先要迈过技术上的一道坎，让不懂技术的人看来，你是一个技术领域的内行。技术出身的产品经理，对技术的理解自然不是问题，但在和程序猿沟通时，会不自觉疏忽的是，容易过分纠结于细节，尤其是曾经在技术领域有不菲造诣的产品经理。产品经理不是对产品做技术实现的人，技术更新那么快，技术细节本身甚至技术实现的理念，会迅速更新迭代，产品经理和程序猿死磕技术细节得不偿失。</p>
+<p>上文提到的“无损沟通”，是指产品经理和程序猿在沟通中彼此完全理解，不存在疏漏和误解。这是不可能的，但这必须是二者沟通的目标。</p>
+<p>产品经理和程序猿沟通时，两个方面尤其重要：</p>
+<ul>
+<li>A：对需求的沟通</li>
+<li>B：对技术实现的沟通</li>
+</ul>
+<p>对需求的沟通主要应用于产品经理向程序猿阐述需求的场景中。程序猿实现产品功能，是基于对需求的理解；在功能实现过程中和实现完成后，需求的变化又可能带来产品实现上的灾难。如果程序猿不能准确理解产品经理对需求的描述，很可能实现的功能与产品经理的想法大相径庭，浪费大家的时间；如果产品经理想法不够明确，导致需求变来变去，无疑是对程序猿的恶意攻击。需求上任意一个小小的变化，在代码实现中的都有可能产生巨大麻烦，甚至会动摇代码的整体架构。从程序猿的角度来说，虽然程序猿在技术实现时以构建稳定的系统为目标，尽量灵活应对需求的变化，让系统易于扩展和维护，但这也是要基于程序猿们对需求的理解，以及对潜在的需求变化的预测。如果在沟通过程中做不到让程序猿准确把握需求，那就不用考虑产品实现的满意度了。</p>
+<p>对技术实现的沟通主要应用于程序猿向产品经理沟通的场景中。如果产品经理对技术理解不够，程序猿很难向产品经理讲明白自己的工作现状，当产品经理想要改变需求或者希望为产品添加新的特性时，也无法准确理解程序猿对此产生的各种反应。</p>
+<p>只有依靠足够技术基础，产品经理才能理解程序猿对工作和任务的描述，把握技术实现的难度，制定更加合适的计划。至于多少技术才算“足够”，需要产品经理和程序猿慢慢中磨合了。</p>
+<p>最后，请相信程序猿，请在技术上放手！</p>
+<h3 id="美学修养">美学修养</h3>
+<p>为什么程序猿可能会关注这一点？虽然程序猿不会像设计师那样与产品经理讨论产品的设计和交互等问题，但也会关注下用户体验的，而且优秀的程序猿也是艺术家，没准还是个真实的画家，要想赢得程序猿的尊敬，美学修养低于程序猿说不过去吧？</p>
+<h3 id="学习能力">学习能力</h3>
+<p>产品经理和程序猿，是互联网上最需要频繁接受并掌握新知识的人。新知识新概念接受的慢，谁放心把产品交给这样的产品经理？何况产品经理要与聪明的程序猿们交流沟通，学习能力差的产品经理在沟通过程中会遇到各种困难，各种无法理解，在工作过程中也无法应该程序猿的尊敬。</p>
+<h3 id="无限热情">无限热情</h3>
+<p>这是产品经理最重要的素质，也是程序猿最需要从产品经理身上获取的元素。产品经理是最热爱自己产品的人，如果产品经理不能把自己的热情传递出去，程序猿也不会实心实意做产品的实现，实现一个没有激情的产品经理的想法，实在不是一件很 cool 的事情！</p>
+<h3 id="小结">小结</h3>
+<p>产品经理若要和程序猿默契配合，最重要的是要赢得程序猿们的尊敬。产品经理并不是懂的技术越细越好，而是要在宏观上对技术有总体上的把握，在微观上懂得放手，相信程序猿，并锻炼好自己其他几项能力。</p>
+<p><strong>做一个站在科技和人文交叉口上的产品经理吧！带着自己的梦想和激情去改变世界，会有一帮优秀的程序猿帮你的！</strong></p>
+]]></content>
+    
+    
+      <category term="产品" scheme="http://essay.igevin.info/tags/%E4%BA%A7%E5%93%81/"/>
+    
+      <category term="程序员" scheme="http://essay.igevin.info/categories/%E7%A8%8B%E5%BA%8F%E5%91%98/"/>
     
   </entry>
   

@@ -1,0 +1,473 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>基于nginx和uWSGI在Ubuntu上部署Django | Gevin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Gevin">
+    
+    <meta name="description" itemprop="description" content="本文是一个step by step的 Django deployment with nginx and uWSGI on ubuntu">
+    
+    
+    
+    
+    <link rel="alternative" href="atom.xml" title="Gevin&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/gevin-pacman.svg" alt="Gevin&#39;s blog" title="Gevin&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Gevin&#39;s blog">Gevin&#39;s blog</a></h1>
+				<h2 class="blog-motto">技术生活都要折腾</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:essay.igevin.info">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/09/30/deploy django with nginx and uwsgi on Ubuntu/" title="基于nginx和uWSGI在Ubuntu上部署Django" itemprop="url">基于nginx和uWSGI在Ubuntu上部署Django</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://essay.igevin.info" title="Gevin">Gevin</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-09-29T16:00:00.000Z" itemprop="datePublished">9月 30 2014</time>
+    Updated:<time datetime="2014-09-30T14:17:14.000Z" itemprop="dateModified">9月 30 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-_nginx"><span class="toc-number">1.</span> <span class="toc-text">1. nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">1.0.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动、停止和重启"><span class="toc-number">1.0.2.</span> <span class="toc-text">启动、停止和重启</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-_uWSGI安装"><span class="toc-number">2.</span> <span class="toc-text">2. uWSGI安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-_基于uWSGI和nginx部署Django"><span class="toc-number">3.</span> <span class="toc-text">3. 基于uWSGI和nginx部署Django</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-number">3.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本测试"><span class="toc-number">3.2.</span> <span class="toc-text">基本测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#测试uWSGI是否正常"><span class="toc-number">3.2.1.</span> <span class="toc-text">测试uWSGI是否正常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试Django项目是否正常"><span class="toc-number">3.2.2.</span> <span class="toc-text">测试Django项目是否正常</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置nginx"><span class="toc-number">3.3.</span> <span class="toc-text">配置nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#增加nginx配置"><span class="toc-number">3.3.1.</span> <span class="toc-text">增加nginx配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#部署static文件"><span class="toc-number">3.3.2.</span> <span class="toc-text">部署static文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试nginx"><span class="toc-number">3.3.3.</span> <span class="toc-text">测试nginx</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx_and_uWSGI_and_test-py"><span class="toc-number">3.4.</span> <span class="toc-text">nginx and uWSGI and test.py</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用UNIX_socket取代TCP_port"><span class="toc-number">3.4.1.</span> <span class="toc-text">用UNIX socket取代TCP port</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#如果没有成功:"><span class="toc-number">3.4.1.1.</span> <span class="toc-text">如果没有成功:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Running_the_Django_application_with_uswgi_and_nginx"><span class="toc-number">3.5.</span> <span class="toc-text">Running the Django application with uswgi and nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Configuring_uWSGI_to_run_with_a_-ini_file"><span class="toc-number">3.5.1.</span> <span class="toc-text">Configuring uWSGI to run with a .ini file</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Make_uWSGI_startup_when_the_system_boots"><span class="toc-number">3.5.2.</span> <span class="toc-text">Make uWSGI startup when the system boots</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uWSGI的更多配置"><span class="toc-number">3.5.3.</span> <span class="toc-text">uWSGI的更多配置</span></a></li></ol></li></ol></li></ol>
+		</div>
+		
+		<p>本文主要参考<a href="http://uwsgi-docs.readthedocs.org/en/latest/tutorials/Django_and_nginx.html" target="_blank" rel="external"> uWSGI</a>的文档</p>
+<h1 id="1-_nginx">1. nginx</h1>
+<h3 id="安装">安装</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">sudo</span> apt-get install nginx</div></pre></td></tr></table></figure>
+
+<h3 id="启动、停止和重启">启动、停止和重启</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">sudo</span> /etc/init.d/nginx start</div><div class="line"><span class="built_in">sudo</span> /etc/init.d/nginx stop</div><div class="line"><span class="built_in">sudo</span> /etc/init.d/nginx restart</div></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">sudo</span> service nginx start</div><div class="line"><span class="built_in">sudo</span> service nginx stop</div><div class="line"><span class="built_in">sudo</span> service nginx restart</div></pre></td></tr></table></figure>
+
+<h1 id="2-_uWSGI安装">2. uWSGI安装</h1>
+<p>用python的pip安装最简单：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">apt-get install python-dev <span class="comment">#不安装这个，下面的安装可能会失败</span></div><div class="line">pip install uwsgi</div></pre></td></tr></table></figure>
+
+<h1 id="3-_基于uWSGI和nginx部署Django">3. 基于uWSGI和nginx部署Django</h1>
+<h2 id="原理">原理</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">the web client &lt;-&gt; the web server(nginx) &lt;-&gt; the socket &lt;-&gt; uwsgi &lt;-&gt; Django</div></pre></td></tr></table></figure>
+
+<h2 id="基本测试">基本测试</h2>
+<h3 id="测试uWSGI是否正常">测试uWSGI是否正常</h3>
+<p>在django项目的根目录下创建test.py文件，添加源码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># test.py</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">application</span><span class="params">(env, start_response)</span>:</span></div><div class="line">    start_response(<span class="string">'200 OK'</span>, [(<span class="string">'Content-Type'</span>,<span class="string">'text/html'</span>)])</div><div class="line">    <span class="keyword">return</span> [<span class="string">"Hello World"</span>] <span class="comment"># python2</span></div><div class="line">    <span class="comment">#return [b"Hello World"] # python3</span></div></pre></td></tr></table></figure>
+
+<p>然后，Run uWSGI:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --http :<span class="number">8000</span> --wsgi-file test.py</div></pre></td></tr></table></figure>
+
+<p>参数含义:</p>
+<ul>
+<li><code>http :8000</code>: 使用http协议，8000端口</li>
+<li><code>wsgi-file</code> test.py: 加载指定文件 test.py</li>
+</ul>
+<p>打开下面url，浏览器上应该显示<code>hello world</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://example.com:<span class="number">8000</span></div></pre></td></tr></table></figure>
+
+<p>如果显示正确，说明下面3个环节是通畅的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">the web client &lt;-&gt; uWSGI &lt;-&gt; Python</div></pre></td></tr></table></figure>
+
+<h3 id="测试Django项目是否正常">测试Django项目是否正常</h3>
+<p>首先确保project本身是正常的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py runserver <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">8000</span></div></pre></td></tr></table></figure>
+
+<p>如果没问题，使用uWSGI把project拉起来：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --http :<span class="number">8000</span> --module mysite.wsgi</div></pre></td></tr></table></figure>
+
+<ul>
+<li><code>module mysite.wsgi</code>: 加载wsgi module</li>
+</ul>
+<p>如果project能够正常被拉起，说明以下环节是通的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">the web client &lt;-&gt; uWSGI &lt;-&gt; Django</div></pre></td></tr></table></figure>
+
+<h2 id="配置nginx">配置nginx</h2>
+<p>安装nginx完成后，如果能正常打开<code>http://hostname</code>，说明下面环节是通畅的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">the web client &lt;-&gt; the web server</div></pre></td></tr></table></figure>
+
+<h3 id="增加nginx配置">增加nginx配置</h3>
+<ul>
+<li>将<code>uwsgi_params</code>文件拷贝到项目文件夹下。<code>uwsgi_params</code>文件在<code>/etc/nginx/</code>目录下，也可以从<a href="https://github.com/nginx/nginx/blob/master/conf/uwsgi_params" target="_blank" rel="external">这个页面</a>下载</li>
+<li>在项目文件夹下创建文件<code>mysite_nginx.conf</code>,填入并修改下面内容：</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># mysite_nginx.conf</span></div><div class="line"></div><div class="line"><span class="comment"># the upstream component nginx needs to connect to</span></div><div class="line"><span class="title">upstream</span> django {</div><div class="line">    <span class="comment"># server unix:///path/to/your/mysite/mysite.sock; # for a file socket</span></div><div class="line">    <span class="title">server</span> <span class="number">127.0.0.1:8001</span>; <span class="comment"># for a web port socket (we'll use this first)</span></div><div class="line">}</div><div class="line"><span class="comment"># configuration of the server</span></div><div class="line"><span class="title">server</span> {</div><div class="line">    <span class="comment"># the port your site will be served on</span></div><div class="line">    <span class="title">listen</span>      <span class="number">8000</span>;</div><div class="line">    <span class="comment"># the domain name it will serve for</span></div><div class="line">    <span class="title">server_name</span> .example.com; <span class="comment"># substitute your machine's IP address or FQDN</span></div><div class="line">    <span class="title">charset</span>     utf-<span class="number">8</span>;</div><div class="line"></div><div class="line">    <span class="comment"># max upload size</span></div><div class="line">    <span class="title">client_max_body_size</span> <span class="number">75M</span>;   <span class="comment"># adjust to taste</span></div><div class="line"></div><div class="line">    <span class="comment"># Django media</span></div><div class="line">    <span class="title">location</span> /media  {</div><div class="line">        <span class="title">alias</span> /path/to/your/mysite/media;  <span class="comment"># your Django project's media files - amend as required</span></div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="title">location</span> /static {</div><div class="line">        <span class="title">alias</span> /path/to/your/mysite/static; <span class="comment"># your Django project's static files - amend as required</span></div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment"># Finally, send all non-media requests to the Django server.</span></div><div class="line">    <span class="title">location</span> / {</div><div class="line">        <span class="title">uwsgi_pass</span>  django;</div><div class="line">        <span class="title">include</span>     /path/to/your/mysite/uwsgi_params; <span class="comment"># the uwsgi_params file you installed</span></div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>这个configuration文件告诉nginx从文件系统中拉起media和static文件作为服务，同时相应django的request</p>
+<h3 id="部署static文件">部署static文件</h3>
+<p>在django的setting文件中，添加下面一行内容：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">STATIC_ROOT = os.path.<span class="keyword">join</span>(BASE_DIR, <span class="string">"static/"</span>)</div></pre></td></tr></table></figure>
+
+<p>然后运行：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">python</span> manage.<span class="keyword">py</span> collectstatic</div></pre></td></tr></table></figure>
+
+<h3 id="测试nginx">测试nginx</h3>
+<p>首先重启nginx服务：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">sudo</span> /etc/init.d/nginx restart</div></pre></td></tr></table></figure>
+
+<p>然后检查media文件是否已经正常拉起：<br>在目录<code>/path/to/your/project/project/media directory</code>下添加文件<code>meida.png</code>，然后访问<a href="http://example.com:8000/media/media.png" target="_blank" rel="external">http://example.com:8000/media/media.png</a> ，成功后进行下一步测试。</p>
+<h2 id="nginx_and_uWSGI_and_test-py">nginx and uWSGI and test.py</h2>
+<p>执行下面代码测试能否让nginx在页面上显示<code>hello, world</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">uwsgi</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">socket</span> <span class="comment">:8001</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">wsgi</span><span class="literal">-</span><span class="comment">file</span> <span class="comment">test</span><span class="string">.</span><span class="comment">py</span></div></pre></td></tr></table></figure>
+
+<p>访问<a href="http://example.com:8000" target="_blank" rel="external">http://example.com:8000</a> ,如果显示<code>hello world</code>，则下面环节是否通畅:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">the web client &lt;-&gt; the web server &lt;-&gt; the socket &lt;-&gt; uWSGI &lt;-&gt; Python</div></pre></td></tr></table></figure>
+
+<h3 id="用UNIX_socket取代TCP_port">用UNIX socket取代TCP port</h3>
+<p>对<code>mysite_nginx.conf</code>做如下修改：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">server unix:///path/<span class="keyword">to</span>/your/mysite/mysite.sock; # <span class="keyword">for</span> a <span class="keyword">file</span> socket</div><div class="line"># server <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">8001</span>; # <span class="keyword">for</span> a web <span class="keyword">port</span> socket (we<span class="attribute">'ll</span> <span class="keyword">use</span> this first)</div></pre></td></tr></table></figure>
+
+<p>重启nginx，并在此运行<code>uWSGI</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --socket mysite.sock --wsgi-<span class="keyword">file</span> test.<span class="keyword">py</span></div></pre></td></tr></table></figure>
+
+<p>打开 <a href="http://example.com:8000/" target="_blank" rel="external">http://example.com:8000/</a> ，看看是否成功</p>
+<h4 id="如果没有成功:">如果没有成功:</h4>
+<p>检查 nginx error log(/var/log/nginx/error.log)。如果错误如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">connect() to <span class="symbol">unix:</span>/<span class="regexp">//path</span><span class="regexp">/to/your</span><span class="regexp">/mysite/mysite</span>.sock failed (<span class="number">13</span><span class="symbol">:</span> <span class="constant">Permission</span></div><div class="line">denied)</div></pre></td></tr></table></figure>
+
+<p>添加socket权限再次运行：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --<span class="keyword">socket</span> mysite.sock --wsgi-file test.py --<span class="keyword">chmod</span>-<span class="keyword">socket</span>=<span class="number">666</span> <span class="comment"># (very permissive)</span></div></pre></td></tr></table></figure>
+
+<p>or</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --<span class="keyword">socket</span> mysite.sock --wsgi-file test.py --<span class="keyword">chmod</span>-<span class="keyword">socket</span>=<span class="number">664</span> <span class="comment"># (more sensible)</span></div></pre></td></tr></table></figure>
+
+<h2 id="Running_the_Django_application_with_uswgi_and_nginx">Running the Django application with uswgi and nginx</h2>
+<p>如果上面一切都显示正常，则下面命令可以拉起django application</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">uwsgi</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">socket</span> <span class="comment">mysite</span><span class="string">.</span><span class="comment">sock</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">module</span> <span class="comment">mysite</span><span class="string">.</span><span class="comment">wsgi</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">chmod</span><span class="literal">-</span><span class="comment">socket=664</span></div></pre></td></tr></table></figure>
+
+<h3 id="Configuring_uWSGI_to_run_with_a_-ini_file">Configuring uWSGI to run with a .ini file</h3>
+<p>每次都运行上面命令拉起django application实在麻烦，使用.ini文件能简化工作，方法如下：</p>
+<p>在application目录下创建文件<code>mysite_uwsgi.ini</code>，填入并修改下面内容：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor"># mysite_uwsgi.ini file</span></div><div class="line">[uwsgi]</div><div class="line"></div><div class="line"><span class="preprocessor"># Django-related settings</span></div><div class="line"><span class="preprocessor"># the base directory (full path)</span></div><div class="line">chdir           = /path/to/your/project</div><div class="line"><span class="preprocessor"># Django's wsgi file</span></div><div class="line">module          = project.wsgi</div><div class="line"><span class="preprocessor"># the virtualenv (full path)</span></div><div class="line">home            = /path/to/virtualenv</div><div class="line"></div><div class="line"><span class="preprocessor"># process-related settings</span></div><div class="line"><span class="preprocessor"># master</span></div><div class="line">master          = <span class="literal">true</span></div><div class="line"><span class="preprocessor"># maximum number of worker processes</span></div><div class="line">processes       = <span class="number">10</span></div><div class="line"><span class="preprocessor"># the socket (use the full path to be safe</span></div><div class="line">socket          = /path/to/your/project/mysite.sock</div><div class="line"><span class="preprocessor"># ... with appropriate permissions - may be needed</span></div><div class="line"><span class="preprocessor"># chmod-socket    = 664</span></div><div class="line"><span class="preprocessor"># clear environment on exit</span></div><div class="line">vacuum          = <span class="literal">true</span></div></pre></td></tr></table></figure>
+
+<p>现在，只要执行以下命令，就能够拉起django application：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">uwsgi</span> --ini mysite_uwsgi.ini <span class="comment"># the --ini option is used to specify a file</span></div></pre></td></tr></table></figure>
+
+<h3 id="Make_uWSGI_startup_when_the_system_boots">Make uWSGI startup when the system boots</h3>
+<p>编辑文件<code>/etc/rc.local</code>, 添加下面内容到这行代码之前<code>exit 0</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/local/bin/uwsgi --socket /path/to/mysite.sock --module /path/to/mysite.wsgi --chmod-socket=<span class="number">666</span></div></pre></td></tr></table></figure>
+
+<h3 id="uWSGI的更多配置">uWSGI的更多配置</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">env = DJANGO_SETTINGS_MODULE=mysite.settings <span class="comment"># set an environment variable</span></div><div class="line">pidfile = /tmp/project-master.pid <span class="comment"># create a pidfile</span></div><div class="line">harakiri = <span class="number">20</span> <span class="comment"># respawn processes taking more than 20 seconds</span></div><div class="line">limit-as = <span class="number">128</span> <span class="comment"># limit the project to 128 MB</span></div><div class="line">max-requests = <span class="number">5000</span> <span class="comment"># respawn processes after serving 5000 requests</span></div><div class="line">daemonize = /var/log/uwsgi/yourproject.log <span class="comment"># background the process & log</span></div></pre></td></tr></table></figure>
+
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/nginx/">nginx</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/tech/">tech</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://essay.igevin.info/2014/09/30/deploy django with nginx and uwsgi on Ubuntu/" data-title="基于nginx和uWSGI在Ubuntu上部署Django | Gevin&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2014/09/17/yet-another-awesome-collection/"  title="Yet another awesome collection">
+ <strong>NEXT:</strong><br/> 
+ <span>Yet another awesome collection
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-_nginx"><span class="toc-number">1.</span> <span class="toc-text">1. nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">1.0.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动、停止和重启"><span class="toc-number">1.0.2.</span> <span class="toc-text">启动、停止和重启</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-_uWSGI安装"><span class="toc-number">2.</span> <span class="toc-text">2. uWSGI安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-_基于uWSGI和nginx部署Django"><span class="toc-number">3.</span> <span class="toc-text">3. 基于uWSGI和nginx部署Django</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-number">3.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本测试"><span class="toc-number">3.2.</span> <span class="toc-text">基本测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#测试uWSGI是否正常"><span class="toc-number">3.2.1.</span> <span class="toc-text">测试uWSGI是否正常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试Django项目是否正常"><span class="toc-number">3.2.2.</span> <span class="toc-text">测试Django项目是否正常</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置nginx"><span class="toc-number">3.3.</span> <span class="toc-text">配置nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#增加nginx配置"><span class="toc-number">3.3.1.</span> <span class="toc-text">增加nginx配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#部署static文件"><span class="toc-number">3.3.2.</span> <span class="toc-text">部署static文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试nginx"><span class="toc-number">3.3.3.</span> <span class="toc-text">测试nginx</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx_and_uWSGI_and_test-py"><span class="toc-number">3.4.</span> <span class="toc-text">nginx and uWSGI and test.py</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用UNIX_socket取代TCP_port"><span class="toc-number">3.4.1.</span> <span class="toc-text">用UNIX socket取代TCP port</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#如果没有成功:"><span class="toc-number">3.4.1.1.</span> <span class="toc-text">如果没有成功:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Running_the_Django_application_with_uswgi_and_nginx"><span class="toc-number">3.5.</span> <span class="toc-text">Running the Django application with uswgi and nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Configuring_uWSGI_to_run_with_a_-ini_file"><span class="toc-number">3.5.1.</span> <span class="toc-text">Configuring uWSGI to run with a .ini file</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Make_uWSGI_startup_when_the_system_boots"><span class="toc-number">3.5.2.</span> <span class="toc-text">Make uWSGI startup when the system boots</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uWSGI的更多配置"><span class="toc-number">3.5.3.</span> <span class="toc-text">uWSGI的更多配置</span></a></li></ol></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/GitHub/" title="GitHub">GitHub<sup>0</sup></a></li>
+		
+			<li><a href="/categories/github/" title="github">github<sup>3</sup></a></li>
+		
+			<li><a href="/categories/tech/" title="tech">tech<sup>1</sup></a></li>
+		
+			<li><a href="/categories/工具/" title="工具">工具<sup>1</sup></a></li>
+		
+			<li><a href="/categories/程序员/" title="程序员">程序员<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/GitHub/" title="GitHub">GitHub<sup>0</sup></a></li>
+		
+			<li><a href="/tags/code/" title="code">code<sup>1</sup></a></li>
+		
+			<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+		
+			<li><a href="/tags/open-source/" title="open source">open source<sup>1</sup></a></li>
+		
+			<li><a href="/tags/tip/" title="tip">tip<sup>1</sup></a></li>
+		
+			<li><a href="/tags/产品/" title="产品">产品<sup>1</sup></a></li>
+		
+			<li><a href="/tags/杂谈/" title="杂谈">杂谈<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://essay.igevin.info" target="_blank" title="Gevin">Gevin</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"gevin-essay"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-20407143-4', 'essay.igevin.info');  
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

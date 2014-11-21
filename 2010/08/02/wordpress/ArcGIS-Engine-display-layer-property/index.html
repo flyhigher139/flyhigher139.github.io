@@ -1,0 +1,519 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>ArcGIS Engine中实现图层属性数据的显示 | Gevin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Gevin">
+    
+    <meta name="description" content="转载本文，请写明出处：Gevin的博客
+本文使用下面三个方法实现图层属性数据的显示：
+
+public static DataTable ShowPropertyTable(ILayer pLayer){……}
+public static DataTable ShowIFeatureLayer(IFe">
+    
+    
+    
+    
+    <link rel="alternative" href="atom.xml" title="Gevin&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/gevin-pacman.svg" alt="Gevin&#39;s blog" title="Gevin&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Gevin&#39;s blog">Gevin&#39;s blog</a></h1>
+				<h2 class="blog-motto">技术生活都要折腾</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:essay.igevin.info">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2010/08/02/wordpress/ArcGIS-Engine-display-layer-property/" title="ArcGIS Engine中实现图层属性数据的显示" itemprop="url">ArcGIS Engine中实现图层属性数据的显示</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://essay.igevin.info" title="Gevin">Gevin</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2010-08-01T21:36:18.000Z" itemprop="datePublished">8月 2 2010</time>
+    Updated:<time datetime="2014-11-21T11:59:40.000Z" itemprop="dateModified">11月 21 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、将属性数据存入DataTable中"><span class="toc-number">1.</span> <span class="toc-text">1、将属性数据存入DataTable中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、将矢量数据的属性信息存入DataTable中"><span class="toc-number">2.</span> <span class="toc-text">2、将矢量数据的属性信息存入DataTable中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、将栅格数据的属性信息存入DataTable中"><span class="toc-number">3.</span> <span class="toc-text">3、将栅格数据的属性信息存入DataTable中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、显示属性数据"><span class="toc-number">4.</span> <span class="toc-text">4、显示属性数据</span></a></li></ol>
+		</div>
+		
+		<p>转载<a href="http://blog.igevin.info/archives/133" target="_blank" rel="external">本文</a>，请写明出处：<a href="http://blog.igevin.info/archives/133" target="_blank" rel="external">Gevin的博客</a></p>
+<p>本文使用下面三个方法实现图层属性数据的显示：</p>
+<ol>
+<li>public static DataTable ShowPropertyTable(ILayer pLayer){……}</li>
+<li>public static DataTable ShowIFeatureLayer(IFeatureLayer pLayer){……}</li>
+<li>public static DataTable ShowIRasterLayer(IRasterLayer pLayer){……}</li>
+</ol>
+<p>方法1功能是将属性数据存入DataTable中，该方法将调用方法2和方法3</p>
+<p>方法2功能是将矢量数据的属性信息存入DataTable中</p>
+<p>方法3功能是将栅格数据的属性信息存入DataTable中</p>
+<p>下面将分别介绍这三个方法。<span id="more-133"></span></p>
+<h2 id="1、将属性数据存入DataTable中">1、将属性数据存入DataTable中</h2>
+<p>代码如下：</p>
+<pre>        /// ‹summary&gt;
+/// 显示属性表
+/// ‹/summary&gt;
+/// ‹param name="pLayer"&gt;选中的图层‹/param&gt;
+/// ‹returns&gt;‹/returns&gt;
+public static DataTable ShowPropertyTable(ILayer pLayer)
+{
+DataTable propertyTable = null;
+if (pLayer is IFeatureLayer)
+propertyTable = ShowIFeatureLayer((IFeatureLayer)pLayer);
+else
+{
+if (pLayer is IRasterLayer)
+propertyTable = ShowIRasterLayer((IRasterLayer)pLayer);
+}
+return propertyTable;
+}</pre>
+
+<h2 id="2、将矢量数据的属性信息存入DataTable中">2、将矢量数据的属性信息存入DataTable中</h2>
+<p>代码如下：</p>
+<pre>        /// ‹summary&gt;
+/// 显示FeatureLayer属性表
+/// ‹/summary&gt;
+/// ‹param name="pLayer"&gt;选中的图层‹/param&gt;
+/// ‹returns&gt;‹/returns&gt;
+public static DataTable ShowIFeatureLayer(IFeatureLayer pLayer)
+{
+DataTable propertyTable = new DataTable("Feature Layer Property");
+IFeatureClass pFeatureClass = pLayer.FeatureClass;
+
+string shape = string.Empty;
+switch (pFeatureClass.ShapeType)
+{
+case esriGeometryType.esriGeometryPoint: shape = "Point";
+break;
+case esriGeometryType.esriGeometryPolyline: shape = "Polyline";
+break;
+case esriGeometryType.esriGeometryPolygon: shape = "Polygon";
+break;
+}
+
+for (int i = 0; i &lt; pFeatureClass.Fields.FieldCount; i++)
+{
+DataColumn tempColumn = new DataColumn(pFeatureClass.Fields.get_Field(i).Name);
+propertyTable.Columns.Add(tempColumn);
+}
+
+IFeatureCursor pCursor = pFeatureClass.Search(null, false);
+IFeature pFeature = pCursor.NextFeature();
+int shapeIndex = pFeature.Fields.FindField("shape");
+while (pFeature != null)
+{
+DataRow tempRow = propertyTable.NewRow();
+for (int i = 0; i &lt; pFeature.Fields.FieldCount; i++)
+{
+if (i == shapeIndex)
+tempRow[i] = shape;
+else
+{
+tempRow[i] = pFeature.get_Value(i);
+}
+}
+propertyTable.Rows.Add(tempRow);
+pFeature = pCursor.NextFeature();
+}
+
+return propertyTable;
+}</pre>
+
+<h2 id="3、将栅格数据的属性信息存入DataTable中">3、将栅格数据的属性信息存入DataTable中</h2>
+<p>代码如下：</p>
+<pre>        /// ‹summary&gt;
+/// 显示栅格图层属性表
+/// ‹/summary&gt;
+/// ‹param name="pLayer"&gt;选中的图层‹/param&gt;
+/// ‹returns&gt;‹/returns&gt;
+public static DataTable ShowIRasterLayer(IRasterLayer pLayer)
+{
+IRaster pRaster = pLayer.Raster;
+IRasterProps pRasterProps = pRaster as IRasterProps;
+pRasterProps.PixelType = rstPixelType.PT_LONG;
+if (pRasterProps.PixelType == rstPixelType.PT_LONG)
+{
+IRasterBandCollection pRBCollection = pRaster as IRasterBandCollection;
+IRasterBand pRasterBand = pRBCollection.Item(0);
+ITable pRTable = pRasterBand.AttributeTable;
+DataTable propertyTable = new DataTable("Raster Layer Property");
+for (int i = 0; i &lt; pRTable.Fields.FieldCount; i++)
+{
+DataColumn tempColumn = new DataColumn(pRTable.Fields.get_Field(i).Name);
+propertyTable.Columns.Add(tempColumn);
+}
+ICursor pCursor = pRTable.Search(null, false);
+IRow pRow = pCursor.NextRow();
+while (pRow != null)
+{
+DataRow tempRow = propertyTable.NewRow();
+for (int i = 0; i &lt; pRow.Fields.FieldCount; i++)
+tempRow[i] = pRow.get_Value(i).ToString();
+propertyTable.Rows.Add(tempRow);
+pRow = pCursor.NextRow();
+}
+
+return propertyTable;
+}
+return null;
+}</pre>
+
+<h2 id="4、显示属性数据">4、显示属性数据</h2>
+<p>本不打算写这一步的，太简单了，但为了与标题呼应，还是简单说一下吧。</p>
+<p>通过上面的方法，我们把属性数据存入DataTable中，假设这个DataTable为TempDataTable，要显示数据，需要加一个控件DataGridView，定义变量名为TempDataGridView，然后写这句话：empDataGridView.DataSource = TempDataTable;</p>
+<p>这样就OK了！</p>
+<p>本文地址：<a href="http://blog.igevin.info/archives/133" target="_blank" rel="external">ArcGIS Engine中实现图层属性数据的显示</a> <a href="http://blog.igevin.info/archives/133" target="_blank" rel="external">http://blog.igevin.info/archives/133</a></p>
+<div style="margin-top: 15px"><br><p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a><br><br><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2010/08/arcgis-engine-show-attributes/" target="_blank" rel="external">ArcGIS Engine中实现图层属性数据的显示</a><br><br></p></div><br><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/GIS/">GIS</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/wordpress/">wordpress</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://essay.igevin.info/2010/08/02/wordpress/ArcGIS-Engine-display-layer-property/" data-title="ArcGIS Engine中实现图层属性数据的显示 | Gevin&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2010/08/02/wordpress/ArcGIS-Engine-change-layer-color/" title="AE中修改图层颜色">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  AE中修改图层颜色</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2010/08/01/wordpress/csharp-display-db-all-table/"  title="C#连接数据库并显示数据库中所有的表">
+ <strong>NEXT:</strong><br/> 
+ <span>C#连接数据库并显示数据库中所有的表
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、将属性数据存入DataTable中"><span class="toc-number">1.</span> <span class="toc-text">1、将属性数据存入DataTable中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、将矢量数据的属性信息存入DataTable中"><span class="toc-number">2.</span> <span class="toc-text">2、将矢量数据的属性信息存入DataTable中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、将栅格数据的属性信息存入DataTable中"><span class="toc-number">3.</span> <span class="toc-text">3、将栅格数据的属性信息存入DataTable中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、显示属性数据"><span class="toc-number">4.</span> <span class="toc-text">4、显示属性数据</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/github/" title="github">github<sup>3</sup></a></li>
+		
+			<li><a href="/categories/tech/" title="tech">tech<sup>2</sup></a></li>
+		
+			<li><a href="/categories/wordpress/" title="wordpress">wordpress<sup>50</sup></a></li>
+		
+			<li><a href="/categories/工具/" title="工具">工具<sup>1</sup></a></li>
+		
+			<li><a href="/categories/程序员/" title="程序员">程序员<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/C/" title="C#">C#<sup>2</sup></a></li>
+		
+			<li><a href="/tags/English/" title="English">English<sup>1</sup></a></li>
+		
+			<li><a href="/tags/GIS/" title="GIS">GIS<sup>10</sup></a></li>
+		
+			<li><a href="/tags/IT/" title="IT">IT<sup>1</sup></a></li>
+		
+			<li><a href="/tags/LBS/" title="LBS">LBS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
+		
+			<li><a href="/tags/SEO/" title="SEO">SEO<sup>1</sup></a></li>
+		
+			<li><a href="/tags/SNS/" title="SNS">SNS<sup>7</sup></a></li>
+		
+			<li><a href="/tags/app/" title="app">app<sup>5</sup></a></li>
+		
+			<li><a href="/tags/code/" title="code">code<sup>1</sup></a></li>
+		
+			<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		
+			<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+		
+			<li><a href="/tags/open-source/" title="open source">open source<sup>1</sup></a></li>
+		
+			<li><a href="/tags/tip/" title="tip">tip<sup>1</sup></a></li>
+		
+			<li><a href="/tags/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
+		
+			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>5</sup></a></li>
+		
+			<li><a href="/tags/互联网/" title="互联网">互联网<sup>16</sup></a></li>
+		
+			<li><a href="/tags/产品/" title="产品">产品<sup>1</sup></a></li>
+		
+			<li><a href="/tags/信息共享/" title="信息共享">信息共享<sup>1</sup></a></li>
+		
+			<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://essay.igevin.info" target="_blank" title="Gevin">Gevin</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"gevin-essay"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-20407143-4', 'essay.igevin.info');  
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

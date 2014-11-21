@@ -1,0 +1,461 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>深度剖析WordPress主题结构 | Gevin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Gevin">
+    
+    <meta name="description" content="本文也是Gevin在帕兰映像写的文章，在这里简单修改并备份一下
+利用强大的技术，可以把基于wordpress的网站做成各种各样的形式，这除了要求wordpress主题开发人员精通html，PHP，JS，CSS等技术，还需要开发者掌握WordPress主题的框架。
+Gevin今天结合The anato">
+    
+    
+    
+    
+    <link rel="alternative" href="atom.xml" title="Gevin&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/gevin-pacman.svg" alt="Gevin&#39;s blog" title="Gevin&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Gevin&#39;s blog">Gevin&#39;s blog</a></h1>
+				<h2 class="blog-motto">技术生活都要折腾</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:essay.igevin.info">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2011/05/26/wordpress/深度剖析WordPress主题结构/" title="深度剖析WordPress主题结构" itemprop="url">深度剖析WordPress主题结构</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://essay.igevin.info" title="Gevin">Gevin</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2011-05-25T16:40:16.000Z" itemprop="datePublished">5月 26 2011</time>
+    Updated:<time datetime="2014-11-21T11:59:40.000Z" itemprop="dateModified">11月 21 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#网站外观"><span class="toc-number">1.</span> <span class="toc-text">网站外观</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#页面组成"><span class="toc-number">2.</span> <span class="toc-text">页面组成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#index-php_–_home"><span class="toc-number">2.1.</span> <span class="toc-text">index.php – home</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#single-php_–_individual_posts"><span class="toc-number">2.2.</span> <span class="toc-text">single.php – individual posts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#page-php_–_individual_pages"><span class="toc-number">2.3.</span> <span class="toc-text">page.php – individual pages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#archive-php,_category-php,_tag-php_–_archives"><span class="toc-number">2.4.</span> <span class="toc-text">archive.php, category.php, tag.php – archives</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The_Loop"><span class="toc-number">3.</span> <span class="toc-text">The Loop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WordPress的后台文件"><span class="toc-number">4.</span> <span class="toc-text">WordPress的后台文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#comments-php"><span class="toc-number">4.1.</span> <span class="toc-text">comments.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#functions-php"><span class="toc-number">4.2.</span> <span class="toc-text">functions.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#style-css"><span class="toc-number">4.3.</span> <span class="toc-text">style.css</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图文剖析"><span class="toc-number">5.</span> <span class="toc-text">图文剖析</span></a></li></ol>
+		</div>
+		
+		<p>本文也是Gevin在<a href="http://paranimage.com/wordpress-theme-depth-analysis-of-the-structure/" target="_blank" rel="external">帕兰映像</a>写的文章，在这里简单修改并备份一下</p>
+<p>利用强大的技术，可以把基于wordpress的网站做成各种各样的形式，这除了要求wordpress主题开发人员精通html，PHP，JS，CSS等技术，还需要开发者掌握WordPress主题的框架。</p>
+<p>Gevin今天结合<strong><a href="http://yoast.com/wordpress-theme-anatomy/" target="_blank" rel="external">The anatomy of a WordPress theme</a></strong>这篇文章，和大家一起剖析WordPress主题的结构。原文作者用图文形式，分别从<strong>网站外观、页面组成和后台文件</strong>三个方面，形象的向大家展示了WordPress的架构，下面Gevin和大家一起分析WordPress是如何架构的。</p>
+<h2 id="网站外观"><span id="more-1276"></span>网站外观</h2>
+<p>WordPress主题由一系列模板文件组成，每个模板文件控制主题的一部分。无论在博客的哪个个页面上，主题的框架总有一部分是不变的，这是主题的静态部分，它由header.php, sidebar.php 和 footer.php三个文件控制。我们可以修改这些文件，以便检测我们浏览的页面，并显示不同的内容，如在posts页面和page页面显示不同的导航。然而，通常，我们会让静态部分在整个网站上保持一致的风格。</p>
+<p>网站外观由下面4个部分的代码控制：</p>
+<ul>
+<li><strong>header.php</strong></li>
+</ul>
+<p>显示博客头和导航，也包含html代码</p>
+<ul>
+<li><strong>The Loop</strong></li>
+</ul>
+<p>显示网站主题内容的模板文件称为The Loop（后面会详细介绍）。</p>
+<ul>
+<li><strong>sidebar.php</strong></li>
+</ul>
+<p>侧边栏由这个文件控制。多侧边栏的主题可以在functions.php中添加控制。</p>
+<ul>
+<li><strong>footer.php</strong></li>
+</ul>
+<p>网站的页尾和html的关闭标签。</p>
+<h2 id="页面组成">页面组成</h2>
+<p>WordPress基本页面有Homepage<em>（index.php控制）</em>，Post页面（<em>单独显示一篇完整博客，由single.php控制）</em>，独立页面<em>（page.php控制）</em>，存档<em>（archive.php等控制）</em>，下面分别介绍这几个控制这几个页面的代码文件。</p>
+<h3 id="index-php_–_home">index.php – home</h3>
+<p>index文件控制博客homepage的外观。默认情况下，index文件通过一个loop来显示最新博客，homepage底部还会由一个查看以前博客的链接。</p>
+<h3 id="single-php_–_individual_posts">single.php – individual posts</h3>
+<p>该文件用于显示读者要查看的特定博客全文。</p>
+<h3 id="page-php_–_individual_pages">page.php – individual pages</h3>
+<p>该文件控制博客中独立页面的外观。</p>
+<p>WordPress允许我们为不同的独立页面（pages）设计不同的模板，方法如下：</p>
+<p>1、复制page.php并重命名</p>
+<p>2、在文件的最上方添加下面代码</p>
+<pre class="brush:php">     &lt;?php
+/*
+Template Name: YourPageNameHere
+*/
+?&gt;</pre>
+
+<h3 id="archive-php,_category-php,_tag-php_–_archives">archive.php, category.php, tag.php – archives</h3>
+<p>我们同样可以自定义存档（archives）的外观。如果没有archive.php文件，存档和主页是一模一样的；然而，我们可以创建一个archive.php文件重构存档页面。如果创建category.php文件，存档页面会被覆盖为只显示目录；如果创建tag.php文件，存档页面会被覆盖为只显示标签。</p>
+<h2 id="The_Loop">The Loop</h2>
+<p>Loop恐怕是WordPress最强大的部分。它是“循环的查询结果”。循环体中我们可以依次输出选中文章的标题，博客内容，元数据，评论等。我们还可以在single page中使用多个loop。例如，我们可以用一个loop显示博客全文，另一个loop显示相关文章的标题和缩略图。</p>
+<p>The Loop结构如下：</p>
+<ul>
+<li>Query post or page</li>
+<li>Start Loop //循环开始</li>
+<li><code>the_title</code> (outputs the title of the post) //标题</li>
+<li><code>the_excerpt</code> (outputs the post excerpt) //摘要</li>
+<li><code>the_content</code> (outputs the full post content) //内容</li>
+<li><code>the_category</code> (outputs the post categories) //目录</li>
+<li><code>the_author</code> (outputs the post author) //作者</li>
+<li><code>the_date</code> (outputs the post date) //日期</li>
+<li>other tags (there is a variety of other tags you can use in the loop) //标签</li>
+<li><code>endwhile; //结束循环</code></li>
+<li>Exit the loop //退出循环</li>
+</ul>
+<h2 id="WordPress的后台文件">WordPress的后台文件</h2>
+<p>为了让主题工作，WordPress还需要一些必要的后台文件。这些文件可以根据个人需求进行修改，它们能够从极大程度上改变网站的外观或提供更强大的功能。</p>
+<h3 id="comments-php">comments.php</h3>
+<p>这个文件控制评论的输出，如果您希望在博客上提供评论功能，要把它放到loop中去。Comment.php文件可以被插件覆盖（如Disqus）</p>
+<h3 id="functions-php">functions.php</h3>
+<p>Functions.php让我们在WordPress上运行自定义代码，以便更自由的修改主题元素。</p>
+<h3 id="style-css">style.css</h3>
+<p>这是控制主题样式的主要CSS文件。该文件顶部还包含主题的元信息，用于提供主题的名字，作者及相关链接</p>
+<h2 id="图文剖析">图文剖析</h2>
+<p>下面是原作者强大的原图</p>
+<div style="width: 580px" class="wp-caption aligncenter"><a href="http://cdn.yoast.com/wp-content/uploads/2011/01/anatomy-wordpress-yoast.png" target="_blank" rel="external"><img src="http://cdn.yoast.com/wp-content/uploads/2011/01/anatomy-wordpress-yoast.png" alt="深度剖析WordPress主题" title="深度剖析WordPress主题"></a><br><br>深度剖析WordPress主题<br></div>
+
+<p>&nbsp;</p>
+<div style="margin-top: 15px"><br><p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a><br><br><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2011/05/anatomy-wordpress-theme-structure/" target="_blank" rel="external">深度剖析WordPress主题结构</a><br><br></p></div><br><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/wordpress/">wordpress</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/wordpress/">wordpress</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://essay.igevin.info/2011/05/26/wordpress/深度剖析WordPress主题结构/" data-title="深度剖析WordPress主题结构 | Gevin&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2011/05/31/wordpress/十大负面工作情绪/" title="十大负面工作情绪">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  十大负面工作情绪</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2011/05/17/wordpress/学术搜索利器——微软学术搜索/"  title="学术搜索利器——微软学术搜索">
+ <strong>NEXT:</strong><br/> 
+ <span>学术搜索利器——微软学术搜索
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#网站外观"><span class="toc-number">1.</span> <span class="toc-text">网站外观</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#页面组成"><span class="toc-number">2.</span> <span class="toc-text">页面组成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#index-php_–_home"><span class="toc-number">2.1.</span> <span class="toc-text">index.php – home</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#single-php_–_individual_posts"><span class="toc-number">2.2.</span> <span class="toc-text">single.php – individual posts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#page-php_–_individual_pages"><span class="toc-number">2.3.</span> <span class="toc-text">page.php – individual pages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#archive-php,_category-php,_tag-php_–_archives"><span class="toc-number">2.4.</span> <span class="toc-text">archive.php, category.php, tag.php – archives</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The_Loop"><span class="toc-number">3.</span> <span class="toc-text">The Loop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WordPress的后台文件"><span class="toc-number">4.</span> <span class="toc-text">WordPress的后台文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#comments-php"><span class="toc-number">4.1.</span> <span class="toc-text">comments.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#functions-php"><span class="toc-number">4.2.</span> <span class="toc-text">functions.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#style-css"><span class="toc-number">4.3.</span> <span class="toc-text">style.css</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图文剖析"><span class="toc-number">5.</span> <span class="toc-text">图文剖析</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/github/" title="github">github<sup>3</sup></a></li>
+		
+			<li><a href="/categories/tech/" title="tech">tech<sup>2</sup></a></li>
+		
+			<li><a href="/categories/wordpress/" title="wordpress">wordpress<sup>50</sup></a></li>
+		
+			<li><a href="/categories/工具/" title="工具">工具<sup>1</sup></a></li>
+		
+			<li><a href="/categories/程序员/" title="程序员">程序员<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/C/" title="C#">C#<sup>2</sup></a></li>
+		
+			<li><a href="/tags/English/" title="English">English<sup>1</sup></a></li>
+		
+			<li><a href="/tags/GIS/" title="GIS">GIS<sup>10</sup></a></li>
+		
+			<li><a href="/tags/IT/" title="IT">IT<sup>1</sup></a></li>
+		
+			<li><a href="/tags/LBS/" title="LBS">LBS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
+		
+			<li><a href="/tags/SEO/" title="SEO">SEO<sup>1</sup></a></li>
+		
+			<li><a href="/tags/SNS/" title="SNS">SNS<sup>7</sup></a></li>
+		
+			<li><a href="/tags/app/" title="app">app<sup>5</sup></a></li>
+		
+			<li><a href="/tags/code/" title="code">code<sup>1</sup></a></li>
+		
+			<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		
+			<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+		
+			<li><a href="/tags/open-source/" title="open source">open source<sup>1</sup></a></li>
+		
+			<li><a href="/tags/tip/" title="tip">tip<sup>1</sup></a></li>
+		
+			<li><a href="/tags/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
+		
+			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>5</sup></a></li>
+		
+			<li><a href="/tags/互联网/" title="互联网">互联网<sup>16</sup></a></li>
+		
+			<li><a href="/tags/产品/" title="产品">产品<sup>1</sup></a></li>
+		
+			<li><a href="/tags/信息共享/" title="信息共享">信息共享<sup>1</sup></a></li>
+		
+			<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://essay.igevin.info" target="_blank" title="Gevin">Gevin</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"gevin-essay"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-20407143-4', 'essay.igevin.info');  
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,405 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>AE中修改图层颜色 | Gevin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Gevin">
+    
+    <meta name="description" content="转载请标明本文出处：Gevin的博客
+AE中修改图层颜色，可以简单按照下面思路实现：在TOCControl中的某一个图层上点击右键，在快捷菜单中选择更改颜色，然后弹出ColorDialog对话框，选中喜欢的颜色，点击确定，修改图层颜色成功。
+右键弹出菜单，弹出ColorDialog对话框都是C#的基">
+    
+    
+    
+    
+    <link rel="alternative" href="atom.xml" title="Gevin&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/gevin-pacman.svg" alt="Gevin&#39;s blog" title="Gevin&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Gevin&#39;s blog">Gevin&#39;s blog</a></h1>
+				<h2 class="blog-motto">技术生活都要折腾</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:essay.igevin.info">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2010/08/02/wordpress/ArcGIS-Engine-change-layer-color/" title="AE中修改图层颜色" itemprop="url">AE中修改图层颜色</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://essay.igevin.info" title="Gevin">Gevin</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2010-08-01T23:29:36.000Z" itemprop="datePublished">8月 2 2010</time>
+    Updated:<time datetime="2014-11-21T11:59:40.000Z" itemprop="dateModified">11月 21 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-_TOCControl中右键弹出菜单"><span class="toc-number">1.</span> <span class="toc-text">1. TOCControl中右键弹出菜单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-选择修改颜色，弹出ColorDialog对话框"><span class="toc-number">2.</span> <span class="toc-text">2.选择修改颜色，弹出ColorDialog对话框</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-修改颜色"><span class="toc-number">3.</span> <span class="toc-text">3.修改颜色</span></a></li></ol>
+		</div>
+		
+		<p>转载请标明<a href="http://blog.igevin.info/archives/142" target="_blank" rel="external">本文</a>出处：<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
+<p>AE中修改图层颜色，可以简单按照下面思路实现：在TOCControl中的某一个图层上点击右键，在快捷菜单中选择更改颜色，然后弹出ColorDialog对话框，选中喜欢的颜色，点击确定，修改图层颜色成功。</p>
+<p>右键弹出菜单，弹出ColorDialog对话框都是C#的基本操作，下面做简单介绍：</p>
+<p><span id="more-142"></span></p>
+<h3 id="1-_TOCControl中右键弹出菜单">1. TOCControl中右键弹出菜单</h3>
+<figure class="highlight CSharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">axTOCControl1_OnMouseDown</span>(<span class="keyword">object</span> sender, ITOCControlEvents_OnMouseDownEvent e)</div><div class="line">{</div><div class="line">esriTOCControlItem item = esriTOCControlItem.esriTOCControlItemNone;</div><div class="line">IBasicMap map = <span class="keyword">null</span>;</div><div class="line">ILayer layer = <span class="keyword">null</span>;</div><div class="line"><span class="keyword">object</span> other = <span class="keyword">null</span>;</div><div class="line"><span class="keyword">object</span> index = <span class="keyword">null</span>;</div><div class="line">axTOCControl1.HitTest(e.x, e.y, <span class="keyword">ref</span> item, <span class="keyword">ref</span> map, <span class="keyword">ref</span> layer, <span class="keyword">ref</span> other, <span class="keyword">ref</span> index);</div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; axMapControl1.LayerCount; i++)</div><div class="line">{</div><div class="line"><span class="keyword">if</span> (axMapControl1.get_Layer(i) == layer)</div><div class="line">{</div><div class="line">curLayerIndex = i;</div><div class="line">curLayer = layer;</div><div class="line"><span class="keyword">break</span>;</div><div class="line">}</div><div class="line">}</div><div class="line"><span class="keyword">if</span> (e.button == <span class="number">2</span>)</div><div class="line">{</div><div class="line"><span class="keyword">if</span>(item == esriTOCControlItem.esriTOCControlItemLayer)</div><div class="line">TOCContextMenuStrip.Show(axTOCControl1, e.x, e.y);</div><div class="line"><span class="keyword">else</span> <span class="keyword">if</span> (item == esriTOCControlItem.esriTOCControlItemLegendClass)</div><div class="line">{</div><div class="line">TOCContextMenuStrip2.Show(axTOCControl1, e.x, e.y);</div><div class="line">}</div><div class="line">}</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h3 id="2-选择修改颜色，弹出ColorDialog对话框">2.选择修改颜色，弹出ColorDialog对话框</h3>
+<figure class="highlight CSharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ChangeColorToolStripMenuItem_Click</span>(<span class="keyword">object</span> sender, EventArgs e)</div><div class="line">{</div><div class="line"><span class="keyword">if</span> (curLayer == <span class="keyword">null</span>)</div><div class="line"><span class="keyword">return</span>;</div><div class="line"><span class="keyword">if</span> (colorDialog1.ShowDialog() == DialogResult.OK)</div><div class="line">{</div><div class="line">Color SelectColor = colorDialog1.Color;</div><div class="line">ChangeLayerColor(curLayer, SelectColor);<span class="comment">//本文核心方法，下面介绍</span></div><div class="line">axMapControl1.ActiveView.Refresh();</div><div class="line">axTOCControl1.Update();</div><div class="line">}</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h3 id="3-修改颜色">3.修改颜色</h3>
+<p>这是<a href="http://blog.igevin.info/archives/142" target="_blank" rel="external">本文</a>的核心方法，修改颜色的本质是更改图层的Renderer。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> 更改图层颜色</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;/summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;param name="pLayer"&gt;要更改颜色的图层&lt;/param&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;param name="colorDialog1"&gt;颜色对话框&lt;/param&gt;</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ChangeLayerColor</span>(ILayer pLayer, Color selectColor)</div><div class="line">{</div><div class="line"><span class="keyword">if</span> (pLayer == <span class="keyword">null</span>)</div><div class="line"><span class="keyword">return</span>;</div><div class="line"></div><div class="line">IRgbColor pRgbColor = <span class="keyword">new</span> RgbColorClass();</div><div class="line">pRgbColor.Red = selectColor.R;</div><div class="line">pRgbColor.Green = selectColor.G;</div><div class="line">pRgbColor.Blue = selectColor.B;</div><div class="line"></div><div class="line">IFeatureLayer pFeatureLayer = pLayer <span class="keyword">as</span> IFeatureLayer;</div><div class="line">IFeatureClass pFeatureClass = pFeatureLayer.FeatureClass;</div><div class="line">ISimpleRenderer pSimpleRenderer = <span class="keyword">new</span> SimpleRendererClass();</div><div class="line"></div><div class="line"><span class="keyword">switch</span> (pFeatureClass.ShapeType)</div><div class="line">{</div><div class="line"><span class="keyword">case</span> esriGeometryType.esriGeometryPoint:</div><div class="line">ISimpleMarkerSymbol pSimpleMarkerSymbol = <span class="keyword">new</span> SimpleMarkerSymbolClass();</div><div class="line">pSimpleMarkerSymbol.Color = pRgbColor <span class="keyword">as</span> IColor;</div><div class="line">pSimpleMarkerSymbol.Size = <span class="number">4</span>;</div><div class="line">pSimpleRenderer.Symbol = pSimpleMarkerSymbol <span class="keyword">as</span> ISymbol;</div><div class="line"><span class="keyword">break</span>;</div><div class="line"><span class="keyword">case</span> esriGeometryType.esriGeometryPolyline:</div><div class="line">ISimpleLineSymbol pSimpleLineSymbol = <span class="keyword">new</span> SimpleLineSymbolClass();</div><div class="line">pSimpleLineSymbol.Color = pRgbColor <span class="keyword">as</span> IColor;</div><div class="line">pSimpleRenderer.Symbol = pSimpleLineSymbol <span class="keyword">as</span> ISymbol;</div><div class="line"><span class="keyword">break</span>;</div><div class="line"><span class="keyword">case</span> esriGeometryType.esriGeometryPolygon:</div><div class="line">ISimpleFillSymbol pSimpleFillSymbol = <span class="keyword">new</span> SimpleFillSymbolClass();</div><div class="line">pSimpleFillSymbol.Color = pRgbColor <span class="keyword">as</span> IColor;</div><div class="line">pSimpleRenderer.Symbol = pSimpleFillSymbol <span class="keyword">as</span> ISymbol;</div><div class="line"><span class="keyword">break</span>;</div><div class="line"><span class="keyword">default</span>:</div><div class="line"><span class="keyword">return</span>;</div><div class="line">}</div><div class="line">IGeoFeatureLayer pGeoFeaturelayer = pLayer <span class="keyword">as</span> IGeoFeatureLayer;</div><div class="line">pGeoFeaturelayer.Renderer = pSimpleRenderer <span class="keyword">as</span> IFeatureRenderer;</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>如转载本文，请表明出处</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/GIS/">GIS</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/wordpress/">wordpress</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://essay.igevin.info/2010/08/02/wordpress/ArcGIS-Engine-change-layer-color/" data-title="AE中修改图层颜色 | Gevin&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2010/08/06/wordpress/ArcGIS-Engine-add-field/" title="ArcGIS Engine中实现字段的添加">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  ArcGIS Engine中实现字段的添加</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2010/08/02/wordpress/ArcGIS-Engine-display-layer-property/"  title="ArcGIS Engine中实现图层属性数据的显示">
+ <strong>NEXT:</strong><br/> 
+ <span>ArcGIS Engine中实现图层属性数据的显示
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-_TOCControl中右键弹出菜单"><span class="toc-number">1.</span> <span class="toc-text">1. TOCControl中右键弹出菜单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-选择修改颜色，弹出ColorDialog对话框"><span class="toc-number">2.</span> <span class="toc-text">2.选择修改颜色，弹出ColorDialog对话框</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-修改颜色"><span class="toc-number">3.</span> <span class="toc-text">3.修改颜色</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/github/" title="github">github<sup>3</sup></a></li>
+		
+			<li><a href="/categories/tech/" title="tech">tech<sup>2</sup></a></li>
+		
+			<li><a href="/categories/wordpress/" title="wordpress">wordpress<sup>50</sup></a></li>
+		
+			<li><a href="/categories/工具/" title="工具">工具<sup>1</sup></a></li>
+		
+			<li><a href="/categories/程序员/" title="程序员">程序员<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/C/" title="C#">C#<sup>2</sup></a></li>
+		
+			<li><a href="/tags/English/" title="English">English<sup>1</sup></a></li>
+		
+			<li><a href="/tags/GIS/" title="GIS">GIS<sup>10</sup></a></li>
+		
+			<li><a href="/tags/IT/" title="IT">IT<sup>1</sup></a></li>
+		
+			<li><a href="/tags/LBS/" title="LBS">LBS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
+		
+			<li><a href="/tags/SEO/" title="SEO">SEO<sup>1</sup></a></li>
+		
+			<li><a href="/tags/SNS/" title="SNS">SNS<sup>7</sup></a></li>
+		
+			<li><a href="/tags/app/" title="app">app<sup>5</sup></a></li>
+		
+			<li><a href="/tags/code/" title="code">code<sup>1</sup></a></li>
+		
+			<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		
+			<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+		
+			<li><a href="/tags/open-source/" title="open source">open source<sup>1</sup></a></li>
+		
+			<li><a href="/tags/tip/" title="tip">tip<sup>1</sup></a></li>
+		
+			<li><a href="/tags/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
+		
+			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>5</sup></a></li>
+		
+			<li><a href="/tags/互联网/" title="互联网">互联网<sup>16</sup></a></li>
+		
+			<li><a href="/tags/产品/" title="产品">产品<sup>1</sup></a></li>
+		
+			<li><a href="/tags/信息共享/" title="信息共享">信息共享<sup>1</sup></a></li>
+		
+			<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://essay.igevin.info" target="_blank" title="Gevin">Gevin</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"gevin-essay"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-20407143-4', 'essay.igevin.info');  
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

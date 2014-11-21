@@ -1,0 +1,397 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>ArcGIS Engine空间分析简单实现 | Gevin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Gevin">
+    
+    <meta name="description" content="本文简单介绍一下ArcGIS Engine中空间分析实现。空间分析需要的接口是ITopologicalOperator接口，本文介绍一下缓冲区的生成以及多边形的合并。利用ArcGIS Engine进行空间分析是比较简单的，希望本文有抛砖引玉之效##### 一、缓冲区的生成缓冲区的生成是利用ITopo">
+    
+    
+    
+    
+    <link rel="alternative" href="atom.xml" title="Gevin&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/gevin-pacman.svg" alt="Gevin&#39;s blog" title="Gevin&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Gevin&#39;s blog">Gevin&#39;s blog</a></h1>
+				<h2 class="blog-motto">技术生活都要折腾</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:essay.igevin.info">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2010/11/21/wordpress/ArcGIS-Engine-spatial-analysis/" title="ArcGIS Engine空间分析简单实现" itemprop="url">ArcGIS Engine空间分析简单实现</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://essay.igevin.info" title="Gevin">Gevin</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2010-11-21T01:43:38.000Z" itemprop="datePublished">11月 21 2010</time>
+    Updated:<time datetime="2014-11-21T11:59:40.000Z" itemprop="dateModified">11月 21 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+		</div>
+		
+		<div><br><br><a href="http://blog.igevin.info/archives/587" target="_blank" rel="external"><img src="http://1hebha.bay.livefilestore.com/y1phIyIGWO2u8nGOxNeaijgMfWRetQJ1WYysAslX-vegPgzIozElvdaqvwDZSex8HarEeknRmsKdeEcNjhCW-IikGgZHuC93Iax/coding.jpg?psid=1" alt="coding" title="coding"></a><br><br><a href="http://blog.igevin.info/archives/587" target="_blank" rel="external">本文</a>简单介绍一下ArcGIS Engine中空间分析实现。空间分析需要的接口是ITopologicalOperator接口，本文介绍一下缓冲区的生成以及多边形的合并。利用ArcGIS Engine进行空间分析是比较简单的，希望本文有抛砖引玉之效<br><br>##### 一、缓冲区的生成<br><br>缓冲区的生成是利用ITopologicalOperator接口的Buffer方法实现，非常简单，所以这里直接贴代码啦！<br><br><div><br><pre><span id="more-587"></span><br><pre><br><pre><img src="http://www.cnblogs.com/Images/OutliningIndicators/ExpandedBlockStart.gif" alt="">/// &lt;summary&gt;<br>/// 为图形建立缓冲区<br>/// &lt;/summary&gt;<br>/// &lt;param name=”geometry”&gt;选中要素的Geometry&lt;/param&gt;<br>/// &lt;param name=”distance”&gt;设置缓冲区大小&lt;/param&gt;<br>/// &lt;returns&gt;创建好的缓冲区&lt;/returns&gt;<br><br>public static IGeometry CreateBuffer(IGeometry geometry, double distance)<br>{<br>ITopologicalOperator pTopologicalOperator = geometry as ITopologicalOperator;<br>IGeometry buffer = pTopologicalOperator.Buffer(distance);<br>return buffer;<br>}</pre><br></pre></pre></div>
+
+<p><strong>二、合并多边形</strong></p>
+<p>合并多边形使用ITopologicalOperator的Union方法，也非常简单，代码如下：</p>
+<div><br><pre><br><pre><img src="http://www.cnblogs.com/Images/OutliningIndicators/ExpandedBlockStart.gif" alt="">/// &lt;summary&gt;<br>/// 将两个Geometry对象合并为一个新的Geometry对象，其中GeometryA的值会被修改<br>/// &lt;/summary&gt;<br>/// &lt;param name=”GeometryA”&gt;要合并的一个Geometry&lt;/param&gt;<br>/// &lt;param name=”GeometryB”&gt;要合并的另一个Geometry&lt;/param&gt;<br>/// &lt;returns&gt;合并后的Geometry&lt;/returns&gt;<br>public static IGeometry UnionTwoGeometries(IGeometry GeometryA, IGeometry GeometryB)<br>{<br>ITopologicalOperator pTopologicalOperator = GeometryA as ITopologicalOperator;<br>IGeometry UnionGeometry = pTopologicalOperator.Union(GeometryB);<br>return UnionGeometry;<br>}</pre><br></pre></div><br><div>好，今天就介绍这么多了！</div>
+
+<p>本文链接 <a href="http://blog.igevin.info/archives/587" target="_blank" rel="external">http://blog.igevin.info/archives/587</a></p>
+<p></p></div><p></p>
+<div style="margin-top: 15px"><br><br><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a><br><br><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2010/11/arcgis-engine-spatial-analysis/" target="_blank" rel="external">ArcGIS Engine空间分析简单实现</a><br><br></div><br><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/GIS/">GIS</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/wordpress/">wordpress</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://essay.igevin.info/2010/11/21/wordpress/ArcGIS-Engine-spatial-analysis/" data-title="ArcGIS Engine空间分析简单实现 | Gevin&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2011/01/05/wordpress/完美解决301重定向的两种方法/" title="完美解决301重定向的两种方法">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  完美解决301重定向的两种方法</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2010/11/19/wordpress/从QQ与360之战谈起/"  title="从QQ与360之战谈起">
+ <strong>NEXT:</strong><br/> 
+ <span>从QQ与360之战谈起
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/github/" title="github">github<sup>3</sup></a></li>
+		
+			<li><a href="/categories/tech/" title="tech">tech<sup>2</sup></a></li>
+		
+			<li><a href="/categories/wordpress/" title="wordpress">wordpress<sup>50</sup></a></li>
+		
+			<li><a href="/categories/工具/" title="工具">工具<sup>1</sup></a></li>
+		
+			<li><a href="/categories/程序员/" title="程序员">程序员<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/C/" title="C#">C#<sup>2</sup></a></li>
+		
+			<li><a href="/tags/English/" title="English">English<sup>1</sup></a></li>
+		
+			<li><a href="/tags/GIS/" title="GIS">GIS<sup>10</sup></a></li>
+		
+			<li><a href="/tags/IT/" title="IT">IT<sup>1</sup></a></li>
+		
+			<li><a href="/tags/LBS/" title="LBS">LBS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
+		
+			<li><a href="/tags/SEO/" title="SEO">SEO<sup>1</sup></a></li>
+		
+			<li><a href="/tags/SNS/" title="SNS">SNS<sup>7</sup></a></li>
+		
+			<li><a href="/tags/app/" title="app">app<sup>5</sup></a></li>
+		
+			<li><a href="/tags/code/" title="code">code<sup>1</sup></a></li>
+		
+			<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		
+			<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+		
+			<li><a href="/tags/open-source/" title="open source">open source<sup>1</sup></a></li>
+		
+			<li><a href="/tags/tip/" title="tip">tip<sup>1</sup></a></li>
+		
+			<li><a href="/tags/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
+		
+			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>5</sup></a></li>
+		
+			<li><a href="/tags/互联网/" title="互联网">互联网<sup>16</sup></a></li>
+		
+			<li><a href="/tags/产品/" title="产品">产品<sup>1</sup></a></li>
+		
+			<li><a href="/tags/信息共享/" title="信息共享">信息共享<sup>1</sup></a></li>
+		
+			<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://essay.igevin.info" target="_blank" title="Gevin">Gevin</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"gevin-essay"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-20407143-4', 'essay.igevin.info');  
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

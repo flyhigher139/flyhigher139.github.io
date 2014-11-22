@@ -81,7 +81,7 @@
     </p>
   <p class="article-time">
     <time datetime="2011-03-06T13:36:29.000Z" itemprop="datePublished">3月 6 2011</time>
-    Updated:<time datetime="2014-11-21T11:59:40.000Z" itemprop="dateModified">11月 21 2014</time>
+    Updated:<time datetime="2014-11-22T04:41:12.000Z" itemprop="dateModified">11月 22 2014</time>
     
   </p>
 </header>
@@ -90,30 +90,18 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、Point的创建"><span class="toc-number">1.</span> <span class="toc-text">一、Point的创建</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="##"><span class="toc-number"></span> <span class="toc-text">#</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#三、Polygon的创建"><span class="toc-number">1.</span> <span class="toc-text">三、Polygon的创建</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、Point的创建"><span class="toc-number">1.</span> <span class="toc-text">一、Point的创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、Polyline的创建"><span class="toc-number">2.</span> <span class="toc-text">二、Polyline的创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、Polygon的创建"><span class="toc-number">3.</span> <span class="toc-text">三、Polygon的创建</span></a></li></ol>
 		</div>
 		
 		<div style="width: 490px" class="wp-caption aligncenter"><a href="http://blog.igevin.info/archives/1091" target="_blank" rel="external"><img src="http://public.bay.livefilestore.com/y1pZCELUZVP_MdJXeZ0ytVGxdXc7lnCkPI7fyEcxBM9Y66_0BWCiGf_O-vy1yG6AkE9LJVCso9EnIUXlgphI0-nBg/coding.jpg?psid=1" alt="编程" title="编程"></a><br><br>GIS二次开发<br></div>
 
 <p>最近Gevin事情比较多，每天都要花大部分时间写程序，所以Web2.0系列的文章只能暂停更新一段时间了。</p>
 <p>今天Gevin和大家分享的是GIS二次开发中Point、Polyline和Polygon的创建方法。本文介绍的方法使用C#和ArcGIS Engine进行开发。</p>
-<h2 id="一、Point的创建"><span id="more-1091"></span>一、Point的创建</h2>
+<h2 id="一、Point的创建">一、Point的创建</h2>
 <p>Point：是一个０维的几何图形，具有X,Y坐标值，以及一些可选的属性：如高程值(Z值)，度量值(M值) 和ID号，点对象用于描述精确定位的对象。AE的IPoint接口提供<span style="color: #008000;"><strong>PutCoords()</strong></span>方法实现Point的创建。参考代码如下：</p>
-<h1 id="#">#</h1>
-<pre class="brush:csharp">        /// &lt;summary&gt;
-/// 根据点的坐标创建点要素
-/// &lt;/summary&gt;
-/// &lt;param name="x"&gt;x坐标&lt;/param&gt;
-/// &lt;param name="y"&gt;y坐标&lt;/param&gt;
-/// &lt;returns&gt;创建的点&lt;/returns&gt;
-public IPoint CreatePoint(double x, double y)
-{
-IPoint pPoint = new PointClass();
-pPoint.PutCoords(x, y);
-return pPoint;
-}</pre>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> 根据点的坐标创建点要素</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;/summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;param name="x"&gt;x坐标&lt;/param&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;param name="y"&gt;y坐标&lt;/param&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;returns&gt;创建的点&lt;/returns&gt;</span></div><div class="line"><span class="keyword">public</span> IPoint <span class="title">CreatePoint</span>(<span class="keyword">double</span> x, <span class="keyword">double</span> y)</div><div class="line">{</div><div class="line">    IPoint pPoint = <span class="keyword">new</span> PointClass();</div><div class="line">    pPoint.PutCoords(x, y);</div><div class="line">    <span class="keyword">return</span> pPoint;</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p>二、Polyline的创建</p>
+<h2 id="二、Polyline的创建">二、Polyline的创建</h2>
 <p></p><p>Polyline对象是由一个或多个相连或者不相连的path对象的有序集合，它可以是单个Path对象组成，也可以是多个相连的Path对象组成，或者是多个分离的Path组成，如下图所示:</p>
 <div style="width: 464px" class="wp-caption aligncenter"><a href="http://1hebha.bay.livefilestore.com/y1pTtRmrzYe0RoVU4z73WD6t6aNxM29WE5awt3ZfEQAbQ8exAvL5C2CyIkmK6Gvw38wFEpaWgwXaS30cxqFgw91BGah4GYyMQ2h/polygline.JPG?psid=1" target="_blank" rel="external"><img src="http://1hebha.bay.livefilestore.com/y1pTtRmrzYe0RoVU4z73WD6t6aNxM29WE5awt3ZfEQAbQ8exAvL5C2CyIkmK6Gvw38wFEpaWgwXaS30cxqFgw91BGah4GYyMQ2h/polygline.JPG?psid=1" alt="Polyline" title="点击查看原图连接"></a><br><br>看图理解Polyline<br></div>
 
@@ -128,42 +116,7 @@ return pPoint;
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><span style="color: #008000;"><strong>OK，上述内容理解了，我们才能够正确创建Polyline。Gevin提供一个只有一个Path的Polyline的创建方法。</strong></span></p>
-<p>&nbsp;</p>
-<pre class="brush:csharp">        /// &lt;summary&gt;
-/// 创建直线line
-/// &lt;/summary&gt;
-/// &lt;param name="from"&gt;&lt;/param&gt;
-/// &lt;param name="to"&gt;&lt;/param&gt;
-/// &lt;returns&gt;&lt;/returns&gt;
-public static ILine CreateLine(IPoint from, IPoint to)
-{
-ILine pLine = new LineClass();
-pLine.PutCoords(from, to);
-return pLine;
-}
-
-/// &lt;summary&gt;
-/// 创建只有一个Path的Polyline
-/// &lt;/summary&gt;
-/// &lt;param name="PolylineList"&gt;&lt;/param&gt;
-/// &lt;returns&gt;&lt;/returns&gt;
-public static IPolyline CreatePolyline(List&lt;IPoint&gt; PolylineList)
-{
-ISegment pSegment;
-ILine pLine;
-object o = Type.Missing;
-ISegmentCollection pPath = new PathClass();
-for (int i = 0; i &lt; PolylineList.Count-1; i++)
-{
-pLine = CreateLine(PolylineList[i], PolylineList[i + 1]);
-pSegment = pLine as ISegment;
-pPath.AddSegment(pSegment, ref o, ref o);
-
-}
-IGeometryCollection pPolyline = new PolylineClass();
-pPolyline.AddGeometry(pPath as IGeometry, ref o, ref o);
-return pPolyline as IPolyline;
-}</pre>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> 创建直线line</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;/summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;param name="from"&gt;&lt;/param&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;param name="to"&gt;&lt;/param&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;returns&gt;&lt;/returns&gt;</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> ILine <span class="title">CreateLine</span>(IPoint <span class="keyword">from</span>, IPoint to)</div><div class="line">{</div><div class="line">    ILine pLine = <span class="keyword">new</span> LineClass();</div><div class="line">    pLine.PutCoords(<span class="keyword">from</span>, to);</div><div class="line">    <span class="keyword">return</span> pLine;</div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> 创建只有一个Path的Polyline</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;/summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;param name="PolylineList"&gt;&lt;/param&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;returns&gt;&lt;/returns&gt;</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> IPolyline <span class="title">CreatePolyline</span>(List&lt;IPoint&gt; PolylineList)</div><div class="line">{</div><div class="line">    ISegment pSegment;</div><div class="line">    ILine pLine;</div><div class="line">    <span class="keyword">object</span> o = Type.Missing;</div><div class="line">    ISegmentCollection pPath = <span class="keyword">new</span> PathClass();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; PolylineList.Count-<span class="number">1</span>; i++)</div><div class="line">    {</div><div class="line">        pLine = CreateLine(PolylineList[i], PolylineList[i + <span class="number">1</span>]);</div><div class="line">        pSegment = pLine <span class="keyword">as</span> ISegment;</div><div class="line">        pPath.AddSegment(pSegment, <span class="keyword">ref</span> o, <span class="keyword">ref</span> o);</div><div class="line"></div><div class="line">    }</div><div class="line">    IGeometryCollection pPolyline = <span class="keyword">new</span> PolylineClass();</div><div class="line">    pPolyline.AddGeometry(pPath <span class="keyword">as</span> IGeometry, <span class="keyword">ref</span> o, <span class="keyword">ref</span> o);</div><div class="line">    <span class="keyword">return</span> pPolyline <span class="keyword">as</span> IPolyline;</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <h2 id="三、Polygon的创建">三、Polygon的创建</h2>
 <p>Polygon的创建也要基于对Polygon的理解，这点可以类比Polyline。所以，Gevin不再介绍Polygon，也不再提供源码，感兴趣的童鞋自己写吧，应该没有问题了，或者即使有问题，也一定能够凭借自己的能力解决问题。</p>
@@ -172,7 +125,7 @@ return pPolyline as IPolyline;
 <p>2. 本文的理论参考见这个连接：<a href="http://bbs.esrichina-bj.cn/ESRI/thread-46367-1-1.html" target="_blank" rel="external">ArcGIS Engine基础开发教程(2)——学习几何对象与空间参考</a></p>
 <p>3. 编程心得，欢迎大家与Gevin交流</p>
 <p>如转载本文，请表明出处！</p>
-<div style="margin-top: 15px"><br><p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a><br><br><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2011/03/arcgis-engine-how-to-create-point-polyline-polygon/" target="_blank" rel="external">ArcGIS Engine中Point、Polyline和Polygon的创建</a><br><br></p></div><br><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div>
+<p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -230,7 +183,7 @@ return pPolyline as IPolyline;
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、Point的创建"><span class="toc-number">1.</span> <span class="toc-text">一、Point的创建</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="##"><span class="toc-number"></span> <span class="toc-text">#</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#三、Polygon的创建"><span class="toc-number">1.</span> <span class="toc-text">三、Polygon的创建</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、Point的创建"><span class="toc-number">1.</span> <span class="toc-text">一、Point的创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、Polyline的创建"><span class="toc-number">2.</span> <span class="toc-text">二、Polyline的创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、Polygon的创建"><span class="toc-number">3.</span> <span class="toc-text">三、Polygon的创建</span></a></li></ol>
   </div>
 
 <div id="asidepart">
@@ -267,8 +220,6 @@ return pPolyline as IPolyline;
 		
 			<li><a href="/tags/GIS/" title="GIS">GIS<sup>10</sup></a></li>
 		
-			<li><a href="/tags/IT/" title="IT">IT<sup>1</sup></a></li>
-		
 			<li><a href="/tags/LBS/" title="LBS">LBS<sup>2</sup></a></li>
 		
 			<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
@@ -291,15 +242,17 @@ return pPolyline as IPolyline;
 		
 			<li><a href="/tags/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
 		
-			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>5</sup></a></li>
+			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>4</sup></a></li>
 		
 			<li><a href="/tags/互联网/" title="互联网">互联网<sup>16</sup></a></li>
 		
 			<li><a href="/tags/产品/" title="产品">产品<sup>1</sup></a></li>
 		
-			<li><a href="/tags/信息共享/" title="信息共享">信息共享<sup>1</sup></a></li>
-		
 			<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+		
+			<li><a href="/tags/微信/" title="微信">微信<sup>8</sup></a></li>
+		
+			<li><a href="/tags/技巧/" title="技巧">技巧<sup>1</sup></a></li>
 		
 		</ul>
 </div>

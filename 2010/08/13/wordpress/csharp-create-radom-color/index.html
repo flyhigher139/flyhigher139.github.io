@@ -81,7 +81,7 @@ C#生成随机颜色，就是一个思路的问题，本文介绍一种思路，
     </p>
   <p class="article-time">
     <time datetime="2010-08-13T00:19:28.000Z" itemprop="datePublished">8月 13 2010</time>
-    Updated:<time datetime="2014-11-21T11:59:40.000Z" itemprop="dateModified">11月 21 2014</time>
+    Updated:<time datetime="2014-11-22T04:41:12.000Z" itemprop="dateModified">11月 22 2014</time>
     
   </p>
 </header>
@@ -97,7 +97,7 @@ C#生成随机颜色，就是一个思路的问题，本文介绍一种思路，
 <p>C#生成随机颜色，就是一个思路的问题，<a href="http://igevin.info/blog/archives/230" title="C#生成随机颜色" target="_blank" rel="external">本文</a>介绍一种思路，抛砖引玉了。</p>
 <p>生成<a href="http://baike.baidu.com/view/17423.htm" target="_blank" rel="external">RGB</a>颜色，其实就是生产3个0～255范围内的随机数，分别代表R,G,和B</p>
 <p>生成随机数每种编程语言都会有的，<a href="http://blog.igevin.info/archives/230" title="C#生成随机颜色" target="_blank" rel="external">本文</a>就不详细介绍了，下面提供一个生成随机深颜色的方法代码：<span id="more-230"></span></p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> 生成随机的尽量深的颜色</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;/summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;returns&gt;&lt;/returns&gt;</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> IRgbColor <span class="title">GetRandomDarkColor</span>()</div><div class="line">{</div><div class="line">Random RandomNum_First = <span class="keyword">new</span> Random((<span class="keyword">int</span>)DateTime.Now.Ticks);</div><div class="line">System.Threading.Thread.Sleep(RandomNum_First.Next(<span class="number">50</span>));</div><div class="line"></div><div class="line">Random RandomNum_Sencond = <span class="keyword">new</span> Random((<span class="keyword">int</span>)DateTime.Now.Ticks);</div><div class="line">System.Threading.Thread.Sleep(RandomNum_Sencond.Next(<span class="number">50</span>));</div><div class="line"></div><div class="line">Random RandomNum_Third = <span class="keyword">new</span> Random((<span class="keyword">int</span>)DateTime.Now.Ticks);</div><div class="line">System.Threading.Thread.Sleep(RandomNum_Third.Next(<span class="number">50</span>));</div><div class="line"></div><div class="line"><span class="comment">//  为了在白色背景上显示，尽量生成深色</span></div><div class="line"><span class="keyword">int</span> int_Red = RandomNum_First.Next(<span class="number">256</span>);</div><div class="line"><span class="keyword">int</span> int_Green = RandomNum_Sencond.Next(<span class="number">256</span>);</div><div class="line"><span class="keyword">int</span> int_Blue = (int_Red + int_Green &gt; <span class="number">400</span>) ?</div><div class="line"><span class="number">512</span> - int_Red - int_Green : int_Red + int_Green;</div><div class="line">int_Blue = (int_Blue &gt; <span class="number">255</span>) ? <span class="number">255</span> : int_Blue;</div><div class="line"></div><div class="line">IRgbColor pRgbColor = <span class="keyword">new</span> RgbColorClass();</div><div class="line">pRgbColor.Red = int_Red;</div><div class="line">pRgbColor.Green = int_Green;</div><div class="line">pRgbColor.Blue = int_Blue;</div><div class="line"></div><div class="line"><span class="keyword">return</span> pRgbColor;</div><div class="line">}</div></pre></td></tr></table></figure>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> 生成随机的尽量深的颜色</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;/summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;returns&gt;&lt;/returns&gt;</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> IRgbColor <span class="title">GetRandomDarkColor</span>()</div><div class="line">{</div><div class="line">    Random RandomNum_First = <span class="keyword">new</span> Random((<span class="keyword">int</span>)DateTime.Now.Ticks);</div><div class="line">    System.Threading.Thread.Sleep(RandomNum_First.Next(<span class="number">50</span>));</div><div class="line"></div><div class="line">    Random RandomNum_Sencond = <span class="keyword">new</span> Random((<span class="keyword">int</span>)DateTime.Now.Ticks);</div><div class="line">    System.Threading.Thread.Sleep(RandomNum_Sencond.Next(<span class="number">50</span>));</div><div class="line"></div><div class="line">    Random RandomNum_Third = <span class="keyword">new</span> Random((<span class="keyword">int</span>)DateTime.Now.Ticks);</div><div class="line">    System.Threading.Thread.Sleep(RandomNum_Third.Next(<span class="number">50</span>));</div><div class="line"></div><div class="line">    <span class="comment">//  为了在白色背景上显示，尽量生成深色</span></div><div class="line">    <span class="keyword">int</span> int_Red = RandomNum_First.Next(<span class="number">256</span>);</div><div class="line">    <span class="keyword">int</span> int_Green = RandomNum_Sencond.Next(<span class="number">256</span>);</div><div class="line">    <span class="keyword">int</span> int_Blue = (int_Red + int_Green &gt; <span class="number">400</span>) ?</div><div class="line">    <span class="number">512</span> - int_Red - int_Green : int_Red + int_Green;</div><div class="line">    int_Blue = (int_Blue &gt; <span class="number">255</span>) ? <span class="number">255</span> : int_Blue;</div><div class="line"></div><div class="line">    IRgbColor pRgbColor = <span class="keyword">new</span> RgbColorClass();</div><div class="line">    pRgbColor.Red = int_Red;</div><div class="line">    pRgbColor.Green = int_Green;</div><div class="line">    pRgbColor.Blue = int_Blue;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> pRgbColor;</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <p><a href="http://blog.igevin.info/archives/230" title="C#生成随机颜色" target="_blank" rel="external">本文</a>只提供一个思路，由于我对颜色这一方面不是很敏感，可能配的颜色不太美观，欢迎大家多提意见！</p>
 <p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
@@ -195,8 +195,6 @@ C#生成随机颜色，就是一个思路的问题，本文介绍一种思路，
 		
 			<li><a href="/tags/GIS/" title="GIS">GIS<sup>10</sup></a></li>
 		
-			<li><a href="/tags/IT/" title="IT">IT<sup>1</sup></a></li>
-		
 			<li><a href="/tags/LBS/" title="LBS">LBS<sup>2</sup></a></li>
 		
 			<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
@@ -219,15 +217,17 @@ C#生成随机颜色，就是一个思路的问题，本文介绍一种思路，
 		
 			<li><a href="/tags/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
 		
-			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>5</sup></a></li>
+			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>4</sup></a></li>
 		
 			<li><a href="/tags/互联网/" title="互联网">互联网<sup>16</sup></a></li>
 		
 			<li><a href="/tags/产品/" title="产品">产品<sup>1</sup></a></li>
 		
-			<li><a href="/tags/信息共享/" title="信息共享">信息共享<sup>1</sup></a></li>
-		
 			<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+		
+			<li><a href="/tags/微信/" title="微信">微信<sup>8</sup></a></li>
+		
+			<li><a href="/tags/技巧/" title="技巧">技巧<sup>1</sup></a></li>
 		
 		</ul>
 </div>

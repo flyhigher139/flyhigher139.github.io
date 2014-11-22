@@ -81,7 +81,7 @@ public static DataTable ShowIFeatureLayer(IFe">
     </p>
   <p class="article-time">
     <time datetime="2010-08-01T21:36:18.000Z" itemprop="datePublished">8月 2 2010</time>
-    Updated:<time datetime="2014-11-21T11:59:40.000Z" itemprop="dateModified">11月 21 2014</time>
+    Updated:<time datetime="2014-11-22T04:41:12.000Z" itemprop="dateModified">11月 22 2014</time>
     
   </p>
 </header>
@@ -106,120 +106,21 @@ public static DataTable ShowIFeatureLayer(IFe">
 <p>下面将分别介绍这三个方法。<span id="more-133"></span></p>
 <h2 id="1、将属性数据存入DataTable中">1、将属性数据存入DataTable中</h2>
 <p>代码如下：</p>
-<pre>        /// ‹summary&gt;
-/// 显示属性表
-/// ‹/summary&gt;
-/// ‹param name="pLayer"&gt;选中的图层‹/param&gt;
-/// ‹returns&gt;‹/returns&gt;
-public static DataTable ShowPropertyTable(ILayer pLayer)
-{
-DataTable propertyTable = null;
-if (pLayer is IFeatureLayer)
-propertyTable = ShowIFeatureLayer((IFeatureLayer)pLayer);
-else
-{
-if (pLayer is IRasterLayer)
-propertyTable = ShowIRasterLayer((IRasterLayer)pLayer);
-}
-return propertyTable;
-}</pre>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment"><span class="xmlDocTag">///</span> ‹summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> 显示属性表</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> ‹/summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> ‹param name="pLayer"&gt;选中的图层‹/param&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> ‹returns&gt;‹/returns&gt;</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> DataTable <span class="title">ShowPropertyTable</span>(ILayer pLayer)</div><div class="line">{</div><div class="line">    DataTable propertyTable = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">if</span> (pLayer <span class="keyword">is</span> IFeatureLayer)</div><div class="line">        propertyTable = ShowIFeatureLayer((IFeatureLayer)pLayer);</div><div class="line">    <span class="keyword">else</span></div><div class="line">    {</div><div class="line">        <span class="keyword">if</span> (pLayer <span class="keyword">is</span> IRasterLayer)</div><div class="line">            propertyTable = ShowIRasterLayer((IRasterLayer)pLayer);</div><div class="line">    }</div><div class="line">    <span class="keyword">return</span> propertyTable;</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <h2 id="2、将矢量数据的属性信息存入DataTable中">2、将矢量数据的属性信息存入DataTable中</h2>
 <p>代码如下：</p>
-<pre>        /// ‹summary&gt;
-/// 显示FeatureLayer属性表
-/// ‹/summary&gt;
-/// ‹param name="pLayer"&gt;选中的图层‹/param&gt;
-/// ‹returns&gt;‹/returns&gt;
-public static DataTable ShowIFeatureLayer(IFeatureLayer pLayer)
-{
-DataTable propertyTable = new DataTable("Feature Layer Property");
-IFeatureClass pFeatureClass = pLayer.FeatureClass;
-
-string shape = string.Empty;
-switch (pFeatureClass.ShapeType)
-{
-case esriGeometryType.esriGeometryPoint: shape = "Point";
-break;
-case esriGeometryType.esriGeometryPolyline: shape = "Polyline";
-break;
-case esriGeometryType.esriGeometryPolygon: shape = "Polygon";
-break;
-}
-
-for (int i = 0; i &lt; pFeatureClass.Fields.FieldCount; i++)
-{
-DataColumn tempColumn = new DataColumn(pFeatureClass.Fields.get_Field(i).Name);
-propertyTable.Columns.Add(tempColumn);
-}
-
-IFeatureCursor pCursor = pFeatureClass.Search(null, false);
-IFeature pFeature = pCursor.NextFeature();
-int shapeIndex = pFeature.Fields.FindField("shape");
-while (pFeature != null)
-{
-DataRow tempRow = propertyTable.NewRow();
-for (int i = 0; i &lt; pFeature.Fields.FieldCount; i++)
-{
-if (i == shapeIndex)
-tempRow[i] = shape;
-else
-{
-tempRow[i] = pFeature.get_Value(i);
-}
-}
-propertyTable.Rows.Add(tempRow);
-pFeature = pCursor.NextFeature();
-}
-
-return propertyTable;
-}</pre>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="comment"><span class="xmlDocTag">///</span> ‹summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> 显示FeatureLayer属性表</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> ‹/summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> ‹param name="pLayer"&gt;选中的图层‹/param&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> ‹returns&gt;‹/returns&gt;</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> DataTable <span class="title">ShowIFeatureLayer</span>(IFeatureLayer pLayer)</div><div class="line">{</div><div class="line">    DataTable propertyTable = <span class="keyword">new</span> DataTable(<span class="string">"Feature Layer Property"</span>);</div><div class="line">    IFeatureClass pFeatureClass = pLayer.FeatureClass;</div><div class="line"></div><div class="line">    <span class="keyword">string</span> shape = <span class="keyword">string</span>.Empty;</div><div class="line">    <span class="keyword">switch</span> (pFeatureClass.ShapeType)</div><div class="line">    {</div><div class="line">        <span class="keyword">case</span> esriGeometryType.esriGeometryPoint: shape = <span class="string">"Point"</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> esriGeometryType.esriGeometryPolyline: shape = <span class="string">"Polyline"</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> esriGeometryType.esriGeometryPolygon: shape = <span class="string">"Polygon"</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pFeatureClass.Fields.FieldCount; i++)</div><div class="line">    {</div><div class="line">        DataColumn tempColumn = <span class="keyword">new</span> DataColumn(pFeatureClass.Fields.get_Field(i).Name);</div><div class="line">        propertyTable.Columns.Add(tempColumn);</div><div class="line">    }</div><div class="line"></div><div class="line">    IFeatureCursor pCursor = pFeatureClass.Search(<span class="keyword">null</span>, <span class="keyword">false</span>);</div><div class="line">    IFeature pFeature = pCursor.NextFeature();</div><div class="line">    <span class="keyword">int</span> shapeIndex = pFeature.Fields.FindField(<span class="string">"shape"</span>);</div><div class="line">    <span class="keyword">while</span> (pFeature != <span class="keyword">null</span>)</div><div class="line">    {</div><div class="line">        DataRow tempRow = propertyTable.NewRow();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pFeature.Fields.FieldCount; i++)</div><div class="line">        {</div><div class="line">            <span class="keyword">if</span> (i == shapeIndex)</div><div class="line">                tempRow[i] = shape;</div><div class="line">            <span class="keyword">else</span></div><div class="line">            {</div><div class="line">                tempRow[i] = pFeature.get_Value(i);</div><div class="line">            }</div><div class="line">        }</div><div class="line">        propertyTable.Rows.Add(tempRow);</div><div class="line">        pFeature = pCursor.NextFeature();</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">return</span> propertyTable;</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <h2 id="3、将栅格数据的属性信息存入DataTable中">3、将栅格数据的属性信息存入DataTable中</h2>
 <p>代码如下：</p>
-<pre>        /// ‹summary&gt;
-/// 显示栅格图层属性表
-/// ‹/summary&gt;
-/// ‹param name="pLayer"&gt;选中的图层‹/param&gt;
-/// ‹returns&gt;‹/returns&gt;
-public static DataTable ShowIRasterLayer(IRasterLayer pLayer)
-{
-IRaster pRaster = pLayer.Raster;
-IRasterProps pRasterProps = pRaster as IRasterProps;
-pRasterProps.PixelType = rstPixelType.PT_LONG;
-if (pRasterProps.PixelType == rstPixelType.PT_LONG)
-{
-IRasterBandCollection pRBCollection = pRaster as IRasterBandCollection;
-IRasterBand pRasterBand = pRBCollection.Item(0);
-ITable pRTable = pRasterBand.AttributeTable;
-DataTable propertyTable = new DataTable("Raster Layer Property");
-for (int i = 0; i &lt; pRTable.Fields.FieldCount; i++)
-{
-DataColumn tempColumn = new DataColumn(pRTable.Fields.get_Field(i).Name);
-propertyTable.Columns.Add(tempColumn);
-}
-ICursor pCursor = pRTable.Search(null, false);
-IRow pRow = pCursor.NextRow();
-while (pRow != null)
-{
-DataRow tempRow = propertyTable.NewRow();
-for (int i = 0; i &lt; pRow.Fields.FieldCount; i++)
-tempRow[i] = pRow.get_Value(i).ToString();
-propertyTable.Rows.Add(tempRow);
-pRow = pCursor.NextRow();
-}
-
-return propertyTable;
-}
-return null;
-}</pre>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment"><span class="xmlDocTag">///</span> ‹summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> 显示栅格图层属性表</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> ‹/summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> ‹param name="pLayer"&gt;选中的图层‹/param&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> ‹returns&gt;‹/returns&gt;</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> DataTable <span class="title">ShowIRasterLayer</span>(IRasterLayer pLayer)</div><div class="line">{</div><div class="line">    IRaster pRaster = pLayer.Raster;</div><div class="line">    IRasterProps pRasterProps = pRaster <span class="keyword">as</span> IRasterProps;</div><div class="line">    pRasterProps.PixelType = rstPixelType.PT_LONG;</div><div class="line">    <span class="keyword">if</span> (pRasterProps.PixelType == rstPixelType.PT_LONG)</div><div class="line">    {</div><div class="line">        IRasterBandCollection pRBCollection = pRaster <span class="keyword">as</span> IRasterBandCollection;</div><div class="line">        IRasterBand pRasterBand = pRBCollection.Item(<span class="number">0</span>);</div><div class="line">        ITable pRTable = pRasterBand.AttributeTable;</div><div class="line">        DataTable propertyTable = <span class="keyword">new</span> DataTable(<span class="string">"Raster Layer Property"</span>);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pRTable.Fields.FieldCount; i++)</div><div class="line">        {</div><div class="line">            DataColumn tempColumn = <span class="keyword">new</span> DataColumn(pRTable.Fields.get_Field(i).Name);</div><div class="line">            propertyTable.Columns.Add(tempColumn);</div><div class="line">        }</div><div class="line">        ICursor pCursor = pRTable.Search(<span class="keyword">null</span>, <span class="keyword">false</span>);</div><div class="line">        IRow pRow = pCursor.NextRow();</div><div class="line">        <span class="keyword">while</span> (pRow != <span class="keyword">null</span>)</div><div class="line">        {</div><div class="line">            DataRow tempRow = propertyTable.NewRow();</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pRow.Fields.FieldCount; i++)</div><div class="line">                tempRow[i] = pRow.get_Value(i).ToString();</div><div class="line">            propertyTable.Rows.Add(tempRow);</div><div class="line">            pRow = pCursor.NextRow();</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keyword">return</span> propertyTable;</div><div class="line">    }</div><div class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <h2 id="4、显示属性数据">4、显示属性数据</h2>
 <p>本不打算写这一步的，太简单了，但为了与标题呼应，还是简单说一下吧。</p>
 <p>通过上面的方法，我们把属性数据存入DataTable中，假设这个DataTable为TempDataTable，要显示数据，需要加一个控件DataGridView，定义变量名为TempDataGridView，然后写这句话：empDataGridView.DataSource = TempDataTable;</p>
 <p>这样就OK了！</p>
-<p>本文地址：<a href="http://blog.igevin.info/archives/133" target="_blank" rel="external">ArcGIS Engine中实现图层属性数据的显示</a> <a href="http://blog.igevin.info/archives/133" target="_blank" rel="external">http://blog.igevin.info/archives/133</a></p>
-<div style="margin-top: 15px"><br><p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a><br><br><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2010/08/arcgis-engine-show-attributes/" target="_blank" rel="external">ArcGIS Engine中实现图层属性数据的显示</a><br><br></p></div><br><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div>
+<p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -314,8 +215,6 @@ return null;
 		
 			<li><a href="/tags/GIS/" title="GIS">GIS<sup>10</sup></a></li>
 		
-			<li><a href="/tags/IT/" title="IT">IT<sup>1</sup></a></li>
-		
 			<li><a href="/tags/LBS/" title="LBS">LBS<sup>2</sup></a></li>
 		
 			<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
@@ -338,15 +237,17 @@ return null;
 		
 			<li><a href="/tags/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
 		
-			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>5</sup></a></li>
+			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>4</sup></a></li>
 		
 			<li><a href="/tags/互联网/" title="互联网">互联网<sup>16</sup></a></li>
 		
 			<li><a href="/tags/产品/" title="产品">产品<sup>1</sup></a></li>
 		
-			<li><a href="/tags/信息共享/" title="信息共享">信息共享<sup>1</sup></a></li>
-		
 			<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+		
+			<li><a href="/tags/微信/" title="微信">微信<sup>8</sup></a></li>
+		
+			<li><a href="/tags/技巧/" title="技巧">技巧<sup>1</sup></a></li>
 		
 		</ul>
 </div>

@@ -13,7 +13,7 @@
 ArcGIS Engine中添加字段比较简单，用接口IFieldsEdit接口和IFieldEdit接口。
 添加字段代码实现比较简单，如果上面这两个两个接口不熟悉，查一下AE的帮助文档即可。
 下面介绍一个简单的例子：
-/// &amp;lt;summary&amp;gt;//">
+123456789101112131415">
     
     
     
@@ -81,7 +81,7 @@ ArcGIS Engine中添加字段比较简单，用接口IFieldsEdit接口和IFieldEd
     </p>
   <p class="article-time">
     <time datetime="2010-08-05T20:03:24.000Z" itemprop="datePublished">8月 6 2010</time>
-    Updated:<time datetime="2014-11-21T11:59:40.000Z" itemprop="dateModified">11月 21 2014</time>
+    Updated:<time datetime="2014-11-22T04:41:12.000Z" itemprop="dateModified">11月 22 2014</time>
     
   </p>
 </header>
@@ -97,9 +97,8 @@ ArcGIS Engine中添加字段比较简单，用接口IFieldsEdit接口和IFieldEd
 <p>ArcGIS Engine中添加字段比较简单，用接口IFieldsEdit接口和IFieldEdit接口。</p>
 <p>添加字段代码实现比较简单，如果上面这两个两个接口不熟悉，查一下AE的帮助文档即可。</p>
 <p>下面介绍一个简单的例子：</p>
-<p>/// &lt;summary&gt;<br>/// 添加字段<br>/// &lt;/summary&gt;<br>/// &lt;param name=”pFeatureClass”&gt;需要添加字段的FeatureClass&lt;/param&gt;<br>/// &lt;param name=”fieldName”&gt;添加的字段的名称&lt;/param&gt;<br>public void AddField(IFeatureClass pFeatureClass, string fieldName)<br>{<br>IFields pFields = pFeatureClass.Fields;<br>IFieldsEdit pFieldsEdit = pFields as IFieldsEdit;<br>IFieldEdit pFieldEdit;</p>
-<p>pFieldEdit = new FieldClass();<br>pFieldEdit.Name_2 = fieldName;<br>pFieldEdit.Type_2 = esriFieldType.esriFieldTypeString;<br>pFieldsEdit.AddField((IField)pFieldEdit);</p>
-<p>}</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> 添加字段</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;/summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;param name="pFeatureClass"&gt;需要添加字段的FeatureClass&lt;/param&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;param name="fieldName"&gt;添加的字段的名称&lt;/param&gt;</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">AddField</span>(IFeatureClass pFeatureClass, <span class="keyword">string</span> fieldName)</div><div class="line">{</div><div class="line">IFields pFields = pFeatureClass.Fields;</div><div class="line">IFieldsEdit pFieldsEdit = pFields <span class="keyword">as</span> IFieldsEdit;</div><div class="line">IFieldEdit pFieldEdit;</div><div class="line"></div><div class="line">pFieldEdit = <span class="keyword">new</span> FieldClass();</div><div class="line">pFieldEdit.Name_2 = fieldName;</div><div class="line">pFieldEdit.Type_2 = esriFieldType.esriFieldTypeString;</div><div class="line">pFieldsEdit.AddField((IField)pFieldEdit);</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
+
 <p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
   
 	</div>
@@ -195,8 +194,6 @@ ArcGIS Engine中添加字段比较简单，用接口IFieldsEdit接口和IFieldEd
 		
 			<li><a href="/tags/GIS/" title="GIS">GIS<sup>10</sup></a></li>
 		
-			<li><a href="/tags/IT/" title="IT">IT<sup>1</sup></a></li>
-		
 			<li><a href="/tags/LBS/" title="LBS">LBS<sup>2</sup></a></li>
 		
 			<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
@@ -219,15 +216,17 @@ ArcGIS Engine中添加字段比较简单，用接口IFieldsEdit接口和IFieldEd
 		
 			<li><a href="/tags/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
 		
-			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>5</sup></a></li>
+			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>4</sup></a></li>
 		
 			<li><a href="/tags/互联网/" title="互联网">互联网<sup>16</sup></a></li>
 		
 			<li><a href="/tags/产品/" title="产品">产品<sup>1</sup></a></li>
 		
-			<li><a href="/tags/信息共享/" title="信息共享">信息共享<sup>1</sup></a></li>
-		
 			<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+		
+			<li><a href="/tags/微信/" title="微信">微信<sup>8</sup></a></li>
+		
+			<li><a href="/tags/技巧/" title="技巧">技巧<sup>1</sup></a></li>
 		
 		</ul>
 </div>

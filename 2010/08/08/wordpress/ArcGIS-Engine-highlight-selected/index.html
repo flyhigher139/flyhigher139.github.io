@@ -82,7 +82,7 @@ AE中要实现选中要素的闪烁，有2个关键点：（1）确定选中的�
     </p>
   <p class="article-time">
     <time datetime="2010-08-08T06:45:15.000Z" itemprop="datePublished">8月 8 2010</time>
-    Updated:<time datetime="2014-11-21T11:59:40.000Z" itemprop="dateModified">11月 21 2014</time>
+    Updated:<time datetime="2014-11-22T04:41:12.000Z" itemprop="dateModified">11月 22 2014</time>
     
   </p>
 </header>
@@ -100,55 +100,13 @@ AE中要实现选中要素的闪烁，有2个关键点：（1）确定选中的�
 <p>实现第一点要用接口IQueryFilter接口，还需要IFeatureCursor接口作为配合；第二点用MapControl控件的一个方法就可以实现，该方法为FlashShape（）方法。</p>
 <p><span id="more-176"></span></p>
 <p>下面介绍一个例子。这个例子将闪烁属性表中选中的要素。代码如下:</p>
-<pre class="brush:csharp">        //rIndex为选中要素在属性表中的行号
-private void queryGeoObject(IFeatureLayer curFeatureLayer, int rIndex)
-{
-if (curMapControl == null||rIndex==-1||curFeatureLayer==null)
-return;
-IQueryFilter pQueryFilter = new QueryFilterClass();
-string queryString = dataGridView1.Columns[0].HeaderText + "=" + dataGridView1.Rows[rIndex].Cells[0].Value.ToString();
-pQueryFilter.WhereClause = queryString;
-IFeatureCursor pFeatureCursor = curFeatureLayer.Search(pQueryFilter, false);
-IFeature pFindFeature = pFeatureCursor.NextFeature();
-while (pFindFeature != null)
-{
-IEnvelope pEnvelop;
-pEnvelop = pFindFeature.Shape.Envelope;
-pEnvelop.Expand(3, 3, true);
-curMapControl.Extent = pEnvelop;
-curMapControl.ActiveView.ScreenDisplay.UpdateWindow();
-switch (pFindFeature.Shape.GeometryType)
-{
-case esriGeometryType.esriGeometryPoint:
-IMarkerSymbol pMarkerSymbol = new SimpleMarkerSymbolClass();
-pEnvelop.Width = 10;
-pEnvelop.Height = 10;
-pEnvelop.CenterAt(pFindFeature.Shape as IPoint);
-curMapControl.Extent = pEnvelop;
-curMapControl.ActiveView.ScreenDisplay.UpdateWindow();
-curMapControl.FlashShape(pFindFeature.Shape,2,300,pMarkerSymbol);
-break;
-case esriGeometryType.esriGeometryPolyline:
-ILineSymbol pLineSymbol = new SimpleLineSymbolClass();
-
-curMapControl.FlashShape(pFindFeature.Shape,2, 300, pLineSymbol);
-
-break;
-case esriGeometryType.esriGeometryPolygon:
-IFillSymbol pFillSymbol = new SimpleFillSymbolClass();
-
-curMapControl.FlashShape(pFindFeature.Shape, 2, 300, pFillSymbol);
-break;
-}
-pFindFeature = pFeatureCursor.NextFeature();
-}
-}</pre>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//rIndex为选中要素在属性表中的行号</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">queryGeoObject</span>(IFeatureLayer curFeatureLayer, <span class="keyword">int</span> rIndex)</div><div class="line">{</div><div class="line">    <span class="keyword">if</span> (curMapControl == <span class="keyword">null</span>||rIndex==-<span class="number">1</span>||curFeatureLayer==<span class="keyword">null</span>)</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    IQueryFilter pQueryFilter = <span class="keyword">new</span> QueryFilterClass();</div><div class="line">    <span class="keyword">string</span> queryString = dataGridView1.Columns[<span class="number">0</span>].HeaderText + <span class="string">"="</span> + dataGridView1.Rows[rIndex].Cells[<span class="number">0</span>].Value.ToString();</div><div class="line">    pQueryFilter.WhereClause = queryString;</div><div class="line">    IFeatureCursor pFeatureCursor = curFeatureLayer.Search(pQueryFilter, <span class="keyword">false</span>);</div><div class="line">    IFeature pFindFeature = pFeatureCursor.NextFeature();</div><div class="line">    <span class="keyword">while</span> (pFindFeature != <span class="keyword">null</span>)</div><div class="line">    {</div><div class="line">        IEnvelope pEnvelop;</div><div class="line">        pEnvelop = pFindFeature.Shape.Envelope;</div><div class="line">        pEnvelop.Expand(<span class="number">3</span>, <span class="number">3</span>, <span class="keyword">true</span>);</div><div class="line">        curMapControl.Extent = pEnvelop;</div><div class="line">        curMapControl.ActiveView.ScreenDisplay.UpdateWindow();</div><div class="line">        <span class="keyword">switch</span> (pFindFeature.Shape.GeometryType)</div><div class="line">        {</div><div class="line">            <span class="keyword">case</span> esriGeometryType.esriGeometryPoint:</div><div class="line">                IMarkerSymbol pMarkerSymbol = <span class="keyword">new</span> SimpleMarkerSymbolClass();</div><div class="line">                pEnvelop.Width = <span class="number">10</span>;</div><div class="line">                pEnvelop.Height = <span class="number">10</span>;</div><div class="line">                pEnvelop.CenterAt(pFindFeature.Shape <span class="keyword">as</span> IPoint);</div><div class="line">                curMapControl.Extent = pEnvelop;</div><div class="line">                curMapControl.ActiveView.ScreenDisplay.UpdateWindow();</div><div class="line">                curMapControl.FlashShape(pFindFeature.Shape,<span class="number">2</span>,<span class="number">300</span>,pMarkerSymbol);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> esriGeometryType.esriGeometryPolyline:</div><div class="line">                ILineSymbol pLineSymbol = <span class="keyword">new</span> SimpleLineSymbolClass();</div><div class="line">                curMapControl.FlashShape(pFindFeature.Shape,<span class="number">2</span>, <span class="number">300</span>, pLineSymbol);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> esriGeometryType.esriGeometryPolygon:</div><div class="line">                IFillSymbol pFillSymbol = <span class="keyword">new</span> SimpleFillSymbolClass();</div><div class="line">                curMapControl.FlashShape(pFindFeature.Shape, <span class="number">2</span>, <span class="number">300</span>, pFillSymbol);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        }</div><div class="line">        pFindFeature = pFeatureCursor.NextFeature();</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <p>如果想在双击属性表中某一行时闪烁该元素，只需在DataGridiew的CellDoubleClick事件中这样写：</p>
 <div id="_mcePaste">private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)</div><br><div id="_mcePaste">{</div><br><div id="_mcePaste">rowIndex = e.RowIndex;</div><br><div id="_mcePaste">queryGeoObject(curFeatureLayer, rowIndex);</div><br><div id="_mcePaste">}</div>
 
-<p>本文出处：<a href="http://blog.igevin.info/archives/176" target="_blank" rel="external">ArcGIS Engine中选中要素闪烁方法的实现</a><span style="font-family: 'Lucida Grande', Verdana, Arial, 'Bitstream Vera Sans', sans-serif; line-height: 11px; font-size: 12px; color: #666666;"><a href="http://blog.igevin.info/archives/176" target="_blank" rel="external">http://blog.igevin.info/archives/176</a></span></p>
-<div style="margin-top: 15px"><br><p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a><br><br><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2010/08/arcgis-engine%e4%b8%ad%e9%80%89%e4%b8%ad%e8%a6%81%e7%b4%a0%e9%97%aa%e7%83%81%e6%96%b9%e6%b3%95%e7%9a%84%e5%ae%9e%e7%8e%b0/" target="_blank" rel="external">ArcGIS Engine中选中要素闪烁方法的实现</a><br><br></p></div><br><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div>
+
+<p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -243,8 +201,6 @@ pFindFeature = pFeatureCursor.NextFeature();
 		
 			<li><a href="/tags/GIS/" title="GIS">GIS<sup>10</sup></a></li>
 		
-			<li><a href="/tags/IT/" title="IT">IT<sup>1</sup></a></li>
-		
 			<li><a href="/tags/LBS/" title="LBS">LBS<sup>2</sup></a></li>
 		
 			<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
@@ -267,15 +223,17 @@ pFindFeature = pFeatureCursor.NextFeature();
 		
 			<li><a href="/tags/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
 		
-			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>5</sup></a></li>
+			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>4</sup></a></li>
 		
 			<li><a href="/tags/互联网/" title="互联网">互联网<sup>16</sup></a></li>
 		
 			<li><a href="/tags/产品/" title="产品">产品<sup>1</sup></a></li>
 		
-			<li><a href="/tags/信息共享/" title="信息共享">信息共享<sup>1</sup></a></li>
-		
 			<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+		
+			<li><a href="/tags/微信/" title="微信">微信<sup>8</sup></a></li>
+		
+			<li><a href="/tags/技巧/" title="技巧">技巧<sup>1</sup></a></li>
 		
 		</ul>
 </div>

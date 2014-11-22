@@ -9,7 +9,9 @@
     
     <meta name="author" content="Gevin">
     
-    <meta name="description" content="本文简单介绍一下ArcGIS Engine中空间分析实现。空间分析需要的接口是ITopologicalOperator接口，本文介绍一下缓冲区的生成以及多边形的合并。利用ArcGIS Engine进行空间分析是比较简单的，希望本文有抛砖引玉之效##### 一、缓冲区的生成缓冲区的生成是利用ITopo">
+    <meta name="description" content="本文简单介绍一下ArcGIS Engine中空间分析实现。空间分析需要的接口是ITopologicalOperator接口，本文介绍一下缓冲区的生成以及多边形的合并。利用ArcGIS Engine进行空间分析是比较简单的，希望本文有抛砖引玉之效
+一、缓冲区的生成
+缓冲区的生成是利用ITopologi">
     
     
     
@@ -77,7 +79,7 @@
     </p>
   <p class="article-time">
     <time datetime="2010-11-21T01:43:38.000Z" itemprop="datePublished">11月 21 2010</time>
-    Updated:<time datetime="2014-11-21T11:59:40.000Z" itemprop="dateModified">11月 21 2014</time>
+    Updated:<time datetime="2014-11-22T04:41:12.000Z" itemprop="dateModified">11月 22 2014</time>
     
   </p>
 </header>
@@ -86,18 +88,24 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
-		
+		<ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#一、缓冲区的生成"><span class="toc-number">1.</span> <span class="toc-text">一、缓冲区的生成</span></a></li></ol>
 		</div>
 		
-		<div><br><br><a href="http://blog.igevin.info/archives/587" target="_blank" rel="external"><img src="http://1hebha.bay.livefilestore.com/y1phIyIGWO2u8nGOxNeaijgMfWRetQJ1WYysAslX-vegPgzIozElvdaqvwDZSex8HarEeknRmsKdeEcNjhCW-IikGgZHuC93Iax/coding.jpg?psid=1" alt="coding" title="coding"></a><br><br><a href="http://blog.igevin.info/archives/587" target="_blank" rel="external">本文</a>简单介绍一下ArcGIS Engine中空间分析实现。空间分析需要的接口是ITopologicalOperator接口，本文介绍一下缓冲区的生成以及多边形的合并。利用ArcGIS Engine进行空间分析是比较简单的，希望本文有抛砖引玉之效<br><br>##### 一、缓冲区的生成<br><br>缓冲区的生成是利用ITopologicalOperator接口的Buffer方法实现，非常简单，所以这里直接贴代码啦！<br><br><div><br><pre><span id="more-587"></span><br><pre><br><pre><img src="http://www.cnblogs.com/Images/OutliningIndicators/ExpandedBlockStart.gif" alt="">/// &lt;summary&gt;<br>/// 为图形建立缓冲区<br>/// &lt;/summary&gt;<br>/// &lt;param name=”geometry”&gt;选中要素的Geometry&lt;/param&gt;<br>/// &lt;param name=”distance”&gt;设置缓冲区大小&lt;/param&gt;<br>/// &lt;returns&gt;创建好的缓冲区&lt;/returns&gt;<br><br>public static IGeometry CreateBuffer(IGeometry geometry, double distance)<br>{<br>ITopologicalOperator pTopologicalOperator = geometry as ITopologicalOperator;<br>IGeometry buffer = pTopologicalOperator.Buffer(distance);<br>return buffer;<br>}</pre><br></pre></pre></div>
+		<p><a href="http://blog.igevin.info/archives/587" target="_blank" rel="external"><img src="http://1hebha.bay.livefilestore.com/y1phIyIGWO2u8nGOxNeaijgMfWRetQJ1WYysAslX-vegPgzIozElvdaqvwDZSex8HarEeknRmsKdeEcNjhCW-IikGgZHuC93Iax/coding.jpg?psid=1" alt="coding" title="coding"></a></p>
+<p><a href="http://blog.igevin.info/archives/587" target="_blank" rel="external">本文</a>简单介绍一下ArcGIS Engine中空间分析实现。空间分析需要的接口是ITopologicalOperator接口，本文介绍一下缓冲区的生成以及多边形的合并。利用ArcGIS Engine进行空间分析是比较简单的，希望本文有抛砖引玉之效</p>
+<h5 id="一、缓冲区的生成">一、缓冲区的生成</h5>
+<p>缓冲区的生成是利用ITopologicalOperator接口的Buffer方法实现，非常简单，所以这里直接贴代码啦！</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> 为图形建立缓冲区</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;/summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;param name="geometry"&gt;选中要素的Geometry&lt;/param&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;param name="distance"&gt;设置缓冲区大小&lt;/param&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;returns&gt;创建好的缓冲区&lt;/returns&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> IGeometry <span class="title">CreateBuffer</span>(IGeometry geometry, <span class="keyword">double</span> distance)</div><div class="line">{</div><div class="line">    ITopologicalOperator pTopologicalOperator = geometry <span class="keyword">as</span> ITopologicalOperator;</div><div class="line">    IGeometry buffer = pTopologicalOperator.Buffer(distance);</div><div class="line">    <span class="keyword">return</span> buffer;</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <p><strong>二、合并多边形</strong></p>
 <p>合并多边形使用ITopologicalOperator的Union方法，也非常简单，代码如下：</p>
-<div><br><pre><br><pre><img src="http://www.cnblogs.com/Images/OutliningIndicators/ExpandedBlockStart.gif" alt="">/// &lt;summary&gt;<br>/// 将两个Geometry对象合并为一个新的Geometry对象，其中GeometryA的值会被修改<br>/// &lt;/summary&gt;<br>/// &lt;param name=”GeometryA”&gt;要合并的一个Geometry&lt;/param&gt;<br>/// &lt;param name=”GeometryB”&gt;要合并的另一个Geometry&lt;/param&gt;<br>/// &lt;returns&gt;合并后的Geometry&lt;/returns&gt;<br>public static IGeometry UnionTwoGeometries(IGeometry GeometryA, IGeometry GeometryB)<br>{<br>ITopologicalOperator pTopologicalOperator = GeometryA as ITopologicalOperator;<br>IGeometry UnionGeometry = pTopologicalOperator.Union(GeometryB);<br>return UnionGeometry;<br>}</pre><br></pre></div><br><div>好，今天就介绍这么多了！</div>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> 将两个Geometry对象合并为一个新的Geometry对象，其中GeometryA的值会被修改</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;/summary&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;param name="GeometryA"&gt;要合并的一个Geometry&lt;/param&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;param name="GeometryB"&gt;要合并的另一个Geometry&lt;/param&gt;</span></div><div class="line"><span class="comment"><span class="xmlDocTag">///</span> &lt;returns&gt;合并后的Geometry&lt;/returns&gt;</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> IGeometry <span class="title">UnionTwoGeometries</span>(IGeometry GeometryA, IGeometry GeometryB)</div><div class="line">{</div><div class="line">    ITopologicalOperator pTopologicalOperator = GeometryA <span class="keyword">as</span> ITopologicalOperator;</div><div class="line">    IGeometry UnionGeometry = pTopologicalOperator.Union(GeometryB);</div><div class="line">    <span class="keyword">return</span> UnionGeometry;</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p>本文链接 <a href="http://blog.igevin.info/archives/587" target="_blank" rel="external">http://blog.igevin.info/archives/587</a></p>
-<p></p></div><p></p>
-<div style="margin-top: 15px"><br><br><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a><br><br><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2010/11/arcgis-engine-spatial-analysis/" target="_blank" rel="external">ArcGIS Engine空间分析简单实现</a><br><br></div><br><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div>
+<div>好，今天就介绍这么多了！</div>
+
+
+
+<p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -155,7 +163,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
-  
+  <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#一、缓冲区的生成"><span class="toc-number">1.</span> <span class="toc-text">一、缓冲区的生成</span></a></li></ol>
   </div>
 
 <div id="asidepart">
@@ -192,8 +200,6 @@
 		
 			<li><a href="/tags/GIS/" title="GIS">GIS<sup>10</sup></a></li>
 		
-			<li><a href="/tags/IT/" title="IT">IT<sup>1</sup></a></li>
-		
 			<li><a href="/tags/LBS/" title="LBS">LBS<sup>2</sup></a></li>
 		
 			<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
@@ -216,15 +222,17 @@
 		
 			<li><a href="/tags/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
 		
-			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>5</sup></a></li>
+			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>4</sup></a></li>
 		
 			<li><a href="/tags/互联网/" title="互联网">互联网<sup>16</sup></a></li>
 		
 			<li><a href="/tags/产品/" title="产品">产品<sup>1</sup></a></li>
 		
-			<li><a href="/tags/信息共享/" title="信息共享">信息共享<sup>1</sup></a></li>
-		
 			<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+		
+			<li><a href="/tags/微信/" title="微信">微信<sup>8</sup></a></li>
+		
+			<li><a href="/tags/技巧/" title="技巧">技巧<sup>1</sup></a></li>
 		
 		</ul>
 </div>

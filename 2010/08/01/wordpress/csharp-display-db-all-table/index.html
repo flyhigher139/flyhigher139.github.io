@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   
     <title>C#连接数据库并显示数据库中所有的表 | Gevin&#39;s blog</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Gevin">
     
@@ -17,15 +17,20 @@ C#连接数据库关键是2点，一个是定义恰当的connection变量conn（
     
     
     
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="iGevin" />
+    <meta name="twitter:title" content="C#连接数据库并显示数据库中所有的表 | Gevin&#39;s blog" />
+      
     
-    <link rel="alternative" href="atom.xml" title="Gevin&#39;s blog" type="application/atom+xml">
+    
+    <link rel="alternative" href="/atom.xml" title="Gevin&#39;s blog" type="application/atom+xml">
     
     
     <link rel="icon" href="/img/favicon.ico">
     
     
-    <link rel="apple-touch-icon" href="/img/pacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
     <link rel="stylesheet" href="/css/style.css" type="text/css">
 
@@ -53,22 +58,24 @@ C#连接数据库关键是2点，一个是定义恰当的connection变量conn（
 					
 						<li><a href="/archives">Archives</a></li>
 					
-					<li>
+						<li><a href="/about">About</a></li>
 					
+					<li>
+ 					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
-						<input type="hidden" name="q" value="site:essay.igevin.info">
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:blog.igevin.info">
 					</form>
 					
 					</li>
 				</ul>
 			</nav>			
 </div>
-
     </header>
     <div id="container">
       <div id="main" class="post" itemscope itemprop="blogPost">
+  
 	<article itemprop="articleBody"> 
 		<header class="article-info clearfix">
   <h1 itemprop="name">
@@ -76,21 +83,21 @@ C#连接数据库关键是2点，一个是定义恰当的connection变量conn（
       <a href="/2010/08/01/wordpress/csharp-display-db-all-table/" title="C#连接数据库并显示数据库中所有的表" itemprop="url">C#连接数据库并显示数据库中所有的表</a>
   </h1>
   <p class="article-author">By
-    
-      <a href="http://essay.igevin.info" title="Gevin">Gevin</a>
-    </p>
+       
+		<a href="http://blog.igevin.info/about" title="Gevin" target="_blank" itemprop="author">Gevin</a>
+		
   <p class="article-time">
-    <time datetime="2010-08-01T02:52:47.000Z" itemprop="datePublished">8月 1 2010</time>
-    Updated:<time datetime="2014-11-22T04:41:12.000Z" itemprop="dateModified">11月 22 2014</time>
+    <time datetime="2010-08-01T02:52:47.000Z" itemprop="datePublished"> Published 8月 1 2010</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
-		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
-		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、C#连接数据库"><span class="toc-number">1.</span> <span class="toc-text">一、C#连接数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、显示数据库中所有的表"><span class="toc-number">2.</span> <span class="toc-text">二、显示数据库中所有的表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、关闭数据库"><span class="toc-number">3.</span> <span class="toc-text">三、关闭数据库</span></a></li></ol>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、C#连接数据库"><span class="toc-number">1.</span> <span class="toc-text">一、C#连接数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、显示数据库中所有的表"><span class="toc-number">2.</span> <span class="toc-text">二、显示数据库中所有的表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、关闭数据库"><span class="toc-number">3.</span> <span class="toc-text">三、关闭数据库</span></a></li></ol>
+		
 		</div>
 		
 		<div id="attachment_1259" style="width: 610px" class="wp-caption aligncenter"><a href="http://blog.igevin.info/wp-content/uploads/2010/08/coding.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2010/08/coding.jpg" alt="C#连接数据库并显示数据库中所有的表" title="coding"></a><br><br>C#连接数据库并显示数据库中所有的表<br></div>
@@ -126,12 +133,7 @@ WHERE xtype = 'U' AND OBJECTPROPERTY (id, 'IsMSShipped') = 0</pre>
   
 	</div>
 		<footer class="article-footer clearfix">
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/C/">C#</a>
-  </div>
-
+<div class="article-catetags">
 
 <div class="article-categories">
   <span></span>
@@ -139,21 +141,33 @@ WHERE xtype = 'U' AND OBJECTPROPERTY (id, 'IsMSShipped') = 0</pre>
 </div>
 
 
-
-<div class="article-share" id="share">
-
-  <div data-url="http://essay.igevin.info/2010/08/01/wordpress/csharp-display-db-all-table/" data-title="C#连接数据库并显示数据库中所有的表 | Gevin&#39;s blog" data-tsina="null" class="share clearfix">
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C#</a>
   </div>
 
 </div>
-</footer>   	       
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.igevin.info/2010/08/01/wordpress/csharp-display-db-all-table/" data-title="C#连接数据库并显示数据库中所有的表 | Gevin&#39;s blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
 	</article>
 	
 <nav class="article-nav clearfix">
  
  <div class="prev" >
  <a href="/2010/08/02/wordpress/ArcGIS-Engine-display-layer-property/" title="ArcGIS Engine中实现图层属性数据的显示">
-  <strong>PREVIOUS:</strong><br/>
+  <strong>上一篇：</strong><br/>
   <span>
   ArcGIS Engine中实现图层属性数据的显示</span>
 </a>
@@ -163,16 +177,19 @@ WHERE xtype = 'U' AND OBJECTPROPERTY (id, 'IsMSShipped') = 0</pre>
 </nav>
 
 	
-<section class="comment">
-	<div class="ds-thread"></div>
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2010/08/01/wordpress/csharp-display-db-all-table/" data-title="C#连接数据库并显示数据库中所有的表" data-url="http://blog.igevin.info/2010/08/01/wordpress/csharp-display-db-all-table/"></div>
 </section>
+
 
 </div>  
       <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
-  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、C#连接数据库"><span class="toc-number">1.</span> <span class="toc-text">一、C#连接数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、显示数据库中所有的表"><span class="toc-number">2.</span> <span class="toc-text">二、显示数据库中所有的表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、关闭数据库"><span class="toc-number">3.</span> <span class="toc-text">三、关闭数据库</span></a></li></ol>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、C#连接数据库"><span class="toc-number">1.</span> <span class="toc-text">一、C#连接数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、显示数据库中所有的表"><span class="toc-number">2.</span> <span class="toc-text">二、显示数据库中所有的表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、关闭数据库"><span class="toc-number">3.</span> <span class="toc-text">三、关闭数据库</span></a></li></ol>
+ 
   </div>
 
 <div id="asidepart">
@@ -188,7 +205,9 @@ WHERE xtype = 'U' AND OBJECTPROPERTY (id, 'IsMSShipped') = 0</pre>
 		
 			<li><a href="/categories/tech/" title="tech">tech<sup>2</sup></a></li>
 		
-			<li><a href="/categories/wordpress/" title="wordpress">wordpress<sup>50</sup></a></li>
+			<li><a href="/categories/wechat/" title="wechat">wechat<sup>5</sup></a></li>
+		
+			<li><a href="/categories/wordpress/" title="wordpress">wordpress<sup>44</sup></a></li>
 		
 			<li><a href="/categories/工具/" title="工具">工具<sup>1</sup></a></li>
 		
@@ -203,52 +222,63 @@ WHERE xtype = 'U' AND OBJECTPROPERTY (id, 'IsMSShipped') = 0</pre>
 	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
-			<li><a href="/tags/C/" title="C#">C#<sup>2</sup></a></li>
+			<li><a href="/tags/互联网/" title="互联网">互联网<sup>15</sup></a></li>
 		
-			<li><a href="/tags/English/" title="English">English<sup>1</sup></a></li>
-		
-			<li><a href="/tags/GIS/" title="GIS">GIS<sup>10</sup></a></li>
-		
-			<li><a href="/tags/LBS/" title="LBS">LBS<sup>2</sup></a></li>
-		
-			<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
-		
-			<li><a href="/tags/SEO/" title="SEO">SEO<sup>1</sup></a></li>
-		
-			<li><a href="/tags/SNS/" title="SNS">SNS<sup>7</sup></a></li>
-		
-			<li><a href="/tags/app/" title="app">app<sup>5</sup></a></li>
-		
-			<li><a href="/tags/code/" title="code">code<sup>1</sup></a></li>
-		
-			<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
-		
-			<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
-		
-			<li><a href="/tags/open-source/" title="open source">open source<sup>1</sup></a></li>
-		
-			<li><a href="/tags/tip/" title="tip">tip<sup>1</sup></a></li>
-		
-			<li><a href="/tags/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
-		
-			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>4</sup></a></li>
-		
-			<li><a href="/tags/互联网/" title="互联网">互联网<sup>16</sup></a></li>
-		
-			<li><a href="/tags/产品/" title="产品">产品<sup>1</sup></a></li>
-		
-			<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+			<li><a href="/tags/GIS/" title="GIS">GIS<sup>9</sup></a></li>
 		
 			<li><a href="/tags/微信/" title="微信">微信<sup>8</sup></a></li>
 		
+			<li><a href="/tags/SNS/" title="SNS">SNS<sup>6</sup></a></li>
+		
+			<li><a href="/tags/app/" title="app">app<sup>5</sup></a></li>
+		
+			<li><a href="/tags/营销/" title="营销">营销<sup>4</sup></a></li>
+		
+			<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>4</sup></a></li>
+		
+			<li><a href="/tags/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		
+			<li><a href="/tags/黑客文化/" title="黑客文化">黑客文化<sup>3</sup></a></li>
+		
+			<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
+		
+			<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+		
+			<li><a href="/tags/C/" title="C#">C#<sup>2</sup></a></li>
+		
+			<li><a href="/tags/程序员/" title="程序员">程序员<sup>2</sup></a></li>
+		
+			<li><a href="/tags/杂谈/" title="杂谈">杂谈<sup>1</sup></a></li>
+		
+			<li><a href="/tags/搜索/" title="搜索">搜索<sup>1</sup></a></li>
+		
 			<li><a href="/tags/技巧/" title="技巧">技巧<sup>1</sup></a></li>
+		
+			<li><a href="/tags/用户体验/" title="用户体验">用户体验<sup>1</sup></a></li>
+		
+			<li><a href="/tags/苹果/" title="苹果">苹果<sup>1</sup></a></li>
+		
+			<li><a href="/tags/English/" title="English">English<sup>1</sup></a></li>
+		
+			<li><a href="/tags/SEO/" title="SEO">SEO<sup>1</sup></a></li>
 		
 		</ul>
 </div>
 
 
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            <a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a>
+          </li>
+        
+    </ul>
+</div>
+
   <div class="rsspart">
-	<a href="atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
 </aside>
@@ -262,20 +292,40 @@ WHERE xtype = 'U' AND OBJECTPROPERTY (id, 'IsMSShipped') = 0</pre>
 	</div>
 	
 	
+	<section class="info">
+		<p> Stay hungry, stay foolish. <br/>
+			Stop when you are perfect.</p>
+	</section>
+	 
 	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/flyhigher139" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/flyhigher139" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/iGevin" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		
 		
 		
 		
 		
 	</div>
-		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Pacman">Jacman</a> © 2014 
 		
-		<a href="http://essay.igevin.info" target="_blank" title="Gevin">Gevin</a>
+		<a href="http://blog.igevin.info/about" target="_blank" title="Gevin">Gevin</a>
 		
 		</p>
 </div>
 </footer>
-    <script src="/js/jquery-2.1.0.min.js"></script>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
 <script type="text/javascript">
 $(document).ready(function(){ 
   $('.navbar').click(function(){
@@ -362,15 +412,16 @@ $(document).ready(function(){
       url = $this.attr('data-url'),
       encodedUrl = encodeURIComponent(url),
       title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina');
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
   var html = [
   '<a href="#" class="overlay" id="qrcode"></a>',
-  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
-  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
   '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
   '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
   '<span title="Share to"></span>'
   ].join('');
   $this.append(html);
@@ -383,6 +434,7 @@ $(document).ready(function(){
   });
 });     
 </script>
+
 
 
 <script type="text/javascript">
@@ -400,15 +452,54 @@ $(document).ready(function(){
 
 
 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
 <script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-20407143-4', 'essay.igevin.info');  
-ga('send', 'pageview');
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
 </script>
 
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
 
   </body>
 </html>

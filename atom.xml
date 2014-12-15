@@ -3,9 +3,9 @@
   <title><![CDATA[Gevin's blog]]></title>
   <subtitle><![CDATA[技术生活都要折腾]]></subtitle>
   <link href="/atom.xml" rel="self"/>
-  <link href="http://essay.igevin.info/"/>
-  <updated>2014-11-22T04:43:35.075Z</updated>
-  <id>http://essay.igevin.info/</id>
+  <link href="http://blog.igevin.info/"/>
+  <updated>2014-12-15T12:37:13.149Z</updated>
+  <id>http://blog.igevin.info/</id>
   
   <author>
     <name><![CDATA[Gevin]]></name>
@@ -16,8 +16,8 @@
   
   <entry>
     <title><![CDATA[vagrant使用简介]]></title>
-    <link href="http://essay.igevin.info/2014/11/13/vagrant-basic-usage/"/>
-    <id>http://essay.igevin.info/2014/11/13/vagrant-basic-usage/</id>
+    <link href="http://blog.igevin.info/2014/11/13/vagrant-basic-usage/"/>
+    <id>http://blog.igevin.info/2014/11/13/vagrant-basic-usage/</id>
     <published>2014-11-12T16:00:00.000Z</published>
     <updated>2014-11-19T11:33:12.000Z</updated>
     <content type="html"><![CDATA[<h1 id="Outline">Outline</h1>
@@ -84,16 +84,16 @@
 ]]></content>
     
     
-      <category term="vagrant" scheme="http://essay.igevin.info/tags/vagrant/"/>
+      <category term="vagrant" scheme="http://blog.igevin.info/tags/vagrant/"/>
     
-      <category term="tech" scheme="http://essay.igevin.info/categories/tech/"/>
+      <category term="tech" scheme="http://blog.igevin.info/categories/tech/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[基于nginx和uWSGI在Ubuntu上部署Django]]></title>
-    <link href="http://essay.igevin.info/2014/09/30/deploy-django-with-nginx-and-uwsgi-on-Ubuntu/"/>
-    <id>http://essay.igevin.info/2014/09/30/deploy-django-with-nginx-and-uwsgi-on-Ubuntu/</id>
+    <link href="http://blog.igevin.info/2014/09/30/deploy-django-with-nginx-and-uwsgi-on-Ubuntu/"/>
+    <id>http://blog.igevin.info/2014/09/30/deploy-django-with-nginx-and-uwsgi-on-Ubuntu/</id>
     <published>2014-09-29T16:00:00.000Z</published>
     <updated>2014-11-19T11:33:12.000Z</updated>
     <content type="html"><![CDATA[<p>本文主要参考<a href="http://uwsgi-docs.readthedocs.org/en/latest/tutorials/Django_and_nginx.html" target="_blank" rel="external"> uWSGI</a>的文档</p>
@@ -221,16 +221,16 @@
 ]]></content>
     
     
-      <category term="nginx" scheme="http://essay.igevin.info/tags/nginx/"/>
+      <category term="nginx" scheme="http://blog.igevin.info/tags/nginx/"/>
     
-      <category term="tech" scheme="http://essay.igevin.info/categories/tech/"/>
+      <category term="tech" scheme="http://blog.igevin.info/categories/tech/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Yet another awesome collection]]></title>
-    <link href="http://essay.igevin.info/2014/09/17/yet-another-awesome-collection/"/>
-    <id>http://essay.igevin.info/2014/09/17/yet-another-awesome-collection/</id>
+    <link href="http://blog.igevin.info/2014/09/17/yet-another-awesome-collection/"/>
+    <id>http://blog.igevin.info/2014/09/17/yet-another-awesome-collection/</id>
     <published>2014-09-17T08:42:01.000Z</published>
     <updated>2014-09-17T13:27:03.000Z</updated>
     <content type="html"><![CDATA[<p>github上有一大堆『awesome-*』的repository相当有料。</p>
@@ -254,16 +254,16 @@
 ]]></content>
     
     
-      <category term="open source" scheme="http://essay.igevin.info/tags/open-source/"/>
+      <category term="open source" scheme="http://blog.igevin.info/tags/open-source/"/>
     
-      <category term="github" scheme="http://essay.igevin.info/categories/github/"/>
+      <category term="github" scheme="http://blog.igevin.info/categories/github/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[如何生成SSH key]]></title>
-    <link href="http://essay.igevin.info/2014/08/28/How-to-create-SSH-key/"/>
-    <id>http://essay.igevin.info/2014/08/28/How-to-create-SSH-key/</id>
+    <link href="http://blog.igevin.info/2014/08/28/How-to-create-SSH-key/"/>
+    <id>http://blog.igevin.info/2014/08/28/How-to-create-SSH-key/</id>
     <published>2014-08-28T08:42:01.000Z</published>
     <updated>2014-09-17T13:27:11.000Z</updated>
     <content type="html"><![CDATA[<p>SSH key提供了一种与GitHub通信的方式，通过这种方式，能够在不输入密码的情况下，将GitHub作为自己的remote端服务器，进行版本控制</p>
@@ -308,16 +308,16 @@
 ]]></content>
     
     
-      <category term="tip" scheme="http://essay.igevin.info/tags/tip/"/>
+      <category term="tip" scheme="http://blog.igevin.info/tags/tip/"/>
     
-      <category term="github" scheme="http://essay.igevin.info/categories/github/"/>
+      <category term="github" scheme="http://blog.igevin.info/categories/github/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[GitHub上有趣的资料]]></title>
-    <link href="http://essay.igevin.info/2014/03/21/2014-03-21-github-study-materials/"/>
-    <id>http://essay.igevin.info/2014/03/21/2014-03-21-github-study-materials/</id>
+    <link href="http://blog.igevin.info/2014/03/21/2014-03-21-github-study-materials/"/>
+    <id>http://blog.igevin.info/2014/03/21/2014-03-21-github-study-materials/</id>
     <published>2014-03-21T08:42:01.000Z</published>
     <updated>2014-09-17T13:21:25.000Z</updated>
     <content type="html"><![CDATA[<h1 id="GitHub_Starred_Projects_|_document">GitHub Starred Projects | document</h1>
@@ -544,16 +544,16 @@
 ]]></content>
     
     
-      <category term="code" scheme="http://essay.igevin.info/tags/code/"/>
+      <category term="code" scheme="http://blog.igevin.info/tags/code/"/>
     
-      <category term="github" scheme="http://essay.igevin.info/categories/github/"/>
+      <category term="github" scheme="http://blog.igevin.info/categories/github/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[如何有效使用印象笔记]]></title>
-    <link href="http://essay.igevin.info/2014/03/21/2014-03-24-how-to-use-evernote-efficiently/"/>
-    <id>http://essay.igevin.info/2014/03/21/2014-03-24-how-to-use-evernote-efficiently/</id>
+    <link href="http://blog.igevin.info/2014/03/21/2014-03-24-how-to-use-evernote-efficiently/"/>
+    <id>http://blog.igevin.info/2014/03/21/2014-03-24-how-to-use-evernote-efficiently/</id>
     <published>2014-03-20T16:00:00.000Z</published>
     <updated>2014-09-30T14:18:12.000Z</updated>
     <content type="html"><![CDATA[<p><img src="http://gevin-zone.qiniudn.com/evernote.jpg" alt="image"></p>
@@ -607,122 +607,81 @@
 ]]></content>
     
     
-      <category term="杂谈" scheme="http://essay.igevin.info/tags/%E6%9D%82%E8%B0%88/"/>
+      <category term="杂谈" scheme="http://blog.igevin.info/tags/%E6%9D%82%E8%B0%88/"/>
     
-      <category term="工具" scheme="http://essay.igevin.info/categories/%E5%B7%A5%E5%85%B7/"/>
+      <category term="工具" scheme="http://blog.igevin.info/categories/%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[什么是黑客]]></title>
-    <link href="http://essay.igevin.info/2013/08/06/wordpress/%E4%BB%80%E4%B9%88%E6%98%AF%E9%BB%91%E5%AE%A2/"/>
-    <id>http://essay.igevin.info/2013/08/06/wordpress/什么是黑客/</id>
+    <link href="http://blog.igevin.info/2013/08/06/wordpress/what-is-hacker/"/>
+    <id>http://blog.igevin.info/2013/08/06/wordpress/what-is-hacker/</id>
     <published>2013-08-06T14:12:02.000Z</published>
-    <updated>2014-11-21T11:59:40.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="http://media.tumblr.com/a56a458d3ab04a9c7b3f63fcb9c8b9a3/tumblr_inline_mr27e3PdGq1qz4rgp.jpg" alt=""></p>
-<p>最近天气炎热，Gevin也工作任务繁多，结果导致这一周多都没有更新微信了……</p>
-<p>前段时间，Gevin在微信中写了一点关于黑客的内容，并开启了“黑客”这个话题，打算长期更新，前几天在网上看到老外也写了一篇关于黑客的文章——What is a ’hacker’,这篇文章已经把黑客总结的相当到位了，包含了我想写的关于黑客的绝大多数观点，在此分享一下，有兴趣的童鞋可以点击原文链接，查看英文原文。<span id="more-1975"></span></p>
+    <updated>2014-12-15T11:55:42.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://upload-images.jianshu.io/upload_images/4041-a829bba3dce91e88.jpg" alt="什么是黑客"></p>
+<p><em>本文源自我的微信公共账号 @GevinKnow，由于工作忙碌，没时间继续打理公共账号了，把原来的一些质量还可以的内容移植到这里，下面是正文:</em></p>
+<p>前段时间，Gevin在微信中写了一点关于黑客的内容，并开启了“黑客”这个话题，打算长期更新，前几天在网上看到老外也写了一篇关于黑客的文章——What is a ’hacker’,这篇文章已经把黑客总结的相当到位了，包含了我想写的关于黑客的绝大多数观点，在此分享一下，有兴趣的童鞋搜索英文原文。</p>
 <p>——————-</p>
 <p>对于媒体和许多政府类型“黑客”常常让人联想到的是戴着滑雪面具蹲在电脑屏幕前面的不满者,但世界其他国家(特别是因特网)，这个词有一个非常非常不同的含义。然而，见鬼的是，甚至《韦氏词典》定义了黑客 为：</p>
-<p>1: one that hacks</p>
-<p>2: a person who is inexperienced or unskilled at a particular activity &lt;a tennis hacker&gt;</p>
-<p>3: an expert at programming and solving problems with a computer</p>
-<p>4: a person who illegally gains access to and sometimes tampers with information in a computer system</p>
+<p>1: one that hacks<br>2: a person who is inexperienced or unskilled at a particular activity <a tennis="" hacker=""><br>3: an expert at programming and solving problems with a computer<br>4: a person who illegally gains access to and sometimes tampers with information in a computer system</a></p>
 <p>成为一个黑客不是为了窃取信用卡号码或者使公共设施失灵，而恰恰相反。他们是所有那几种含义的同时的体现，他们分享，开放，反对中央集权… 他们试图通过挑战预期值和把不现实变成现实，来满足一种不可遏制的渴望， often involving nothing more than duct tape, bubblegum, and ultimately solutions that purported experts would certainly balk at for being too simplistic。（这一句没想好怎么翻译）</p>
-<p>黑客这词可追述到20世纪60年代，它的出现是为了描述MIT（麻省理工）那群既聪明又幽默的学生（计算机探索者）的，他们公然的推进了世界上首批计算机的极限。今天，它继续体现了追求卓越的理论：不断地问自己&#8221;这是可能的吗?&#8221;(然后本能的回答&#8221;让我们去找到答案吧!&#8221;)。这是一种通过解决以前从没解决过的问题并且克服了根据传统的知识而假设出无法解决的限制时而获得的发自内心的高兴。</p>
+<p>黑客这词可追述到20世纪60年代，它的出现是为了描述MIT（麻省理工）那群既聪明又幽默的学生（计算机探索者）的，他们公然的推进了世界上首批计算机的极限。今天，它继续体现了追求卓越的理论：不断地问自己”这是可能的吗?”(然后本能的回答”让我们去找到答案吧!”)。这是一种通过解决以前从没解决过的问题并且克服了根据传统的知识而假设出无法解决的限制时而获得的发自内心的高兴。</p>
 <p>出人意料的是，黑客不是通晓所有的技术，而是共同协作。这表现在黑客的精神，黑客的方式，以及黑客的文化中。</p>
-<p><strong>黑客精神</strong></p>
+<h3 id="黑客精神">黑客精神</h3>
 <p>黑客被各种文化所激励，黑客精神是关于分享的文化。黑客所需要的素质是能够把问题拆分开，并分析各自的原理，希望通过这种方式来改进它们。必须自己动手， 不但能参与，而且能创造出某个项目的分支，使之更有趣，更优秀。黑客精神是关于开放的精神。黑客行为是基于团队的，只有开放才能让参与者们发挥出最大的能量，去修补，去改造，去重新创造。保密只会扼杀创新，所谓自由当然包括获取信息的自由。黑客精神是关于「反对中央集权」的精神，促进信息交流的最好方式就是提供一个让所有 人都可以自由交流，没有阻碍的平台，有意地，或者无意地拆除信息流动的障碍，官僚主义，无论是企业，还是政府，甚至是大学，这些都是信息交流的固有障碍。</p>
-<p><strong>黑客的方式</strong></p>
-<p>但这不仅仅是意识形态。它也有着实用的一面。这是一种渴望，这是一种驱动。这是一种持续乞求被挠的知识之痒。<strong>这个世界充满了问题等待解决</strong>。运用创造性思维和技术可以使世上一切变得更美好。正如运动员寻求让他们的身体超过其物理极限的喜悦一样，黑客们寻求的刺激是推动工具的革新，超越已知的，已有的和潜在的。但这也意味着<strong>没有哪个问题应该必须被解决两次</strong>。创造性思维是一种宝贵的、有限的资源,还有其它引人入胜的未解决的问题亟待解决，<strong>不应该浪费在重复发明轮子上</strong>。</p>
-<p><strong>黑客文化</strong></p>
+<h3 id="黑客的方式">黑客的方式</h3>
+<p>但这不仅仅是意识形态。它也有着实用的一面。这是一种渴望，这是一种驱动。这是一种持续乞求被挠的知识之痒。这个世界充满了问题等待解决。运用创造性思维和技术可以使世上一切变得更美好。正如运动员寻求让他们的身体超过其物理极限的喜悦一样，黑客们寻求的刺激是推动工具的革新，超越已知的，已有的和潜在的。但这也意味着没有哪个问题应该必须被解决两次。创造性思维是一种宝贵的、有限的资源,还有其它引人入胜的未解决的问题亟待解决，不应该浪费在重复发明轮子上。</p>
+<h3 id="黑客文化">黑客文化</h3>
 <p>黑客体现了一种经常公然违抗传统范例的独特文化。这是一个精英文化：贡献是互联网的唯一货币。金钱和名望的重量远远小于有意义的贡献，他们编码、拷贝、设计，etc… 这是一个关于优雅的文化。黑客们追求技术的艺术性和创新性，力求以尽可能少的指令完成复杂任务。它也是一个关于智慧和顽皮的文化：要成为一个黑客需要有一定的幽默与智慧，这点经常在把才智和文化基因注入到原本乏味的任务中来表现出来。</p>
-<p><strong>商业下的黑客</strong></p>
+<h3 id="商业下的黑客">商业下的黑客</h3>
 <p>毫不奇怪，随着技术和创新的加快，总是被黑客们谴责的官僚机构也开始拥抱他们，拥抱黑客们不断以小成本换取高价值的能力。白宫甚至在最近宣布了第一届黑客马拉松。 但在传统组织提升黑客的地位并不仅仅是创建另一个“臭鼬工作室”，黑客马拉松不意味着可以阻止不断培育创新文化的脚步。 这不意味着工作更快或更廉价。</p>
+<h3 id="最后">最后</h3>
 <p>“黑客”不只是时下一个热门的流行语，并非继“摇滚明星”，“忍者”，“大师”的后尘， 也不是“网络犯罪”的代名词，或暗示任何任何邪恶的意图。 而是事实正好相反。这是一种风气的凝聚，一种驱动，一种文化。他们在用代码来改变世界！</p>
-<p>——-What’s More———</p>
-<p>在开源中国社区，本文也有一版翻译，不过Gevin感觉那篇翻译太机械化了，有兴趣的同学可以搜索看看。</p>
-<p>回复『黑客』，可以查看前面写过的关于黑客的文章</p>
-<p>本文作者Gevin，微信公共账号@GevinKnow，如果您认为本文有价值，不妨转载到朋友圈或者发给微信好友，转载请表明出处</p>
-<p>我的微信文章全部备份在 <a href="http://essay.igevin.info" target="_blank" rel="external">http://essay.igevin.info</a></p>
-<p><a href="http://blog.igevin.info/wp-content/uploads/2013/06/qrcode_for_gh_df84b04855a2_430.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2013/06/qrcode_for_gh_df84b04855a2_430.jpg" alt="qrcode_for_gh_df84b04855a2_430"></a></p>
-<div style="margin-top: 15px">
-
-<p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
-<p><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2013/08/%e4%bb%80%e4%b9%88%e6%98%af%e9%bb%91%e5%ae%a2/" target="_blank" rel="external">什么是黑客</a></p>
-<p></p></div><p></p>
-<p><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div></p>
-<table class="wumii-related-items" cellspacing="0" cellpadding="3" border="0" style="clear: both;"><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">猜您也喜欢：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fstart-with-hacker%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F08%2F%25E4%25BB%2580%25E4%25B9%2588%25E6%2598%25AF%25E9%25BB%2591%25E5%25AE%25A2%2F" title="从黑客说起" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/10Da0tmK8.jpg?i=11qPLTCWG" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">从黑客说起</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fone-piece-on-web%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F08%2F%25E4%25BB%2580%25E4%25B9%2588%25E6%2598%25AF%25E9%25BB%2591%25E5%25AE%25A2%2F" title="互联网上的海盗" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/fO53hEo9.jpg?i=aLmovvGh" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">互联网上的海盗</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2010%2F08%2Farcgis-engine%25E4%25B8%25AD%25E9%2580%2589%25E4%25B8%25AD%25E8%25A6%2581%25E7%25B4%25A0%25E9%2597%25AA%25E7%2583%2581%25E6%2596%25B9%25E6%25B3%2595%25E7%259A%2584%25E5%25AE%259E%25E7%258E%25B0%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F08%2F%25E4%25BB%2580%25E4%25B9%2588%25E6%2598%25AF%25E9%25BB%2591%25E5%25AE%25A2%2F" title="ArcGIS Engine中选中要素闪烁方法的实现" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/E45kHZ3t.jpg?i=pO1Q5pwb" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">ArcGIS Engine中选中要素闪烁方法的实现</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F03%2Fdisadvantage-of-sina-microblog%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F08%2F%25E4%25BB%2580%25E4%25B9%2588%25E6%2598%25AF%25E9%25BB%2591%25E5%25AE%25A2%2F" title="新浪微博哪里不好？" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/kLin3ksS.jpg?i=EqqHDw33" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">新浪微博哪里不好？</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2010%2F11%2F%25E9%25AB%2598%25E6%2595%2588%25E7%25BC%2596%25E7%25A8%258B%25E4%25B9%258B%25E6%25AC%25B2%25E6%2593%2592%25E6%2595%2585%25E7%25BA%25B5%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F08%2F%25E4%25BB%2580%25E4%25B9%2588%25E6%2598%25AF%25E9%25BB%2591%25E5%25AE%25A2%2F" title="高效编程之欲擒故纵" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/FZAqc2hh.jpg?i=vcj7cVB7" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">高效编程之欲擒故纵</font>
-</a><br></td><br></tr><br><br><tr><br><td colspan="5" align="right"><br><a href="http://www.wumii.com/widget/relatedItems" title="无觅关联推荐" target="_blank" rel="external"><br><font size="-1" color="#bbbbbb" style="display: block !important; font-family: arial !important; padding: 5px 0 !important; font-size: 12px !important; color: #bbb !important;">无觅</font>
-</a><br></td><br></tr><br></table>
 ]]></content>
     
     
-      <category term="微信" scheme="http://essay.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
+      <category term="微信" scheme="http://blog.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
     
-      <category term="黑客文化" scheme="http://essay.igevin.info/tags/%E9%BB%91%E5%AE%A2%E6%96%87%E5%8C%96/"/>
+      <category term="黑客文化" scheme="http://blog.igevin.info/tags/%E9%BB%91%E5%AE%A2%E6%96%87%E5%8C%96/"/>
     
-      <category term="wordpress" scheme="http://essay.igevin.info/categories/wordpress/"/>
+      <category term="wechat" scheme="http://blog.igevin.info/categories/wechat/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[互联网上的海盗]]></title>
-    <link href="http://essay.igevin.info/2013/07/26/wordpress/%E4%BA%92%E8%81%94%E7%BD%91%E4%B8%8A%E7%9A%84%E6%B5%B7%E7%9B%97/"/>
-    <id>http://essay.igevin.info/2013/07/26/wordpress/互联网上的海盗/</id>
+    <link href="http://blog.igevin.info/2013/07/26/wordpress/pirate-in-internet/"/>
+    <id>http://blog.igevin.info/2013/07/26/wordpress/pirate-in-internet/</id>
     <published>2013-07-26T05:49:12.000Z</published>
-    <updated>2014-11-21T11:59:40.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="http://media.tumblr.com/f8faae896f094189abec9748ff83d407/tumblr_inline_mqhz6mwv3X1qz4rgp.jpg" alt="image"></p>
-<p>最近周杰伦的《天台爱情》很火，里面打造了一个乌托邦式的生活环境，其实，在科技的作用下，随着计算机的普及，一个数字乌托邦已经诞生。在这个乌托邦里，最high的一帮人是这个大航海时代的那群“海盗”。</p>
-<p>创业者（其中不乏相当一部分极客/黑客，这两个词也有交集，真不好表达，目前感觉极客是一个大圈，黑客是里面一个小圈:P）是海盗中最典型的一类，其实，是否是一个海盗可以称得上是判断一个人是为了创业而生活还是为了享受而生活的标准。互联网上的海盗们，不仅推动了科技的发展，而且也影响了我们的生活，最典型的一个人，就是乔布斯。<span id="more-1971"></span></p>
+    <updated>2014-12-15T11:55:42.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://upload-images.jianshu.io/upload_images/4041-c53d851e695493ce.jpg" alt="互联网上的海盗"></p>
+<p><em>本文源自我的微信公共账号 @GevinKnow，由于工作忙碌，没时间继续打理公共账号了，把原来的一些质量还可以的内容移植到这里，下面是正文:</em></p>
+<p>电影里有事会打造了一个乌托邦式的生活环境，作为故事背景；现实中，科技也孕育了一个数字乌托邦。在这个乌托邦里，最high的一帮人是这个大航海时代的那群“海盗”。</p>
+<p>创业者（其中不乏相当一部分极客/黑客，这两个词也有交集，真不好表达，极客是一个大圈，黑客基本是里面一个小圈:P）是海盗中最典型的一类，其实，是否是一个海盗可以称得上是判断一个人是为了创业而生活还是为了享受而生活的标准。互联网上的海盗们，不仅推动了科技的发展，而且也影响了我们的生活，最典型的一个人，就是乔布斯。</p>
 <p>乔布斯是一个真正的创业者，也是最早拿海盗和科技领域的拓荒者们做类比的人之一。苹果公司创建之初，乔布斯曾在公司里正对大门的墙上挂过一只海盗旗，这个被很多（自）媒体解读过，Gevin也有自己的看法，我觉得把那些计算机领域的拓荒者或者创业者与海盗做类比实在太形象了：</p>
 <p>首先，与海盗的生活一样，互联网上也充满冒险和刺激，没准哪时候自己就撑不住了或者被其他人给打败了。互联网上的创业者，一旦决心创业，和挂上海盗旗，在海盗船上扬帆起航没什么区别，黑白势力，盟友敌军，一一面对。</p>
-<p>其次，真正的海盗，应该是像《加勒比海盗》里描述的那样，他们追求财富，却是在享受刺激，当获取到财富之后，并不是他们生活的重点，财富可能会被一下子挥霍掉，冒险才是生活的主线，海盗们会朝着另一个财富目标前进，并乐此不疲；互联网上真正的创业者(黑客)们也是如此，他们追求的是用科技改变世界的那种刺激，而非以一技之长去敛财，所以乔布斯会对比尔盖茨有“他就是个商人”这个评价（当然，这更多是站在顶峰的一个人对顶峰上另一方人的评价，并非我等仰视之人所能及）。</p>
+<p>其次，真正的海盗，应该是像《加勒比海盗》里描述的那样，他们追求财富，却是在享受刺激，获取财富之后，伺机下一场刺激；财富可能会被一下子挥霍掉，冒险才是生活的主线，海盗们会朝着另一个财富目标前进，并乐此不疲。互联网上真正的创业者(黑客)们也是如此，他们追求的是用科技改变世界的那种刺激，而非以一技之长去敛财，所以乔布斯会对比尔盖茨有“他就是个商人”这个评价（当然，这更多是站在顶峰的一个人对顶峰上另一方人的评价，并非我等仰视之人所能及）。</p>
 <p>再次，海盗生涯中不乏鸡鸣狗盗之事，海盗会为了自己去危害他人，侵略别人的地盘；互联网的战场也是如此，最典型的就是复制创新（这里不倾向于说“山寨”，因为山寨给人的错觉是山寨产品无法超越原创产品）和盗版，苹果创建之初，乔布斯和他的小伙伴们也曾抄袭过别人的创意，而且更狠的是，乔布斯一边抄袭还一边宣称，创意是属于大家的，一个好的创意在一群挫人手上是玩不好的，他的行为是对创意的救赎（原话我不记得了，是说这个意思，有兴趣的同学可以翻看《乔布斯传》查查）。国内一个典型的例子是雷军创建的小米，标榜向苹果学习的小米，不仅精通了苹果的铁人三项，这方面也深得精髓，有兴趣的同学不妨去新浪微博找找小米的各种口水战。</p>
 <p>最后，海盗这个词，就是个paradox，有点自相矛盾，又很耐人寻味。虽然我上文说，真正的海盗是《加勒比海盗》里描述的那样，颇有侠客风范，但一提起海盗，人们总是情不自禁的与“恶人”挂钩。互联网上也是如此，正如说海盗的时候可能会用“真正的海盗”一词来强调一样，说黑客的时候也会倾向于说“真正的黑客”应该如何如何。互联网上的创业者，如同海盗一样，亦正亦邪。</p>
 <p>从海盗的角度，互联网还有很多讨论点，以后还会继续～</p>
 <p>——-What’s more——-</p>
 <p>图片是《海贼王》，其实《海贼王》一直是一个能够很好的阐述互联网的漫画，热爱互联网的人不妨一看。</p>
-<p>最近更新不够及时，果然清闲的时候不能懒散，否则忙起来就会打乱节奏，以后还是应该严格要求自己！</p>
-<p>本文作者Gevin，欢迎大家关注本公共账号@GevinKnow，如果大家觉得本文有价值，不妨分享给微信好友或分享到好友圈。</p>
-<p>转载麻烦表明出处。</p>
-<p>我的微信文章全部备份在 <a href="http://essay.igevin.info/" target="_blank" rel="external">http://essay.igevin.info</a></p>
-<p><img src="http://media.tumblr.com/d3d6c9459134f5fc05c5dd5f5cd868d7/tumblr_inline_mouo06uKLn1qz4rgp.jpg" alt="GevinKnow"></p>
-<div style="margin-top: 15px">
-
-<p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
-<p><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2013/07/one-piece-on-web/" target="_blank" rel="external">互联网上的海盗</a></p>
-<p></p></div><p></p>
-<p><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div></p>
-<table class="wumii-related-items" cellspacing="0" cellpadding="3" border="0" style="clear: both;"><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">猜您也喜欢：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fstart-with-hacker%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fone-piece-on-web%2F" title="从黑客说起" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/10Da0tmK8.jpg?i=11qPLTCWG" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">从黑客说起</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2013%2F08%2F%25E4%25BB%2580%25E4%25B9%2588%25E6%2598%25AF%25E9%25BB%2591%25E5%25AE%25A2%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fone-piece-on-web%2F" title="什么是黑客" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/fprN2qyz.jpg?i=d3I4sM1H" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">什么是黑客</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F11%2Ffree-mode-on-internet%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fone-piece-on-web%2F" title="互联网上的免费" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/3C65YGOh.jpg?i=ugASoxyy" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">互联网上的免费</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2011%2F10%2Ffor-steve-jobs%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fone-piece-on-web%2F" title="纪念乔布斯" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/letgrnFV.jpg?i=MtPkpubY" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">纪念乔布斯</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F05%2Fadvantage-of-instagram%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fone-piece-on-web%2F" title="instagram哪里好？" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/1evx9eB3f.png?i=hGNKyVjS" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">instagram哪里好？</font>
-</a><br></td><br></tr><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">来自无觅网络的相关文章：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fjingdian230.com%2F116&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fone-piece-on-web%2F" title="怎样把一个价值0.5元苹果卖到100万元(@jingdian230)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/ujYgwDoc.jpg?i=CT0RLHNr" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">怎样把一个价值0.5元苹果卖到100万元(@jingdian230)</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.swhack.cn%2Farchives%2F114.html&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fone-piece-on-web%2F" title="揭秘:中国最美“女”黑客和IT宅男(@swhack)" target="_blank" rel="external"><br><img src="http://www.wumii.com/profile_images/bcee30a48-2d39-4be1-a551-c4badd229d65.jpg" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">揭秘:中国最美“女”黑客和IT宅男(@swhack)</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwuyuans.com%2F2011%2F11%2F%25E3%2580%258A%25E6%2596%2587%25E5%258C%2596%25E8%258B%25A6%25E6%2597%2585%25E3%2580%258B%25E8%25AF%25BB%25E4%25B9%25A6%25E7%25AC%2594%25E8%25AE%25B0%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fone-piece-on-web%2F" title="《文化苦旅》读书笔记(@wuyuans)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/PQ4qfbXJ.jpg?i=tq0wjkaQ" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">《文化苦旅》读书笔记(@wuyuans)</font>
-</a><br></td><br></tr><br><br><tr><br><td colspan="5" align="right"><br><a href="http://www.wumii.com/widget/relatedItems" title="无觅关联推荐" target="_blank" rel="external"><br><font size="-1" color="#bbbbbb" style="display: block !important; font-family: arial !important; padding: 5px 0 !important; font-size: 12px !important; color: #bbb !important;">无觅</font>
-</a><br></td><br></tr><br></table>
 ]]></content>
     
     
-      <category term="微信" scheme="http://essay.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
+      <category term="微信" scheme="http://blog.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
     
-      <category term="黑客文化" scheme="http://essay.igevin.info/tags/%E9%BB%91%E5%AE%A2%E6%96%87%E5%8C%96/"/>
+      <category term="黑客文化" scheme="http://blog.igevin.info/tags/%E9%BB%91%E5%AE%A2%E6%96%87%E5%8C%96/"/>
     
-      <category term="wordpress" scheme="http://essay.igevin.info/categories/wordpress/"/>
+      <category term="wechat" scheme="http://blog.igevin.info/categories/wechat/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[余额宝靠谱么？]]></title>
-    <link href="http://essay.igevin.info/2013/07/13/wordpress/%E4%BD%99%E9%A2%9D%E5%AE%9D%E9%9D%A0%E8%B0%B1%E4%B9%88%EF%BC%9F/"/>
-    <id>http://essay.igevin.info/2013/07/13/wordpress/余额宝靠谱么？/</id>
+    <link href="http://blog.igevin.info/2013/07/13/wordpress/%E4%BD%99%E9%A2%9D%E5%AE%9D%E9%9D%A0%E8%B0%B1%E4%B9%88%EF%BC%9F/"/>
+    <id>http://blog.igevin.info/2013/07/13/wordpress/余额宝靠谱么？/</id>
     <published>2013-07-13T13:15:43.000Z</published>
     <updated>2014-11-21T11:59:40.000Z</updated>
     <content type="html"><![CDATA[<p><a href="http://blog.igevin.info/wp-content/uploads/2013/07/conceptual.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2013/07/conceptual.jpg" alt="long tail module"></a></p>
@@ -773,26 +732,27 @@
 ]]></content>
     
     
-      <category term="微信" scheme="http://essay.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
+      <category term="微信" scheme="http://blog.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
     
-      <category term="互联网" scheme="http://essay.igevin.info/tags/%E4%BA%92%E8%81%94%E7%BD%91/"/>
+      <category term="互联网" scheme="http://blog.igevin.info/tags/%E4%BA%92%E8%81%94%E7%BD%91/"/>
     
-      <category term="创新" scheme="http://essay.igevin.info/tags/%E5%88%9B%E6%96%B0/"/>
+      <category term="创新" scheme="http://blog.igevin.info/tags/%E5%88%9B%E6%96%B0/"/>
     
-      <category term="营销" scheme="http://essay.igevin.info/tags/%E8%90%A5%E9%94%80/"/>
+      <category term="营销" scheme="http://blog.igevin.info/tags/%E8%90%A5%E9%94%80/"/>
     
-      <category term="wordpress" scheme="http://essay.igevin.info/categories/wordpress/"/>
+      <category term="wordpress" scheme="http://blog.igevin.info/categories/wordpress/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[从黑客说起]]></title>
-    <link href="http://essay.igevin.info/2013/07/03/wordpress/%E4%BB%8E%E9%BB%91%E5%AE%A2%E8%AF%B4%E8%B5%B7/"/>
-    <id>http://essay.igevin.info/2013/07/03/wordpress/从黑客说起/</id>
+    <link href="http://blog.igevin.info/2013/07/03/wordpress/start-discussion-from-hacker/"/>
+    <id>http://blog.igevin.info/2013/07/03/wordpress/start-discussion-from-hacker/</id>
     <published>2013-07-03T06:35:27.000Z</published>
-    <updated>2014-11-21T11:59:40.000Z</updated>
-    <content type="html"><![CDATA[<p><a href="http://blog.igevin.info/wp-content/uploads/2013/07/neo-matrix.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2013/07/neo-matrix.jpg" alt="neo-matrix"></a></p>
-<p>黑客是一个被新闻和娱乐圈魔化的词，不止在国内，国外也是如此。不过中文中的黑客有一点与英文不同。英文中的黑客是分为hacker和cracker的，而中文把这两个词均翻译为黑客。英文中的hack这个词很有趣，用一些旁门左道破坏一个东西称为hack，非常精通于某个技能，把某个东西用的出神入化也称为hack，因此，hacker一词，即可以表示那些搞破坏的人，也能表示那些技能高超，能够巧妙高效解决问题的人。当计算机繁荣发展起来以后，正是因为hacker噱头，媒体魔化了hacker以吸引读者和观众的注意。而cracker一词比较简单，就是那些搞破坏的人。<span id="more-1951"></span><a id="more"></a></p>
+    <updated>2014-12-15T11:55:42.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://upload-images.jianshu.io/upload_images/4041-dc8b498d9221f33d.jpg" alt="neo-matrix.jpg"></p>
+<p><em>本文源自我的微信公共账号 @GevinKnow，由于工作忙碌，没时间继续打理公共账号了，把原来的一些质量还可以的内容移植到这里，下面是正文:</em></p>
+<p>黑客是一个被新闻和娱乐圈魔化的词，不止在国内，国外也是如此。不过中文中的黑客有一点与英文不同。英文中的黑客是分为hacker和cracker的，而中文把这两个词均翻译为黑客。英文中的hack这个词很有趣，用一些旁门左道破坏一个东西称为hack，非常精通于某个技能，把某个东西用的出神入化也称为hack，因此，hacker一词，即可以表示那些搞破坏的人，也能表示那些技能高超，能够巧妙高效解决问题的人。当计算机繁荣发展起来以后，正是因为hacker噱头，媒体魔化了hacker以吸引读者和观众的注意。而cracker一词比较简单，就是那些搞破坏的人。</p>
 <p>hacker中有大量的天才兼计算机高手，他们所做的事情带来了计算机的繁荣——推动了计算机技术的发展，完善了计算机的架构体系，创造了个人计算机并让计算机进入家家户户。也许，真正的黑客都不约而同的专注在计算机的某一个领域，从来不自称hacker或者“Real Programmer”，但很多资历尚浅的黑客会与cracker划清界限：他们把嚷着自己是黑客，又蓄意破坏别人计算机或者电话系统的人成为骇客（cracker），并不屑与之为伍，还会宣称“黑客搞建设，骇客搞破坏”。</p>
 <p>黑客们解决问题，建设事物，同时他们崇尚自由和无私的双向帮助。 要被他人承认是一名黑客，你的行为得体现出你好像具备了这种态度一般。 而要想做得好象你具备这种态度一般，你就得切切实实坚持它。</p>
 <p>黑客认为，世界充满了待解决的迷人问题，而且一个问题不应该被解决两次。聪明的脑袋是宝贵的有限的资源。当世界还充满非常多有待解决的有趣的新问题时， 它们不应该被浪费在重新发明轮子这类事情上。</p>
@@ -802,42 +762,21 @@
 <p>关于黑客，今天就先说这么多。之所以写关于黑客的内容，主要原因是，黑客带来了计算机的蓬勃发展，黑客文化和互联网上的免费有千丝万缕的联系，黑客文化本来就是值得去写的内容，这个话题还能很好的与前面说的互联网上的免费互补。本文算是黑客话题开篇了。讨论这个话题，还有一点是因为斯诺登，再不说两句，黄花菜都凉了。</p>
 <p>黑客崇尚自由，反对独裁。信息应该是公开的，免费共享的。备受黑客文化影响的信息时代，审查和保密不是什么值得称道的事情。做技术的人，即便称不上黑客，也或多或少有这么一点共识。因此，在懂技术的人看来，斯诺登牺牲了自己的很多利益，勇敢的做了一件正确的事情，他可以被称为一个英雄。不过，我更认同小道君的说法，把斯诺登称之为侠客。侠客有自己的行事准则，他们也许会违法律法，但他们会借助自己的能力做一些独特的事情，用自己的方式表达一种正义，因此，把斯诺登看作是一位信息时代的侠客更合适。</p>
 <p>信息的大航海中，需要海贼，但来点侠客也不错。</p>
-<p>——-What’s more——-</p>
-<p>本文作者Gevin，欢迎关注本公共帐号 @GevinKnow，如果您认为本文有价值，不妨分享到朋友圈或微博，转载请表明出处</p>
-<p><img src="http://blog.igevin.info/wp-content/uploads/2013/06/qrcode_for_gh_df84b04855a2_430-300x300.jpg" alt="qrcode_for_gh_df84b04855a2_430"></p>
-<p>本文参考了<a href="http://www.catb.org/esr/faqs/hacker-howto.html" target="_blank" rel="external">How To Become A Hacker</a>，有兴趣的朋友可以看看</p>
-<p>这里是小道君的<a href="http://mp.weixin.qq.com/mp/appmsg/show?__biz=MjM5ODIyMTE0MA%3D%3D&amp;appmsgid=10000624&amp;itemidx=1&amp;sign=1587af717128406533f04c1785926047&amp;scene=3#wechat_redirect" target="_blank" rel="external">侠以武犯禁</a></p>
-<p><div style="margin-top: 15px"></div></p>
-<p></p><p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
-<p><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2013/07/start-with-hacker/" target="_blank" rel="external">从黑客说起</a></p>
-<p></p>
-<p><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div></p>
-<table class="wumii-related-items" cellspacing="0" cellpadding="3" border="0" style="clear: both;"><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">猜您也喜欢：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2013%2F08%2F%25E4%25BB%2580%25E4%25B9%2588%25E6%2598%25AF%25E9%25BB%2591%25E5%25AE%25A2%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fstart-with-hacker%2F" title="什么是黑客" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/fprN2qyz.jpg?i=d3I4sM1H" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">什么是黑客</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fone-piece-on-web%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fstart-with-hacker%2F" title="互联网上的海盗" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/fO53hEo9.jpg?i=aLmovvGh" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">互联网上的海盗</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2011%2F06%2Fwrite-cool-blog%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fstart-with-hacker%2F" title="如何写漂亮的博客" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/CuzHgGDy.jpg?i=2Juv8yn1" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">如何写漂亮的博客</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F03%2Fdisadvantage-of-sina-microblog%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fstart-with-hacker%2F" title="新浪微博哪里不好？" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/kLin3ksS.jpg?i=EqqHDw33" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">新浪微博哪里不好？</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2010%2F09%2Fphp-blog-no-database%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fstart-with-hacker%2F" title="无需数据库支持的php博客程序" target="_blank" rel="external"><br><img src="http://static.wumii.cn/resources/images/related_item_default/84.jpg" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">无需数据库支持的php博客程序</font>
-</a><br></td><br></tr><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">来自无觅网络的相关文章：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.swhack.cn%2Farchives%2F114.html&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fstart-with-hacker%2F" title="揭秘:中国最美“女”黑客和IT宅男(@swhack)" target="_blank" rel="external"><br><img src="http://www.wumii.com/profile_images/bcee30a48-2d39-4be1-a551-c4badd229d65.jpg" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">揭秘:中国最美“女”黑客和IT宅男(@swhack)</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwuyuans.com%2F2011%2F11%2F%25E3%2580%258A%25E6%2596%2587%25E5%258C%2596%25E8%258B%25A6%25E6%2597%2585%25E3%2580%258B%25E8%25AF%25BB%25E4%25B9%25A6%25E7%25AC%2594%25E8%25AE%25B0%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fstart-with-hacker%2F" title="《文化苦旅》读书笔记(@wuyuans)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/PQ4qfbXJ.jpg?i=tq0wjkaQ" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">《文化苦旅》读书笔记(@wuyuans)</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.yseeker.com%2Farchives%2F2892.html&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Fstart-with-hacker%2F" title="中国雅虎新推出“雅虎文化”频道(@yseeker)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/6koAWpUT.jpg?i=1g4wyLg2" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">中国雅虎新推出“雅虎文化”频道(@yseeker)</font>
-</a><br></td><br></tr><br><br><tr><br><td colspan="5" align="right"><br><a href="http://www.wumii.com/widget/relatedItems" title="无觅关联推荐" target="_blank" rel="external"><br><font size="-1" color="#bbbbbb" style="display: block !important; font-family: arial !important; padding: 5px 0 !important; font-size: 12px !important; color: #bbb !important;">无觅</font>
-</a><br></td><br></tr><br></table>
 ]]></content>
-    <summary type="html"><![CDATA[<p><a href="http://blog.igevin.info/wp-content/uploads/2013/07/neo-matrix.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2013/07/neo-matrix.jpg" alt="neo-matrix"></a></p>
-<p>黑客是一个被新闻和娱乐圈魔化的词，不止在国内，国外也是如此。不过中文中的黑客有一点与英文不同。英文中的黑客是分为hacker和cracker的，而中文把这两个词均翻译为黑客。英文中的hack这个词很有趣，用一些旁门左道破坏一个东西称为hack，非常精通于某个技能，把某个东西用的出神入化也称为hack，因此，hacker一词，即可以表示那些搞破坏的人，也能表示那些技能高超，能够巧妙高效解决问题的人。当计算机繁荣发展起来以后，正是因为hacker噱头，媒体魔化了hacker以吸引读者和观众的注意。而cracker一词比较简单，就是那些搞破坏的人。<span id="more-1951"></span>]]></summary>
     
-      <category term="微信" scheme="http://essay.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
     
-      <category term="黑客文化" scheme="http://essay.igevin.info/tags/%E9%BB%91%E5%AE%A2%E6%96%87%E5%8C%96/"/>
+      <category term="微信" scheme="http://blog.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
     
-      <category term="wordpress" scheme="http://essay.igevin.info/categories/wordpress/"/>
+      <category term="黑客文化" scheme="http://blog.igevin.info/tags/%E9%BB%91%E5%AE%A2%E6%96%87%E5%8C%96/"/>
+    
+      <category term="wechat" scheme="http://blog.igevin.info/categories/wechat/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[下一个颠覆，路由器？]]></title>
-    <link href="http://essay.igevin.info/2013/06/27/wordpress/%E4%B8%8B%E4%B8%80%E4%B8%AA%E9%A2%A0%E8%A6%86%EF%BC%8C%E8%B7%AF%E7%94%B1%E5%99%A8%EF%BC%9F/"/>
-    <id>http://essay.igevin.info/2013/06/27/wordpress/下一个颠覆，路由器？/</id>
+    <link href="http://blog.igevin.info/2013/06/27/wordpress/%E4%B8%8B%E4%B8%80%E4%B8%AA%E9%A2%A0%E8%A6%86%EF%BC%8C%E8%B7%AF%E7%94%B1%E5%99%A8%EF%BC%9F/"/>
+    <id>http://blog.igevin.info/2013/06/27/wordpress/下一个颠覆，路由器？/</id>
     <published>2013-06-27T10:10:28.000Z</published>
     <updated>2014-11-21T11:59:40.000Z</updated>
     <content type="html"><![CDATA[<p><img src="http://media.tumblr.com/d7001a1a4edfead37486bd8638e76a7e/tumblr_inline_moyaqg5XpN1qz4rgp.jpg" alt=""></p>
@@ -873,120 +812,82 @@
 ]]></content>
     
     
-      <category term="微信" scheme="http://essay.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
+      <category term="微信" scheme="http://blog.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
     
-      <category term="创新" scheme="http://essay.igevin.info/tags/%E5%88%9B%E6%96%B0/"/>
+      <category term="创新" scheme="http://blog.igevin.info/tags/%E5%88%9B%E6%96%B0/"/>
     
-      <category term="wordpress" scheme="http://essay.igevin.info/categories/wordpress/"/>
+      <category term="wordpress" scheme="http://blog.igevin.info/categories/wordpress/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[天上掉的馅饼（二）]]></title>
-    <link href="http://essay.igevin.info/2013/06/23/wordpress/%E5%A4%A9%E4%B8%8A%E6%8E%89%E7%9A%84%E9%A6%85%E9%A5%BC%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
-    <id>http://essay.igevin.info/2013/06/23/wordpress/天上掉的馅饼（二）/</id>
+    <link href="http://blog.igevin.info/2013/06/23/wordpress/internet-free-2/"/>
+    <id>http://blog.igevin.info/2013/06/23/wordpress/internet-free-2/</id>
     <published>2013-06-23T14:09:19.000Z</published>
-    <updated>2014-11-21T11:59:40.000Z</updated>
-    <content type="html"><![CDATA[<p><a href="http://blog.igevin.info/wp-content/uploads/2012/11/Downloads-001.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/11/Downloads-001.jpg" alt="互联网上的免费"></a></p>
-<p>上次说这篇微信要讨论一下互联网上的免费，之前由于在准备一些其他事情的资料，一直没有更新。今天有空，我们继续～</p>
-<p>互联网诞生以来，就不断的改变着世界，它的价值不在于创造了一个虚拟的世界，而在于改善着人们的现实生活，让我们的生活更加有趣和美好。免费，在互联网的作用下，开始是越来越多的展现到人们眼前，现在是变着花样的在人们眼前走秀。传统的免费手段，在互联网的作用下表现的淋漓尽致，互联网的发展也催生了真正可以免费的东西。<span id="more-1933"></span></p>
+    <updated>2014-12-15T11:55:42.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://upload-images.jianshu.io/upload_images/4041-c7656ad14c51fd1b.jpg" alt="互联网上的免费"></p>
+<p><em>本文源自我的微信公共账号 @GevinKnow，由于工作忙碌，没时间继续打理公共账号了，把原来的一些质量还可以的内容移植到这里，下面是正文:</em></p>
+<p>互联网诞生以来，就不断的改变着世界，它的价值不在于创造了一个虚拟的世界，而在于改善着人们的现实生活，让我们的生活更加有趣和美好。免费，在互联网的作用下，开始是越来越多的展现到人们眼前，现在是变着花样的在人们眼前走秀。传统的免费手段，在互联网的作用下表现的淋漓尽致，互联网的发展也催生了真正可以免费的东西。</p>
 <p>微信公共平台上，很多公共帐号都会分享大量有价值的信息，甚至有像“小道消息”，“道哥的黑板报”等公共大号，每天都更新原创的优质内容，这些内容版权归属创作者，但所有人都可以免费获取。优质的内容价值不菲，但价值的衡量并不总以金钱为单位，声誉，关注度，以及一些不容易察觉的其他因素，如表达观点、分享快乐、种下善因、得到满足感，或者纯粹的自我兴趣，促使了信息的传播，也为信息创造了更加丰富的价值。</p>
 <p>互联网上的信息和价值，并不总是与金钱挂钩的。</p>
 <p>另外一种经典的互联网的免费，是劳动交换。例如Google通过其高效的算法，为用户免费提供优质的搜索服务，使得互联网上海量的信息，能够按大家都需求，精确的展现到每个用户面前。免费提供搜索服务，不断优化搜索算法，Google在搜索的基础上，成为了超越微软的IT巨头，Google的盈利从何而来？前期的Google，盈利主要来源于广告。人们每次用Google进行搜索，都能帮助Google提高精确定位广告的算法，也优化了搜索的算法。人们使用Google越多，Google的广告投放越精确，而人们获取的搜索结果也越准确。这是一种双赢。</p>
 <p>除了通过劳动交换，优质的服务还可以使用“免费+付费”模式。号称要做用户第二大脑evernote就是这种模式的典型产品。免费版的evernote，已经足够普通用户使用，而且其跨平台、方便高效和开放api等特点，也使其在与同类产品的竞争中处于优势地位。足够优秀的免费版evernote，已经获得了无数用户，其中不乏大量铁杆用户。但如果要获得evernote的更多服务，如离线笔记，协同工作，附件信息的搜索等，或者由于更简单的原因，免费用户的存储容量已经耗尽，需要购买更多容量，这时就需要成为付费用户。</p>
-<p>&nbsp;</p>
 <p>“免费+付费”模式的开发者多遵守守5%定律，即5%的付费用户是网站的所有收入来源，95%的用户获得优质的免费服务，这些用户加强了app或者网站的黏度，成为自己发展壮大的基础。这也是一种双赢。</p>
 <p>再有常见的互联网的免费，就是各家电商，制造各种免费和优惠，对消费者进行争夺了。在电商之战愈加激烈的今天，相信大家都感同身受吧～</p>
 <p>互联网上的免费层出不穷，很多的创新，以及互联网公司的盈利模式，也都是在“免费”上做文章，互联网上为什么会产生如此之多的免费，免费为何可以在互联网上蓬勃发展起来呢？欲知原因何在，且听下回分解。</p>
 <p>——-What’s more———</p>
 <p>原本说要在本文介绍免费模式——“三方市场”的，那时本没打算花这么多笔墨讨论互联网的免费，结果现在这部分内容不好穿插到本文中来了，这段内容以后再写吧，整理下其他相关内容，作为一篇独立的文章展开好了。</p>
-<p>本文作者Gevin，欢迎关注本公共帐号@GevinKnow</p>
-<p><a href="http://blog.igevin.info/wp-content/uploads/2013/06/qrcode_for_gh_df84b04855a2_430.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2013/06/qrcode_for_gh_df84b04855a2_430-300x300.jpg" alt="qrcode_for_gh_df84b04855a2_430"></a></p>
-<p>&nbsp;</p>
-<p>图片是自己找素材做的</p>
-<p>文章均备份到这里 <a href="http://essay.igevin.info/" target="_blank" rel="external">http://essay.igevin.info</a></p>
-<p><div style="margin-top: 15px"></div></p>
-<p></p><p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
-<p><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2013/06/%e5%a4%a9%e4%b8%8a%e6%8e%89%e7%9a%84%e9%a6%85%e9%a5%bc%ef%bc%88%e4%ba%8c%ef%bc%89/" target="_blank" rel="external">天上掉的馅饼（二）</a></p>
-<p></p>
-<p><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div></p>
-<table class="wumii-related-items" cellspacing="0" cellpadding="3" border="0" style="clear: both;"><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">猜您也喜欢：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Ffree-mode1%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2F%25E5%25A4%25A9%25E4%25B8%258A%25E6%258E%2589%25E7%259A%2584%25E9%25A6%2585%25E9%25A5%25BC%25EF%25BC%2588%25E4%25BA%258C%25EF%25BC%2589%2F" title="天上掉的馅饼（一）" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/1au7ahc5y.jpg?i=Jf5p94PG" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">天上掉的馅饼（一）</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Falipay-fund-reliable%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2F%25E5%25A4%25A9%25E4%25B8%258A%25E6%258E%2589%25E7%259A%2584%25E9%25A6%2585%25E9%25A5%25BC%25EF%25BC%2588%25E4%25BA%258C%25EF%25BC%2589%2F" title="余额宝靠谱么？" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/ev0oZ9cH.jpg?i=eyWwklBG" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">余额宝靠谱么？</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2011%2F01%2Fgoogle-search-skill%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2F%25E5%25A4%25A9%25E4%25B8%258A%25E6%258E%2589%25E7%259A%2584%25E9%25A6%2585%25E9%25A5%25BC%25EF%25BC%2588%25E4%25BA%258C%25EF%25BC%2589%2F" title="Google技巧：优化搜索，优化结果" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/FdvNBwH8.jpg?i=Yigb6fRp" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">Google技巧：优化搜索，优化结果</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2010%2F06%2Fgoogle-skill-1%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2F%25E5%25A4%25A9%25E4%25B8%258A%25E6%258E%2589%25E7%259A%2584%25E9%25A6%2585%25E9%25A5%25BC%25EF%25BC%2588%25E4%25BA%258C%25EF%25BC%2589%2F" title="Google 搜索技巧" target="_blank" rel="external"><br><img src="http://static.wumii.cn/resources/images/related_item_default/59.jpg" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">Google 搜索技巧</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F11%2Ffree-mode-on-internet%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2F%25E5%25A4%25A9%25E4%25B8%258A%25E6%258E%2589%25E7%259A%2584%25E9%25A6%2585%25E9%25A5%25BC%25EF%25BC%2588%25E4%25BA%258C%25EF%25BC%2589%2F" title="互联网上的免费" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/3C65YGOh.jpg?i=ugASoxyy" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">互联网上的免费</font>
-</a><br></td><br></tr><br><br><tr><br><td colspan="5" align="right"><br><a href="http://www.wumii.com/widget/relatedItems" title="无觅关联推荐" target="_blank" rel="external"><br><font size="-1" color="#bbbbbb" style="display: block !important; font-family: arial !important; padding: 5px 0 !important; font-size: 12px !important; color: #bbb !important;">无觅</font>
-</a><br></td><br></tr><br></table>
 ]]></content>
     
     
-      <category term="微信" scheme="http://essay.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
+      <category term="微信" scheme="http://blog.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
     
-      <category term="营销" scheme="http://essay.igevin.info/tags/%E8%90%A5%E9%94%80/"/>
+      <category term="营销" scheme="http://blog.igevin.info/tags/%E8%90%A5%E9%94%80/"/>
     
-      <category term="wordpress" scheme="http://essay.igevin.info/categories/wordpress/"/>
+      <category term="wechat" scheme="http://blog.igevin.info/categories/wechat/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[天上掉的馅饼（一）]]></title>
-    <link href="http://essay.igevin.info/2013/06/17/wordpress/%E5%A4%A9%E4%B8%8A%E6%8E%89%E7%9A%84%E9%A6%85%E9%A5%BC%EF%BC%88%E4%B8%80%EF%BC%89/"/>
-    <id>http://essay.igevin.info/2013/06/17/wordpress/天上掉的馅饼（一）/</id>
+    <link href="http://blog.igevin.info/2013/06/17/wordpress/internet-free-1/"/>
+    <id>http://blog.igevin.info/2013/06/17/wordpress/internet-free-1/</id>
     <published>2013-06-17T11:35:58.000Z</published>
-    <updated>2014-11-21T11:59:40.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="http://media.tumblr.com/a75cca17cebbbee2721143ceedfa5979/tumblr_inline_mnz3mbuEst1qz4rgp.jpg" alt=""></p>
-<p>本文源自我的微信公共账户 @GevinKnow</p>
-<p>申请了微信公共账户，就应该多发一些干货，一方面是对自己知识的总结和再思考，另一方面也是和大家的交流。就目前的情况看，每天一更新比较困难，大家就每天启动一个惊喜吧～</p>
+    <updated>2014-12-15T11:55:42.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://media.tumblr.com/a75cca17cebbbee2721143ceedfa5979/tumblr_inline_mnz3mbuEst1qz4rgp.jpg" alt="互联网上的免费"></p>
+<p><em>本文源自我的微信公共账号 @GevinKnow，由于工作忙碌，没时间继续打理公共账号了，把原来的一些质量还可以的内容移植到这里，下面是正文:</em></p>
 <p>今天的话题是“免费”。</p>
 <p>俗话说，天下没有免费的午餐，不过天上掉馅饼的事却真的会发生，比如超市、地铁口的免费报纸杂志，宜家的免费食物，这些天上掉的馅饼，它们本身存在价值，而且让顾客感觉赚到了便宜，但他们并非真正免费。</p>
 <p>传统的行业里，做到真正的免费是不可能的，商家为什么还要提供免费，提供免费造成的损失，又要怎么来补偿呢？</p>
-<p><span id="more-1908"></span></p>
-<p>1. 免费的心理效力</p>
+<ol>
+<li>免费的心理效力</li>
+</ol>
 <p>商家之所以提供免费，很大的一部分原因是由于“免费”给人们带来的心理效应。心理学家曾做过实验，在同一个展柜里同时销售劣质的2元巧克力和优质的12元的巧克力时，大部分消费者会经过思考，选择12元的优质巧克力；当把巧克力的价格均降低1元后，大部分消费者依然会经过理性的思考，选择11元的优质巧克力；当价格再降低1元后，大部分消费者会蜂拥的选择免费的劣质巧克力。免费会严重影响消费者的理想判断力。</p>
 <p>心理学家还发现，一旦碰到要收费的问题，我们的脑子里就会立起一面小旗，会考虑“掏这笔钱值得吗”。如果要收费，甭管收费多少，我们作为消费者都会扪心自问是否真的想掏钱包。但如果某件商品的价格是零的话，脑子里的那个小旗就不会立起来了，这时，我们倾向于消费很多，而且毫不在意。</p>
-<p>2. 免费的交叉补贴</p>
+<ol>
+<li>免费的交叉补贴</li>
+</ol>
 <p>既然在传统的行业里不可能有完全免费的东西，那免费的差价又是如何补贴的呢？</p>
-<p>《免费》一书中指出，交叉补贴的方法有三种：（1）用付费产品补贴免费产品；（2）用日后付费补贴当前免费；（3）付费人群为免费人群提供补贴。</p>
+<p><a href="http://book.douban.com/subject/3932520/" target="_blank" rel="external">《免费》</a>一书中指出，交叉补贴的方法有三种：（1）用付费产品补贴免费产品；（2）用日后付费补贴当前免费；（3）付费人群为免费人群提供补贴。</p>
 <p>传统行业里的免费形式，无非这些补贴方法的灵活使用。最直接的一种免费形式叫做“直接交叉补贴”，是指利用免费商品吸引消费者注意，当消费者的消费欲望被激发后，会花钱购买商家的一大堆不免费的商品，从而补贴了用于免费的商品消耗的成本。这种形式的免费最常见，而且在电商中快用烂了，一说到这里第一反应就是“满××元免运费”，“××商品0元起购”……</p>
-<p>&nbsp;</p>
 <p>直接交叉补贴中，免费的东西是“吸引消费者掏腰包买其他东西的商品”，享受免费人是“最后掏腰包消费的人”；还有一种免费形式，免费的东西是“信息、实物、服务或者软件等生活中随处可见的东西”，享受免费人是“所有人”，这种免费形式叫做“三方市场”，打算下一篇再详细介绍。</p>
-<p>&nbsp;</p>
 <p>另外，虽然在传统行业里，有价值的东西无法真正免费，但互联网的诞生却带来了真正免费的东西，互联网不仅创造了真正免费的东西，而且也为免费带来了变革，让所有人享受到了更多免费带来的好处。下一篇的主题将围绕“互联网上的免费”展开。</p>
-<p>&nbsp;</p>
-<p>——What’s more——</p>
-<p>本文作者Gevin，欢迎关注本公共帐号@GevinKnow</p>
-<p>点击<a href="http://essay.igevin.info/post/52298224089" target="_blank" rel="external">阅读原文</a>查看本文的网上备份</p>
-<p><a href="http://blog.igevin.info/wp-content/uploads/2013/06/qrcode_for_gh_df84b04855a2_430.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2013/06/qrcode_for_gh_df84b04855a2_430-300x300.jpg" alt="qrcode_for_gh_df84b04855a2_430"></a></p>
-<p><div style="margin-top: 15px"></div></p>
-<p></p><p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
-<p><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2013/06/free-mode1/" target="_blank" rel="external">天上掉的馅饼（一）</a></p>
-<p></p>
-<p><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div></p>
-<table class="wumii-related-items" cellspacing="0" cellpadding="3" border="0" style="clear: both;"><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">猜您也喜欢：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2F%25E5%25A4%25A9%25E4%25B8%258A%25E6%258E%2589%25E7%259A%2584%25E9%25A6%2585%25E9%25A5%25BC%25EF%25BC%2588%25E4%25BA%258C%25EF%25BC%2589%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Ffree-mode1%2F" title="天上掉的馅饼（二）" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/3C65YGOh.jpg?i=kICOQC5k" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">天上掉的馅饼（二）</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Falipay-fund-reliable%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Ffree-mode1%2F" title="余额宝靠谱么？" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/ev0oZ9cH.jpg?i=eyWwklBG" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">余额宝靠谱么？</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F11%2Ffree-mode-on-internet%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Ffree-mode1%2F" title="互联网上的免费" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/3C65YGOh.jpg?i=ugASoxyy" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">互联网上的免费</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2011%2F05%2Fpkm-ikeepu%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Ffree-mode1%2F" title="个人知识库：爱库" target="_blank" rel="external"><br><img src="http://static.wumii.cn/resources/images/related_item_default/2.jpg" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">个人知识库：爱库</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2010%2F11%2F3q-war%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Ffree-mode1%2F" title="从QQ与360之战谈起" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/EiEo67x7.jpg?i=Q5oqGdPA" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">从QQ与360之战谈起</font>
-</a><br></td><br></tr><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">来自无觅网络的相关文章：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fjingdian230.com%2F12498&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Ffree-mode1%2F" title="关于营销的励志语录(@jingdian230)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/CEyZMN8.jpg?i=3yvp9MxE" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">关于营销的励志语录(@jingdian230)</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fjingdian230.com%2F14423&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Ffree-mode1%2F" title="营销励志名言(@jingdian230)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/1cW6UDslt.jpg?i=kXBs3zLG" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">营销励志名言(@jingdian230)</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.yseeker.com%2Farchives%2F11631.html&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Ffree-mode1%2F" title="Yahoo 奇摩数字营销高峰会解构三大趋势：大数据、内容营销、O2O(@yseeker)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/rPvQ8atK.jpg?i=uB9oI5SE" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">Yahoo 奇摩数字营销高峰会解构三大趋势：大数据、内容营销、O2O(@yseeker)</font>
-</a><br></td><br></tr><br><br><tr><br><td colspan="5" align="right"><br><a href="http://www.wumii.com/widget/relatedItems" title="无觅关联推荐" target="_blank" rel="external"><br><font size="-1" color="#bbbbbb" style="display: block !important; font-family: arial !important; padding: 5px 0 !important; font-size: 12px !important; color: #bbb !important;">无觅</font>
-</a><br></td><br></tr><br></table>
 ]]></content>
     
     
-      <category term="微信" scheme="http://essay.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
+      <category term="微信" scheme="http://blog.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
     
-      <category term="营销" scheme="http://essay.igevin.info/tags/%E8%90%A5%E9%94%80/"/>
+      <category term="营销" scheme="http://blog.igevin.info/tags/%E8%90%A5%E9%94%80/"/>
     
-      <category term="wordpress" scheme="http://essay.igevin.info/categories/wordpress/"/>
+      <category term="wechat" scheme="http://blog.igevin.info/categories/wechat/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Hello, 微信]]></title>
-    <link href="http://essay.igevin.info/2013/06/17/wordpress/Hello-%E5%BE%AE%E4%BF%A1/"/>
-    <id>http://essay.igevin.info/2013/06/17/wordpress/Hello-微信/</id>
+    <link href="http://blog.igevin.info/2013/06/17/wordpress/Hello-%E5%BE%AE%E4%BF%A1/"/>
+    <id>http://blog.igevin.info/2013/06/17/wordpress/Hello-微信/</id>
     <published>2013-06-17T11:24:14.000Z</published>
     <updated>2014-11-21T11:59:40.000Z</updated>
     <content type="html"><![CDATA[<p><a href="http://blog.igevin.info/2013/06/hello-weixin" target="_blank" rel="external"><img src="http://media.tumblr.com/8120e71c1f10233a05652bd232f169f2/tumblr_inline_mnpsdtMNaU1qz4rgp.jpg" alt=""></a></p>
@@ -1034,18 +935,18 @@
 ]]></content>
     
     
-      <category term="微信" scheme="http://essay.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
+      <category term="微信" scheme="http://blog.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
     
-      <category term="用户体验" scheme="http://essay.igevin.info/tags/%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/"/>
+      <category term="用户体验" scheme="http://blog.igevin.info/tags/%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/"/>
     
-      <category term="wordpress" scheme="http://essay.igevin.info/categories/wordpress/"/>
+      <category term="wordpress" scheme="http://blog.igevin.info/categories/wordpress/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[产品经理要懂多少技术]]></title>
-    <link href="http://essay.igevin.info/2013/05/17/2013-05-01-how-pm-know-tech/"/>
-    <id>http://essay.igevin.info/2013/05/17/2013-05-01-how-pm-know-tech/</id>
+    <link href="http://blog.igevin.info/2013/05/17/2013-05-01-how-pm-know-tech/"/>
+    <id>http://blog.igevin.info/2013/05/17/2013-05-01-how-pm-know-tech/</id>
     <published>2013-05-16T16:00:00.000Z</published>
     <updated>2014-09-30T14:17:53.000Z</updated>
     <content type="html"><![CDATA[<p><img src="http://gevin-zone.qiniudn.com/gevin_essayjobs6A_meitu_1.jpg" alt="image"></p>
@@ -1097,18 +998,18 @@
 ]]></content>
     
     
-      <category term="产品" scheme="http://essay.igevin.info/tags/%E4%BA%A7%E5%93%81/"/>
+      <category term="产品" scheme="http://blog.igevin.info/tags/%E4%BA%A7%E5%93%81/"/>
     
-      <category term="程序员" scheme="http://essay.igevin.info/categories/%E7%A8%8B%E5%BA%8F%E5%91%98/"/>
+      <category term="程序员" scheme="http://blog.igevin.info/categories/%E7%A8%8B%E5%BA%8F%E5%91%98/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[互联网上的免费]]></title>
-    <link href="http://essay.igevin.info/2012/11/25/wordpress/%E4%BA%92%E8%81%94%E7%BD%91%E4%B8%8A%E7%9A%84%E5%85%8D%E8%B4%B9/"/>
-    <id>http://essay.igevin.info/2012/11/25/wordpress/互联网上的免费/</id>
+    <link href="http://blog.igevin.info/2012/11/25/wordpress/internet-free/"/>
+    <id>http://blog.igevin.info/2012/11/25/wordpress/internet-free/</id>
     <published>2012-11-25T14:40:08.000Z</published>
-    <updated>2014-11-21T11:59:40.000Z</updated>
+    <updated>2014-12-15T11:55:42.000Z</updated>
     <content type="html"><![CDATA[<p>&nbsp;</p>
 <p><a href="http://blog.igevin.info/wp-content/uploads/2012/11/Downloads-001.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/11/Downloads-001.jpg" alt="" title="互联网上的免费"></a></p>
 <p><span style="color: #008000;">『核心观点』互联网是众多行业中的一种,在传统的行业里,通过免费盈利的案例早已存在,这是互联网可以借鉴之处;另外,互联网这个行业利用自己的特点,可以向用户提供一些&#8221;真正免费&#8221;的东西。免费的灵活应用以及盈利模式的创新，让互联网更加丰富，也让互联网更加优质。<span id="more-1853"></span></span></p>
@@ -1158,32 +1059,19 @@
 <p>就此打住吧，最后想说明一下：以前看《怪诞行为学》时，开始对免费产生好奇，并开始关注互联网上的免费，最近想写本文内容时，居然看到相同主题的《免费》一书，由于作者比我强太多了，我在写文章时不自觉的照抄了上面的好多理论，希望大家见谅啦！另外，也向大家推荐上面那几本书，确实不错！</p>
 <p><div style="margin-top: 15px"></div></p>
 <p></p><p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
-<p><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2012/11/free-mode-on-internet/" target="_blank" rel="external">互联网上的免费</a></p>
-<p></p>
-<p><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div></p>
-<table class="wumii-related-items" cellspacing="0" cellpadding="3" border="0" style="clear: both;"><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">猜您也喜欢：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F04%2Fsns-rhapsody%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F11%2Ffree-mode-on-internet%2F" title="SNS狂想曲" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/aJW14PRO.jpg?i=nAe34dD1" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">SNS狂想曲</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F05%2F10-cool-sns-apps%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F11%2Ffree-mode-on-internet%2F" title="10款给力的SNS类APP" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/7o1tA2uY.png?i=9ZU7FQBu" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">10款给力的SNS类APP</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F07%2Fsns-thoughts%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F11%2Ffree-mode-on-internet%2F" title="SNS随想" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/tZ4PXG8o.jpg?i=bBu3FKQw" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">SNS随想</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F06%2Fawesome-camera-apps-on-android%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F11%2Ffree-mode-on-internet%2F" title="Android上给力的拍照类app" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/daTQRF7z.jpg?i=16fQM75Sk" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">Android上给力的拍照类app</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F05%2Fadvantage-of-instagram%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F11%2Ffree-mode-on-internet%2F" title="instagram哪里好？" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/1evx9eB3f.png?i=hGNKyVjS" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">instagram哪里好？</font>
-</a><br></td><br></tr><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">来自无觅网络的相关文章：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fjingdian230.com%2F%3Fp%3D2687&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F11%2Ffree-mode-on-internet%2F" title="江城子●中国互联网(@jingdian230)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/1dhFFzQEg.jpg?i=VE14GWBi" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">江城子●中国互联网(@jingdian230)</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.luoyundeng.com%2F%3Fp%3D288&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F11%2Ffree-mode-on-internet%2F" title="中国和美国的互联网差异(@luoyundeng)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/JaQh1Mjk.jpg?i=Wp9jTsyF" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">中国和美国的互联网差异(@luoyundeng)</font>
-</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.luoyundeng.com%2F%3Fp%3D239&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F11%2Ffree-mode-on-internet%2F" title="【分享】互联网广告植入的未来(@luoyundeng)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/mJ3ubNdg.jpg?i=PI5EEAuo" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">【分享】互联网广告植入的未来(@luoyundeng)</font>
-</a><br></td><br></tr><br><br><tr><br><td colspan="5" align="right"><br><a href="http://www.wumii.com/widget/relatedItems" title="无觅关联推荐" target="_blank" rel="external"><br><font size="-1" color="#bbbbbb" style="display: block !important; font-family: arial !important; padding: 5px 0 !important; font-size: 12px !important; color: #bbb !important;">无觅</font>
-</a><br></td><br></tr><br></table>
 ]]></content>
     
     
-      <category term="营销" scheme="http://essay.igevin.info/tags/%E8%90%A5%E9%94%80/"/>
+      <category term="营销" scheme="http://blog.igevin.info/tags/%E8%90%A5%E9%94%80/"/>
     
-      <category term="wordpress" scheme="http://essay.igevin.info/categories/wordpress/"/>
+      <category term="wordpress" scheme="http://blog.igevin.info/categories/wordpress/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[SNS随想]]></title>
-    <link href="http://essay.igevin.info/2012/07/11/wordpress/SNS%E9%9A%8F%E6%83%B3/"/>
-    <id>http://essay.igevin.info/2012/07/11/wordpress/SNS随想/</id>
+    <link href="http://blog.igevin.info/2012/07/11/wordpress/SNS%E9%9A%8F%E6%83%B3/"/>
+    <id>http://blog.igevin.info/2012/07/11/wordpress/SNS随想/</id>
     <published>2012-07-11T14:23:28.000Z</published>
     <updated>2014-11-21T11:59:40.000Z</updated>
     <content type="html"><![CDATA[<p>&nbsp;</p>
@@ -1217,20 +1105,20 @@
 ]]></content>
     
     
-      <category term="SNS" scheme="http://essay.igevin.info/tags/SNS/"/>
+      <category term="SNS" scheme="http://blog.igevin.info/tags/SNS/"/>
     
-      <category term="app" scheme="http://essay.igevin.info/tags/app/"/>
+      <category term="app" scheme="http://blog.igevin.info/tags/app/"/>
     
-      <category term="随笔" scheme="http://essay.igevin.info/tags/%E9%9A%8F%E7%AC%94/"/>
+      <category term="随笔" scheme="http://blog.igevin.info/tags/%E9%9A%8F%E7%AC%94/"/>
     
-      <category term="wordpress" scheme="http://essay.igevin.info/categories/wordpress/"/>
+      <category term="wordpress" scheme="http://blog.igevin.info/categories/wordpress/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Android上给力的拍照类app]]></title>
-    <link href="http://essay.igevin.info/2012/06/21/wordpress/Android-photo-app/"/>
-    <id>http://essay.igevin.info/2012/06/21/wordpress/Android-photo-app/</id>
+    <link href="http://blog.igevin.info/2012/06/21/wordpress/Android-photo-app/"/>
+    <id>http://blog.igevin.info/2012/06/21/wordpress/Android-photo-app/</id>
     <published>2012-06-20T16:36:24.000Z</published>
     <updated>2014-11-21T11:59:40.000Z</updated>
     <content type="html"><![CDATA[<p>&nbsp;</p>
@@ -1282,16 +1170,16 @@
 ]]></content>
     
     
-      <category term="app" scheme="http://essay.igevin.info/tags/app/"/>
+      <category term="app" scheme="http://blog.igevin.info/tags/app/"/>
     
-      <category term="wordpress" scheme="http://essay.igevin.info/categories/wordpress/"/>
+      <category term="wordpress" scheme="http://blog.igevin.info/categories/wordpress/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[instagram哪里好？]]></title>
-    <link href="http://essay.igevin.info/2012/05/26/wordpress/instagram%E5%93%AA%E9%87%8C%E5%A5%BD%EF%BC%9F/"/>
-    <id>http://essay.igevin.info/2012/05/26/wordpress/instagram哪里好？/</id>
+    <link href="http://blog.igevin.info/2012/05/26/wordpress/instagram%E5%93%AA%E9%87%8C%E5%A5%BD%EF%BC%9F/"/>
+    <id>http://blog.igevin.info/2012/05/26/wordpress/instagram哪里好？/</id>
     <published>2012-05-26T08:06:53.000Z</published>
     <updated>2014-11-21T11:59:40.000Z</updated>
     <content type="html"><![CDATA[<p>&nbsp;</p>
@@ -1351,18 +1239,18 @@
 ]]></content>
     
     
-      <category term="SNS" scheme="http://essay.igevin.info/tags/SNS/"/>
+      <category term="SNS" scheme="http://blog.igevin.info/tags/SNS/"/>
     
-      <category term="app" scheme="http://essay.igevin.info/tags/app/"/>
+      <category term="app" scheme="http://blog.igevin.info/tags/app/"/>
     
-      <category term="wordpress" scheme="http://essay.igevin.info/categories/wordpress/"/>
+      <category term="wordpress" scheme="http://blog.igevin.info/categories/wordpress/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[10款给力的SNS类APP]]></title>
-    <link href="http://essay.igevin.info/2012/05/14/wordpress/10-SNS-APP/"/>
-    <id>http://essay.igevin.info/2012/05/14/wordpress/10-SNS-APP/</id>
+    <link href="http://blog.igevin.info/2012/05/14/wordpress/10-SNS-APP/"/>
+    <id>http://blog.igevin.info/2012/05/14/wordpress/10-SNS-APP/</id>
     <published>2012-05-14T15:01:50.000Z</published>
     <updated>2014-11-21T11:59:40.000Z</updated>
     <content type="html"><![CDATA[<p><a href="http://blog.igevin.info/wp-content/uploads/2012/05/SNS-app.png" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/SNS-app.png" alt="" title="SNS app"></a></p>
@@ -1409,11 +1297,11 @@
 ]]></content>
     
     
-      <category term="SNS" scheme="http://essay.igevin.info/tags/SNS/"/>
+      <category term="SNS" scheme="http://blog.igevin.info/tags/SNS/"/>
     
-      <category term="app" scheme="http://essay.igevin.info/tags/app/"/>
+      <category term="app" scheme="http://blog.igevin.info/tags/app/"/>
     
-      <category term="wordpress" scheme="http://essay.igevin.info/categories/wordpress/"/>
+      <category term="wordpress" scheme="http://blog.igevin.info/categories/wordpress/"/>
     
   </entry>
   

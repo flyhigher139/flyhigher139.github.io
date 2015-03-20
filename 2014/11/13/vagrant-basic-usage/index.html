@@ -1,0 +1,597 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>vagrant使用简介 | Gevin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Gevin">
+    
+
+    
+    <meta name="description" content="本文是介绍了vagrant基本使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vagrant使用简介">
+<meta property="og:url" content="http://blog.igevin.info/2014/11/13/vagrant-basic-usage/index.html">
+<meta property="og:site_name" content="Gevin's blog">
+<meta property="og:description" content="本文是介绍了vagrant基本使用">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vagrant使用简介">
+<meta name="twitter:description" content="本文是介绍了vagrant基本使用">
+<meta name="twitter:creator" content="@igevin">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Gevin&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/gevin-pacman.svg" alt="Gevin&#39;s blog" title="Gevin&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Gevin&#39;s blog">Gevin&#39;s blog</a></h1>
+				<h2 class="blog-motto">技术生活都要折腾</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.igevin.info">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/11/13/vagrant-basic-usage/" title="vagrant使用简介" itemprop="url">vagrant使用简介</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://blog.igevin.info/about" title="Gevin" target="_blank" itemprop="author">Gevin</a>
+		
+  <p class="article-time">
+    <time datetime="2014-11-12T16:00:00.000Z" itemprop="datePublished"> 发表于 2014-11-13</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Outline"><span class="toc-number">1.</span> <span class="toc-text">Outline</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装"><span class="toc-number">2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#初始化工作环境"><span class="toc-number">3.</span> <span class="toc-text">初始化工作环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化工作目录"><span class="toc-number">3.1.</span> <span class="toc-text">初始化工作目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#首次启动vagrant"><span class="toc-number">3.2.</span> <span class="toc-text">首次启动vagrant</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用vagrant中的ubuntu环境"><span class="toc-number">3.3.</span> <span class="toc-text">使用vagrant中的ubuntu环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#同步的目录"><span class="toc-number">3.4.</span> <span class="toc-text">同步的目录</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基本用法"><span class="toc-number">4.</span> <span class="toc-text">基本用法</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="Outline">Outline</h1><ul>
+<li><p>安装</p>
+</li>
+<li><p>初始化工作环境</p>
+<ul>
+<li>初始化工作目录</li>
+<li>首次启动vagrant</li>
+<li>使用vagrant中的ubuntu环境</li>
+<li>同步的目录</li>
+</ul>
+</li>
+<li><p>基本用法</p>
+</li>
+</ul>
+<hr>
+<blockquote>
+<p>Vagrant provides easy to configure, reproducible, and portable work environments built on top of industry-standard technology and controlled by a single consistent workflow to help maximize the productivity and flexibility of you and your team.</p>
+<p>— <a href="https://docs.vagrantup.com/v2/why-vagrant/index.html" target="_blank" rel="external">WHY VAGRANT?</a></p>
+</blockquote>
+<hr>
+<h1 id="安装">安装</h1><p>使用vagrant时，会启动虚拟机，默认使用的虚拟机是virtualbox，所以使用vagrant前，首先安装<code>virtualbox</code>和<code>vagrant</code></p>
+<h1 id="初始化工作环境">初始化工作环境</h1><h2 id="初始化工作目录">初始化工作目录</h2><p>创建一个开发环境的根目录，如<code>E:\projects\vagrant-project1</code></p>
+<p>cmd中，cd到该根目录，使用下面命令，会初始化工作目录，并在工作目录下创建配置文件<code>vagrantfile</code>，配置文件中设置了该工作目录的开发环境为<code>ubuntu-14.04-amd64</code></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">vagrant</span> init phusion/ubuntu-<span class="number">14</span>.<span class="number">04</span>-amd64</span><br></pre></td></tr></table></figure>
+<h2 id="首次启动vagrant">首次启动vagrant</h2><p>启动vagrant的命令如下：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">vagrant</span> up</span><br></pre></td></tr></table></figure></p>
+<p>启动vagrant后，会自动开启虚拟机。由于我们初始化工作目录时，使用的开发环境为<code>phusion/ubuntu-14.04-amd64</code>，现在系统中没有这个文件，因此执行<code>vagrant up</code>时，首先会下载此文件到本地目录。<code>phusion/ubuntu-14.04-amd64</code>放在vagrant的公共目录，因此以后初始化其他工作环境时，如果使用这个文件，也不需要继续下载</p>
+<h2 id="使用vagrant中的ubuntu环境">使用vagrant中的ubuntu环境</h2><p>使用ubuntu环境，需要ssh登录虚拟机</p>
+<p>由于Windows系统的命令行中，没有自带ssh客户端，因此需要借助putty。</p>
+<p>登录相关信息如下：<br><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">username</span>: <span class="string">vagrant</span></span><br><span class="line"><span class="attribute">password</span>: <span class="string">vagrant</span></span><br><span class="line"><span class="attribute">port</span>: <span class="string">2222</span></span><br></pre></td></tr></table></figure></p>
+<p>除了上述方法，在集成了ssh的系统中，还可以直接通过下面命令进入虚拟机环境：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">vagrant</span> ssh</span><br></pre></td></tr></table></figure></p>
+<h2 id="同步的目录">同步的目录</h2><p>默认设置下，上面的工作环境根目录<code>E:\projects\vagrant-project1</code>与虚拟机中的目录<code>/vagrant</code>是一致的，始终同步，可以在虚拟机中使用命令<code>ls /vagrant</code>查看目录文件，内容与主机开发环境根目录完成一样。主机开发环境根目录下对文件的所有读写操作，都会同步到虚拟机的<code>/vagrant</code>中</p>
+<p>可以<a href="http://docs.vagrantup.com/v2/synced-folders/basic_usage.html" target="_blank" rel="external">修改vagrantfile文件</a>，添加更多同步目录</p>
+<h1 id="基本用法">基本用法</h1><ul>
+<li><p>启动虚拟机<br><code>vagrant up</code></p>
+</li>
+<li><p>登录虚拟机<br><code>vagrant ssh</code><br>Windows命令行中没有安装ssh client的话，请使用putty</p>
+</li>
+<li><p>销毁虚拟机<br><code>vagrant destory</code></p>
+</li>
+<li><p>关闭虚拟机<br><code>vagrant halt</code></p>
+</li>
+<li><p>挂起虚拟机<br><code>vagrant suspend</code></p>
+</li>
+<li><p>恢复虚拟机<br><code>vagrant resume</code></p>
+</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/tech/">tech</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/vagrant/">vagrant</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.igevin.info/2014/11/13/vagrant-basic-usage/" data-title="vagrant使用简介 | Gevin&#39;s blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/01/27/django-download-function/" title="Django 实现下载文件功能">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Django 实现下载文件功能</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/09/30/deploy-django-with-nginx-and-uwsgi-on-Ubuntu/"  title="基于nginx和uWSGI在Ubuntu上部署Django">
+ <strong>下一篇：</strong><br/> 
+ <span>基于nginx和uWSGI在Ubuntu上部署Django
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2014/11/13/vagrant-basic-usage/" data-title="vagrant使用简介" data-url="http://blog.igevin.info/2014/11/13/vagrant-basic-usage/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Outline"><span class="toc-number">1.</span> <span class="toc-text">Outline</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装"><span class="toc-number">2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#初始化工作环境"><span class="toc-number">3.</span> <span class="toc-text">初始化工作环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化工作目录"><span class="toc-number">3.1.</span> <span class="toc-text">初始化工作目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#首次启动vagrant"><span class="toc-number">3.2.</span> <span class="toc-text">首次启动vagrant</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用vagrant中的ubuntu环境"><span class="toc-number">3.3.</span> <span class="toc-text">使用vagrant中的ubuntu环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#同步的目录"><span class="toc-number">3.4.</span> <span class="toc-text">同步的目录</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基本用法"><span class="toc-number">4.</span> <span class="toc-text">基本用法</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/github/" title="github">github<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/tech/" title="tech">tech<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/wechat/" title="wechat">wechat<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/wordpress/" title="wordpress">wordpress<sup>44</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程序员/" title="程序员">程序员<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/互联网/" title="互联网">互联网<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/GIS/" title="GIS">GIS<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/微信/" title="微信">微信<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SNS/" title="SNS">SNS<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/app/" title="app">app<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/营销/" title="营销">营销<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/黑客文化/" title="黑客文化">黑客文化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/tip/" title="tip">tip<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/苹果/" title="苹果">苹果<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/open-source/" title="open source">open source<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/English/" title="English">English<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/LBS/" title="LBS">LBS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/用户体验/" title="用户体验">用户体验<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Stay hungry, stay foolish. <br/>
+			Stop when you are perfect.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/flyhigher139" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/flyhigher139" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/igevin" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="http://blog.igevin.info/about" target="_blank" title="Gevin">Gevin</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"gevin-essay"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+  </body>
+</html>

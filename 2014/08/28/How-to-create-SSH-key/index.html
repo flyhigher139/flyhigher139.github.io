@@ -1,0 +1,577 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>如何生成SSH key | Gevin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Gevin">
+    
+
+    
+    <meta name="description" content="本文主要内容来源于GitHub中添加SSH Key的帮助文档">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何生成SSH key">
+<meta property="og:url" content="http://blog.igevin.info/2014/08/28/How-to-create-SSH-key/index.html">
+<meta property="og:site_name" content="Gevin's blog">
+<meta property="og:description" content="本文主要内容来源于GitHub中添加SSH Key的帮助文档">
+<meta property="og:image" content="http://gevin-zone.qiniudn.com/gevin-essay-how-to-generate-SSH-key.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何生成SSH key">
+<meta name="twitter:description" content="本文主要内容来源于GitHub中添加SSH Key的帮助文档">
+<meta name="twitter:creator" content="@igevin">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Gevin&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/gevin-pacman.svg" alt="Gevin&#39;s blog" title="Gevin&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Gevin&#39;s blog">Gevin&#39;s blog</a></h1>
+				<h2 class="blog-motto">技术生活都要折腾</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.igevin.info">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/28/How-to-create-SSH-key/" title="如何生成SSH key" itemprop="url">如何生成SSH key</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://blog.igevin.info/about" title="Gevin" target="_blank" itemprop="author">Gevin</a>
+		
+  <p class="article-time">
+    <time datetime="2014-08-28T08:42:01.000Z" itemprop="datePublished"> 发表于 2014-08-28</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤"><span class="toc-number">1.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_检查SSH_keys是否存在"><span class="toc-number">2.</span> <span class="toc-text">1. 检查SSH keys是否存在</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_生成新的ssh_key"><span class="toc-number">3.</span> <span class="toc-text">2. 生成新的ssh key</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_将ssh_key添加到GitHub中"><span class="toc-number">4.</span> <span class="toc-text">3. 将ssh key添加到GitHub中</span></a></li></ol>
+		
+		</div>
+		
+		<p>SSH key提供了一种与GitHub通信的方式，通过这种方式，能够在不输入密码的情况下，将GitHub作为自己的remote端服务器，进行版本控制</p>
+<h2 id="步骤">步骤</h2><ul>
+<li>检查SSH keys是否存在</li>
+<li>生成新的ssh key</li>
+<li>将ssh key添加到GitHub中</li>
+</ul>
+<p><img src="http://gevin-zone.qiniudn.com/gevin-essay-how-to-generate-SSH-key.png" alt="如何生成SSH KEY" title="如何生成SSH KEY"></p>
+<h2 id="1-_检查SSH_keys是否存在">1. 检查SSH keys是否存在</h2><p>输入下面的命令，如果有文件<code>id_rsa.pub</code> 或 <code>id_dsa.pub</code>，则直接进入步骤3将SSH key添加到GitHub中，否则进入第二步生成SSH key</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al ~/.ssh&#10;# Lists the files in your .ssh directory, if they exist</span><br></pre></td></tr></table></figure>
+<h2 id="2-_生成新的ssh_key">2. 生成新的ssh key</h2><p><strong>第一步：生成public/private rsa key pair</strong><br>在命令行中输入<code>ssh-keygen -t rsa -C &quot;your_email@example.com&quot;</code></p>
+<p>默认会在相应路径下（/your_home_path）生成<code>id_rsa</code>和<code>id_rsa.pub</code>两个文件，如下面代码所示</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">"your_email@example.com"</span></span><br><span class="line"><span class="comment"># Creates a new ssh key using the provided email</span></span><br><span class="line">Generating public/<span class="keyword">private</span> rsa key pair.</span><br><span class="line">Enter <span class="built_in">file</span> <span class="operator">in</span> which <span class="built_in">to</span> save <span class="operator">the</span> key (/your_home_path/.ssh/id_rsa):</span><br></pre></td></tr></table></figure>
+<p><strong>第二步：输入passphrase（本步骤可以跳过）</strong></p>
+<p>设置passphrase后，进行版本控制时，每次与GitHub通信都会要求输入passphrase，以避免某些“失误”</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Enter passphrase (empty for no passphrase): [Type a passphrase]&#10;Enter same passphrase again: [Type passphrase again]</span><br></pre></td></tr></table></figure>
+<p>sample result:</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Your identification has been saved <span class="keyword">in</span> <span class="regexp">/your_home_path/</span>.ssh/id_rsa.</span><br><span class="line">Your <span class="keyword">public</span> key has been saved <span class="keyword">in</span> <span class="regexp">/your_home_path/</span>.ssh/id_rsa.pub.</span><br><span class="line">The key fingerprint <span class="string">is:</span></span><br><span class="line">#<span class="number">01</span>:<span class="number">0</span><span class="string">f:</span><span class="string">f4:</span><span class="number">3</span><span class="string">b:</span><span class="string">ca:</span><span class="number">85</span>:<span class="string">d6:</span><span class="number">17</span>:<span class="string">a1:</span><span class="number">7</span><span class="string">d:</span><span class="string">f0:</span><span class="number">68</span>:<span class="number">9</span><span class="string">d:</span><span class="string">f0:</span><span class="string">a2:</span>db your_email<span class="annotation">@example</span>.com</span><br></pre></td></tr></table></figure>
+<p><strong>第三步：将新生成的key添加到ssh-agent中:</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># start the ssh-agent in the background</span></span><br><span class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(ssh-agent -s)</span>"</span></span><br><span class="line">Agent pid <span class="number">59566</span></span><br><span class="line">ssh-add ~/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
+<h2 id="3-_将ssh_key添加到GitHub中">3. 将ssh key添加到GitHub中</h2><p>用自己喜欢的文本编辑器打开<code>id_rsa.pub</code>文件，里面的信息即为SSH key，将这些信息复制到GitHub的<code>Add SSH key</code>页面即可</p>
+<p>不同的操作系统，均有一些命令，直接将SSH key从文件拷贝到粘贴板中，如下：</p>
+<p><strong>mac</strong><br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pbcopy &lt; ~<span class="regexp">/.ssh/id</span>_rsa.pub</span><br><span class="line"><span class="comment"># Copies the contents of the id_rsa.pub file to your clipboard</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>windows</strong><br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clip &lt; ~<span class="regexp">/.ssh/id</span>_rsa.pub</span><br><span class="line"><span class="comment"># Copies the contents of the id_rsa.pub file to your clipboard</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>linux</strong></p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install xclip</span><br><span class="line"># Downloads <span class="literal">and</span> installs xclip. <span class="keyword">If</span> you don't have <span class="escape">`a</span>pt-get<span class="escape">`,</span> you might need to use another installer (like <span class="escape">`y</span>um<span class="escape">`)</span></span><br><span class="line"></span><br><span class="line">xclip -sel clip &lt; ~/.ssh/id_rsa.pub</span><br><span class="line"># Copies the contents of the id_rsa.pub file to your <span class="built_in"><span class="keyword">clipboard</span></span></span><br></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/github/">github</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/tip/">tip</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.igevin.info/2014/08/28/How-to-create-SSH-key/" data-title="如何生成SSH key | Gevin&#39;s blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/09/17/yet-another-awesome-collection/" title="Yet another awesome collection">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Yet another awesome collection</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/03/21/2014-03-21-github-study-materials/"  title="GitHub上有趣的资料">
+ <strong>下一篇：</strong><br/> 
+ <span>GitHub上有趣的资料
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2014/08/28/How-to-create-SSH-key/" data-title="如何生成SSH key" data-url="http://blog.igevin.info/2014/08/28/How-to-create-SSH-key/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤"><span class="toc-number">1.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_检查SSH_keys是否存在"><span class="toc-number">2.</span> <span class="toc-text">1. 检查SSH keys是否存在</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_生成新的ssh_key"><span class="toc-number">3.</span> <span class="toc-text">2. 生成新的ssh key</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_将ssh_key添加到GitHub中"><span class="toc-number">4.</span> <span class="toc-text">3. 将ssh key添加到GitHub中</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/github/" title="github">github<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/tech/" title="tech">tech<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/wechat/" title="wechat">wechat<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/wordpress/" title="wordpress">wordpress<sup>44</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程序员/" title="程序员">程序员<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/互联网/" title="互联网">互联网<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/GIS/" title="GIS">GIS<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/微信/" title="微信">微信<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SNS/" title="SNS">SNS<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/app/" title="app">app<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/营销/" title="营销">营销<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/黑客文化/" title="黑客文化">黑客文化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/tip/" title="tip">tip<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/苹果/" title="苹果">苹果<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/open-source/" title="open source">open source<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/English/" title="English">English<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/LBS/" title="LBS">LBS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/用户体验/" title="用户体验">用户体验<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Stay hungry, stay foolish. <br/>
+			Stop when you are perfect.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/flyhigher139" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/flyhigher139" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/igevin" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="http://blog.igevin.info/about" target="_blank" title="Gevin">Gevin</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"gevin-essay"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+  </body>
+</html>

@@ -1,0 +1,595 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>ArcGIS Engine中Point、Polyline和Polygon的创建 | Gevin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Gevin">
+    
+
+    
+    <meta name="description" content="GIS二次开发
+
+最近Gevin事情比较多，每天都要花大部分时间写程序，所以Web2.0系列的文章只能暂停更新一段时间了。
+今天Gevin和大家分享的是GIS二次开发中Point、Polyline和Polygon的创建方法。本文介绍的方法使用C#和ArcGIS Engine进行开发。
+一、Point的创建Point：是一个０维的几何图形，具有X,Y坐标值，以及一些可选的属性：如高程值(Z值)，度量">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ArcGIS Engine中Point、Polyline和Polygon的创建">
+<meta property="og:url" content="http://blog.igevin.info/2011/03/06/wordpress/ArcGIS-Engine-create-Point-Polyline-Polygon/index.html">
+<meta property="og:site_name" content="Gevin's blog">
+<meta property="og:description" content="GIS二次开发
+
+最近Gevin事情比较多，每天都要花大部分时间写程序，所以Web2.0系列的文章只能暂停更新一段时间了。
+今天Gevin和大家分享的是GIS二次开发中Point、Polyline和Polygon的创建方法。本文介绍的方法使用C#和ArcGIS Engine进行开发。
+一、Point的创建Point：是一个０维的几何图形，具有X,Y坐标值，以及一些可选的属性：如高程值(Z值)，度量">
+<meta property="og:image" content="http://public.bay.livefilestore.com/y1pZCELUZVP_MdJXeZ0ytVGxdXc7lnCkPI7fyEcxBM9Y66_0BWCiGf_O-vy1yG6AkE9LJVCso9EnIUXlgphI0-nBg/coding.jpg?psid=1">
+<meta property="og:image" content="http://1hebha.bay.livefilestore.com/y1pTtRmrzYe0RoVU4z73WD6t6aNxM29WE5awt3ZfEQAbQ8exAvL5C2CyIkmK6Gvw38wFEpaWgwXaS30cxqFgw91BGah4GYyMQ2h/polygline.JPG?psid=1">
+<meta property="og:image" content="http://1hebha.bay.livefilestore.com/y1pTtRmrzYe0RqmRFXnKXA0Cy0LxlHzKP_QzMK8s6WSBR_80DA9BaiNjca8khxLq8Y_T7YDA80W8AVvlGhU2HQ2tP1iaOXjGBe9/seg1.jpg?psid=1">
+<meta property="og:image" content="http://1hebha.bay.livefilestore.com/y1prWMZf9WpeufcaWxABKHI4yXbV2pfBISxjYaxoZXF_8yhZJ71jj696rCfROGGuN5h9GqmgjxL636EnkXIiPwFG8fBnulUAFMD/segment.jpg?psid=1">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ArcGIS Engine中Point、Polyline和Polygon的创建">
+<meta name="twitter:description" content="GIS二次开发
+
+最近Gevin事情比较多，每天都要花大部分时间写程序，所以Web2.0系列的文章只能暂停更新一段时间了。
+今天Gevin和大家分享的是GIS二次开发中Point、Polyline和Polygon的创建方法。本文介绍的方法使用C#和ArcGIS Engine进行开发。
+一、Point的创建Point：是一个０维的几何图形，具有X,Y坐标值，以及一些可选的属性：如高程值(Z值)，度量">
+<meta name="twitter:creator" content="@igevin">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Gevin&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/gevin-pacman.svg" alt="Gevin&#39;s blog" title="Gevin&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Gevin&#39;s blog">Gevin&#39;s blog</a></h1>
+				<h2 class="blog-motto">技术生活都要折腾</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.igevin.info">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2011/03/06/wordpress/ArcGIS-Engine-create-Point-Polyline-Polygon/" title="ArcGIS Engine中Point、Polyline和Polygon的创建" itemprop="url">ArcGIS Engine中Point、Polyline和Polygon的创建</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://blog.igevin.info/about" title="Gevin" target="_blank" itemprop="author">Gevin</a>
+		
+  <p class="article-time">
+    <time datetime="2011-03-06T13:36:29.000Z" itemprop="datePublished"> 发表于 2011-03-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、Point的创建"><span class="toc-number">1.</span> <span class="toc-text">一、Point的创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、Polyline的创建"><span class="toc-number">2.</span> <span class="toc-text">二、Polyline的创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、Polygon的创建"><span class="toc-number">3.</span> <span class="toc-text">三、Polygon的创建</span></a></li></ol>
+		
+		</div>
+		
+		<div style="width: 490px" class="wp-caption aligncenter"><a href="http://blog.igevin.info/archives/1091" target="_blank" rel="external"><img src="http://public.bay.livefilestore.com/y1pZCELUZVP_MdJXeZ0ytVGxdXc7lnCkPI7fyEcxBM9Y66_0BWCiGf_O-vy1yG6AkE9LJVCso9EnIUXlgphI0-nBg/coding.jpg?psid=1" alt="编程" title="编程"></a><br><br>GIS二次开发<br></div>
+
+<p>最近Gevin事情比较多，每天都要花大部分时间写程序，所以Web2.0系列的文章只能暂停更新一段时间了。</p>
+<p>今天Gevin和大家分享的是GIS二次开发中Point、Polyline和Polygon的创建方法。本文介绍的方法使用C#和ArcGIS Engine进行开发。</p>
+<h2 id="一、Point的创建">一、Point的创建</h2><p>Point：是一个０维的几何图形，具有X,Y坐标值，以及一些可选的属性：如高程值(Z值)，度量值(M值) 和ID号，点对象用于描述精确定位的对象。AE的IPoint接口提供<span style="color: #008000;"><strong>PutCoords()</strong></span>方法实现Point的创建。参考代码如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> 根据点的坐标创建点要素</span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name="x"&amp;gt;x坐标&amp;lt;/param&amp;gt;</span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name="y"&amp;gt;y坐标&amp;lt;/param&amp;gt;</span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> &amp;lt;returns&amp;gt;创建的点&amp;lt;/returns&amp;gt;</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> IPoint <span class="title">CreatePoint</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">double</span> y)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    IPoint pPoint = <span class="keyword">new</span> PointClass();</span><br><span class="line">    pPoint.PutCoords(x, y);</span><br><span class="line">    <span class="keyword">return</span> pPoint;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="二、Polyline的创建">二、Polyline的创建</h2><p></p><p>Polyline对象是由一个或多个相连或者不相连的path对象的有序集合，它可以是单个Path对象组成，也可以是多个相连的Path对象组成，或者是多个分离的Path组成，如下图所示:</p>
+<div style="width: 464px" class="wp-caption aligncenter"><a href="http://1hebha.bay.livefilestore.com/y1pTtRmrzYe0RoVU4z73WD6t6aNxM29WE5awt3ZfEQAbQ8exAvL5C2CyIkmK6Gvw38wFEpaWgwXaS30cxqFgw91BGah4GYyMQ2h/polygline.JPG?psid=1" target="_blank" rel="external"><img src="http://1hebha.bay.livefilestore.com/y1pTtRmrzYe0RoVU4z73WD6t6aNxM29WE5awt3ZfEQAbQ8exAvL5C2CyIkmK6Gvw38wFEpaWgwXaS30cxqFgw91BGah4GYyMQ2h/polygline.JPG?psid=1" alt="Polyline" title="点击查看原图连接"></a><br><br>看图理解Polyline<br></div>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #008000;"><strong>所以，在介绍Polyline的创建之前，先要理解Path。</strong></span></p>
+<p>Path是连续的Segment的集合，除了路径的第一个Segment和最后一个Segment外其余的Segment的起始点都是前一个Segment的终止点，即Path对象的中的Segment不能出现分离，Path可以是任意数的Line,CircularArc,EllipticArc和BezierCurve的组合。</p>
+<p><span style="color: #008000;"><strong>那么，Segment又是什么呢？</strong></span>直白的说，Segment是连接起点和终点的一段直线或曲线，它有四个子类，参考下图：</p>
+<p>&nbsp;</p>
+<div style="width: 352px" class="wp-caption aligncenter"><a href="http://1hebha.bay.livefilestore.com/y1pTtRmrzYe0RqmRFXnKXA0Cy0LxlHzKP_QzMK8s6WSBR_80DA9BaiNjca8khxLq8Y_T7YDA80W8AVvlGhU2HQ2tP1iaOXjGBe9/seg1.jpg?psid=1" target="_blank" rel="external"><img src="http://1hebha.bay.livefilestore.com/y1pTtRmrzYe0RqmRFXnKXA0Cy0LxlHzKP_QzMK8s6WSBR_80DA9BaiNjca8khxLq8Y_T7YDA80W8AVvlGhU2HQ2tP1iaOXjGBe9/seg1.jpg?psid=1" alt="segment" title="点击查看原图"></a><br><br>理解segment<br></div><br><div style="width: 486px" class="wp-caption aligncenter"><a href="http://1hebha.bay.livefilestore.com/y1prWMZf9WpeufcaWxABKHI4yXbV2pfBISxjYaxoZXF_8yhZJ71jj696rCfROGGuN5h9GqmgjxL636EnkXIiPwFG8fBnulUAFMD/segment.jpg?psid=1" target="_blank" rel="external"><img src="http://1hebha.bay.livefilestore.com/y1prWMZf9WpeufcaWxABKHI4yXbV2pfBISxjYaxoZXF_8yhZJ71jj696rCfROGGuN5h9GqmgjxL636EnkXIiPwFG8fBnulUAFMD/segment.jpg?psid=1" alt="segment的子类" title="点击查看原图"></a><br><br>segment的子类<br></div>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #008000;"><strong>OK，上述内容理解了，我们才能够正确创建Polyline。Gevin提供一个只有一个Path的Polyline的创建方法。</strong></span></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> 创建直线line</span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name="from"&amp;gt;&amp;lt;/param&amp;gt;</span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name="to"&amp;gt;&amp;lt;/param&amp;gt;</span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> &amp;lt;returns&amp;gt;&amp;lt;/returns&amp;gt;</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ILine <span class="title">CreateLine</span><span class="params">(IPoint <span class="keyword">from</span>, IPoint to)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    ILine pLine = <span class="keyword">new</span> LineClass();</span><br><span class="line">    pLine.PutCoords(<span class="keyword">from</span>, to);</span><br><span class="line">    <span class="keyword">return</span> pLine;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> 创建只有一个Path的Polyline</span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name="PolylineList"&amp;gt;&amp;lt;/param&amp;gt;</span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> &amp;lt;returns&amp;gt;&amp;lt;/returns&amp;gt;</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IPolyline <span class="title">CreatePolyline</span><span class="params">(List&amp;lt;IPoint&amp;gt; PolylineList)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    ISegment pSegment;</span><br><span class="line">    ILine pLine;</span><br><span class="line">    <span class="keyword">object</span> o = Type.Missing;</span><br><span class="line">    ISegmentCollection pPath = <span class="keyword">new</span> PathClass();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &amp;lt; PolylineList.Count-<span class="number">1</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        pLine = CreateLine(PolylineList[i], PolylineList[i + <span class="number">1</span>]);</span><br><span class="line">        pSegment = pLine <span class="keyword">as</span> ISegment;</span><br><span class="line">        pPath.AddSegment(pSegment, <span class="keyword">ref</span> o, <span class="keyword">ref</span> o);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    IGeometryCollection pPolyline = <span class="keyword">new</span> PolylineClass();</span><br><span class="line">    pPolyline.AddGeometry(pPath <span class="keyword">as</span> IGeometry, <span class="keyword">ref</span> o, <span class="keyword">ref</span> o);</span><br><span class="line">    <span class="keyword">return</span> pPolyline <span class="keyword">as</span> IPolyline;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三、Polygon的创建">三、Polygon的创建</h2><p>Polygon的创建也要基于对Polygon的理解，这点可以类比Polyline。所以，Gevin不再介绍Polygon，也不再提供源码，感兴趣的童鞋自己写吧，应该没有问题了，或者即使有问题，也一定能够凭借自己的能力解决问题。</p>
+<p>最后再罗嗦几句：</p>
+<p>1. 写程序要保持思维清晰，写程序前要理解编程对象</p>
+<p>2. 本文的理论参考见这个连接：<a href="http://bbs.esrichina-bj.cn/ESRI/thread-46367-1-1.html" target="_blank" rel="external">ArcGIS Engine基础开发教程(2)——学习几何对象与空间参考</a></p>
+<p>3. 编程心得，欢迎大家与Gevin交流</p>
+<p>如转载本文，请表明出处！</p>
+<p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/wordpress/">wordpress</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/GIS/">GIS</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.igevin.info/2011/03/06/wordpress/ArcGIS-Engine-create-Point-Polyline-Polygon/" data-title="ArcGIS Engine中Point、Polyline和Polygon的创建 | Gevin&#39;s blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2011/04/20/wordpress/网站开发：加快网站载入/" title="网站开发：加快网站载入">
+  <strong>上一篇：</strong><br/>
+  <span>
+  网站开发：加快网站载入</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2011/02/27/wordpress/web2-0上网攻略——微博篇/"  title="web2.0上网攻略——微博篇">
+ <strong>下一篇：</strong><br/> 
+ <span>web2.0上网攻略——微博篇
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2011/03/06/wordpress/ArcGIS-Engine-create-Point-Polyline-Polygon/" data-title="ArcGIS Engine中Point、Polyline和Polygon的创建" data-url="http://blog.igevin.info/2011/03/06/wordpress/ArcGIS-Engine-create-Point-Polyline-Polygon/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、Point的创建"><span class="toc-number">1.</span> <span class="toc-text">一、Point的创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、Polyline的创建"><span class="toc-number">2.</span> <span class="toc-text">二、Polyline的创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、Polygon的创建"><span class="toc-number">3.</span> <span class="toc-text">三、Polygon的创建</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/github/" title="github">github<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/tech/" title="tech">tech<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/wechat/" title="wechat">wechat<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/wordpress/" title="wordpress">wordpress<sup>44</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程序员/" title="程序员">程序员<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/互联网/" title="互联网">互联网<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/GIS/" title="GIS">GIS<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/微信/" title="微信">微信<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SNS/" title="SNS">SNS<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/app/" title="app">app<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/营销/" title="营销">营销<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/黑客文化/" title="黑客文化">黑客文化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/tip/" title="tip">tip<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/苹果/" title="苹果">苹果<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/open-source/" title="open source">open source<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/English/" title="English">English<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/LBS/" title="LBS">LBS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/用户体验/" title="用户体验">用户体验<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Stay hungry, stay foolish. <br/>
+			Stop when you are perfect.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/flyhigher139" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/flyhigher139" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/igevin" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="http://blog.igevin.info/about" target="_blank" title="Gevin">Gevin</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"gevin-essay"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+  </body>
+</html>

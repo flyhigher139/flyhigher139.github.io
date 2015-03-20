@@ -1,0 +1,626 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>LBS VS GIS | Gevin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Gevin">
+    
+
+    
+    <meta name="description" content="独立博客准备关闭了，把原来的一些内容转移到这里本文写于2011/10/27
+
+作为一个学过GIS，又热爱互联网的人，Gevin想分享一下自己对LBS和GIS的一些看法。
+1. 定义根据维基百科相对应的内容，LBS描述如下：
+
+基于位置的服务（Location-Based Service，LBS）又称适地性服务、移动定位服务、位置服务，它是通过移动运营商的无线电通讯网络（如GSM网、CDMA网）或外">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LBS VS GIS">
+<meta property="og:url" content="http://blog.igevin.info/2011/10/27/wordpress/LBS-VS-GIS/index.html">
+<meta property="og:site_name" content="Gevin's blog">
+<meta property="og:description" content="独立博客准备关闭了，把原来的一些内容转移到这里本文写于2011/10/27
+
+作为一个学过GIS，又热爱互联网的人，Gevin想分享一下自己对LBS和GIS的一些看法。
+1. 定义根据维基百科相对应的内容，LBS描述如下：
+
+基于位置的服务（Location-Based Service，LBS）又称适地性服务、移动定位服务、位置服务，它是通过移动运营商的无线电通讯网络（如GSM网、CDMA网）或外">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4041-0de4b80b7ee63623.jpg">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4041-65d33a3274d35b4e.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LBS VS GIS">
+<meta name="twitter:description" content="独立博客准备关闭了，把原来的一些内容转移到这里本文写于2011/10/27
+
+作为一个学过GIS，又热爱互联网的人，Gevin想分享一下自己对LBS和GIS的一些看法。
+1. 定义根据维基百科相对应的内容，LBS描述如下：
+
+基于位置的服务（Location-Based Service，LBS）又称适地性服务、移动定位服务、位置服务，它是通过移动运营商的无线电通讯网络（如GSM网、CDMA网）或外">
+<meta name="twitter:creator" content="@igevin">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Gevin&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/gevin-pacman.svg" alt="Gevin&#39;s blog" title="Gevin&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Gevin&#39;s blog">Gevin&#39;s blog</a></h1>
+				<h2 class="blog-motto">技术生活都要折腾</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.igevin.info">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2011/10/27/wordpress/LBS-VS-GIS/" title="LBS VS GIS" itemprop="url">LBS VS GIS</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://blog.igevin.info/about" title="Gevin" target="_blank" itemprop="author">Gevin</a>
+		
+  <p class="article-time">
+    <time datetime="2011-10-27T14:34:38.000Z" itemprop="datePublished"> 发表于 2011-10-27</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_定义"><span class="toc-number">1.</span> <span class="toc-text">1. 定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_现状"><span class="toc-number">2.</span> <span class="toc-text">2. 现状</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_互联网中的GIS技术应用现状"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 互联网中的GIS技术应用现状</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_GIS技术在互联网中的应用现状"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 GIS技术在互联网中的应用现状</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_LBS与GIS的结合"><span class="toc-number">3.</span> <span class="toc-text">3. LBS与GIS的结合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1_LBS应该做什么？"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 LBS应该做什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-1_基于地点的人与人关系的服务"><span class="toc-number">3.1.1.</span> <span class="toc-text">3.1.1 基于地点的人与人关系的服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-2_改善用户对位置的体验"><span class="toc-number">3.1.2.</span> <span class="toc-text">3.1.2 改善用户对位置的体验</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-_LBS可以提供的服务"><span class="toc-number">3.2.</span> <span class="toc-text">3.2. LBS可以提供的服务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1_面向用户"><span class="toc-number">3.2.1.</span> <span class="toc-text">3.2.1 面向用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2_面向商家"><span class="toc-number">3.2.2.</span> <span class="toc-text">3.2.2 面向商家</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-3_综合类的服务"><span class="toc-number">3.2.3.</span> <span class="toc-text">3.2.3 综合类的服务</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-_为何要LBS提供这些服务？"><span class="toc-number">3.3.</span> <span class="toc-text">3.3. 为何要LBS提供这些服务？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4_LBS产品要做什么？"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 LBS产品要做什么？</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p><img src="http://upload-images.jianshu.io/upload_images/4041-0de4b80b7ee63623.jpg" alt="gis"></p>
+<blockquote>
+<p><em>独立博客准备关闭了，把原来的一些内容转移到这里</em><br><em>本文写于2011/10/27</em></p>
+</blockquote>
+<p>作为一个学过GIS，又热爱互联网的人，Gevin想分享一下自己对LBS和GIS的一些看法。</p>
+<h2 id="1-_定义">1. 定义</h2><p>根据维基百科<a href="http://zh.wikipedia.org/wiki/LBS" target="_blank" rel="external">相对应的内容</a>，LBS描述如下：</p>
+<blockquote>
+<p>基于位置的服务（Location-Based Service，LBS）又称适地性服务、移动定位服务、位置服务，它是通过移动运营商的无线电通讯网络（如GSM网、CDMA网）或外部定位方式（如GPS）获取移动终端用户的位置消息（地理座标）。在GIS平台的支持下，为用户提供相应服务的一种增值业务。</p>
+</blockquote>
+<p>LBS的定义专门提到了GIS的支持，但GIS却很少在LBS的应用中有比较直接的体现，维基百科对LBS应用领域的介绍，也仅仅一带而过：</p>
+<p>基于位置的服务可以被应用与不同的领域，例如：健康、工作、个人生活等。此服务可以用来辨认一个人或物的位置，例如发现最近的提款机或朋友同事的目前的位置，也能通过客户目前所在的位置提供直接的手机广告，并包括过人话的天气消息提供，甚至提供本地化的游戏。</p>
+<p>地理信息系统（GIS，GIS，Geographic Information System），是一种以地理信息作为主要研究对象的信息系统，主要用于用于输入、存储、查询、分析和显示地理数据，更多内容可以参考<a href="http://zh.wikipedia.org/wiki/GIS" target="_blank" rel="external">维基百科</a>和<a href="http://baike.baidu.com/view/5094.html?wtp=tt" target="_blank" rel="external">百度知道</a>。</p>
+<p>从二者的定义来看，LBS与GIS有千丝万缕的联系；而从应用现状分析，LBS与GIS目前没有实现互补的结合。</p>
+<h2 id="2-_现状">2. 现状</h2><h3 id="2-1_互联网中的GIS技术应用现状">2.1 互联网中的GIS技术应用现状</h3><p>从目前Gevin对互联网以及互联网从业者的接触和沟通来看，互联网的开发者和产品经理对GIS的理解如下：</p>
+<p>GIS是互联网中的一项比较有前途的新技术<br>在与位置相关的服务和应用中，并没有足够重视与位置相关的信息<br>很少用GIS技术对信息进行分析（空间信息分析）<br>“GIS是互联网中的一项比较有前途的新技术”这种观点并不太准确，在学术界，GIS是一个新兴的交叉学科，可以应用于多个领域，互联网只是其中之一，GIS在其他领域的应用也可以为互联网与GIS的更好结合拓展思路。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4041-65d33a3274d35b4e.png" alt="LBS-and-GIS应用"></p>
+<h3 id="2-2_GIS技术在互联网中的应用现状">2.2 GIS技术在互联网中的应用现状</h3><p>GIS和互联网是有交集的，GIS技术本身，也向互联网方向有拓展。GIS想互联网方向的发展主要体现在WebGIS上。但现在WebGIS与互联网的结合很不理想，主要体现在以下2个方面：</p>
+<ol>
+<li>WebGIS与互联网的发展脱节</li>
+<li>所谓的WebGIS并没有脱离传统的C／S模式应用的范畴</li>
+</ol>
+<p>互联网的发展比较快，现在是Web2.0，不久的未来我们会迎来Web3.0的时代；而WebGIS——GIS与互联网结合的产物，还停留在Web1.0。</p>
+<p>WebGIS下的产品，与其说是互联网产品，不如说是C／S模式软件的网页版，虽然很多学者和开发人员把这种模式称为B／S模式，但这类产品主要用于局域网，能够做成像样的产品放到互联网上的少之又少。</p>
+<h2 id="3-_LBS与GIS的结合">3. LBS与GIS的结合</h2><p>位置是在社会这个范畴下每个人都拥有且重要的一个属性，也是人最容易忽视的一种信息。LBS以位置为最重要的特色，为广大互联网用户提供服务，是非常有价值，也非常有发展前景的。</p>
+<p>GIS的兴起是因为与位置有关的信息过去很少被深入研究，而它的价值随着科技的发展越发的重要，GIS技术逐渐成为处理空间分析最重要也最主要的手段。</p>
+<p>目前，互联网上产品经理们也在不断探索LBS的发展方向，在Gevin看来，将GIS技术与LBS做更紧密的结合才是王道。这与江湖上的武林高手修炼武功是一个道理，只有内功足够浑厚，才能立于不败之地，否则一切的外功只能是花拳秀腿，不堪一击。</p>
+<h3 id="3-1_LBS应该做什么？">3.1 LBS应该做什么？</h3><p>LBS是在社交网络上诞生的产品，社会化属性是LBS的最基本属性。未来的互联网，朝着移动终端和社会化网络的方向发展，数据挖掘也会在未来的互联网中发挥越来越重要的作用。LBS的社交属性和基于移动终端的应用特色，与未来互联网的发展方向是一致的，数据挖掘的角度、深度和广度将会对LBS产品的发展带来极其重要的影响。</p>
+<p>设计LBS类的产品，我认为应该将以下3点作为宗旨：</p>
+<ul>
+<li>产品的根本落脚点是基于地点的人与人关系的服务</li>
+<li>改善用户对位置的体验</li>
+<li>产品要简单直接，主题明确</li>
+</ul>
+<h4 id="3-1-1_基于地点的人与人关系的服务">3.1.1 基于地点的人与人关系的服务</h4><p>现在的web2.0，和未来的web3.0，都是用户制造大量信息，产生巨大价值的网络，在互联网的虚拟世界里，人们也更加倾向于做真实的自己，互联网的社会化属性在将会得到更进一步的发展。</p>
+<p>facebook带来了社交网络，twitter让人们能够单向的更加简单的关注自己感兴趣的人，Quora让人们不仅能够关注“人”，还能关注有兴趣的问题或者话题。这既是社交网络的进一步加强，也表明社交网络上的数据挖掘正在向着更广更深的方向发展。</p>
+<p>作为SNS分支的LBS，不应该将“location”作为摆设，而是应该在“location”上花心思进行数据挖掘，例如社会关系，周边信息等。</p>
+<h4 id="3-1-2_改善用户对位置的体验">3.1.2 改善用户对位置的体验</h4><p>人始终会和某一特定位置绑定在一起，而人和位置这种密不可分的关系，恰恰导致了人对自己地理位置的忽视。LBS如果能够以某种形式吸引用户关注自己的位置，并引起用户的兴趣，这必然会大大促进LBS更进一步的发展。</p>
+<h3 id="3-2-_LBS可以提供的服务">3.2. LBS可以提供的服务</h3><p>LBS需要在“位置”上多花心思，更多的和GIS技术结合，才能做出更好的、更加适应互联网发展的产品。</p>
+<p>虽然最终设计的产品要尽量简单和友好，但在产品的设计阶段还是要尽量保持思路丰富全面。除去数据源的获取和产品的盈利等我不太熟悉的因素，但从产品本身着手，我认为可以提供下面的几种服务。</p>
+<h4 id="3-2-1_面向用户">3.2.1 面向用户</h4><p>LBS向用户提供的服务，应当基于社会关系和信息服务，方便交友，让用户在城市中过的更好。</p>
+<p>目前LBS的应用已经在社会关系和信息服务的方向上有所发展，如果在现有应用的基础上加强用户对位置的体验，会有吸引更多的用户。</p>
+<p>“位置”信息可以成为连接用户的桥梁，可以让有共同兴趣的陌生人成为好友。</p>
+<p>结合“位置”探索好友关系，推荐好友。</p>
+<p>用户历史活动信息分析，生成分析图表，让用户对更加了解自己的活动</p>
+<p>用户活动规划，基于用户历史信息，推荐活动，或者对用户的活动计划进行模拟／仿真（如果有恰当的应用场景，才有考虑这类应用的价值）</p>
+<h4 id="3-2-2_面向商家">3.2.2 面向商家</h4><p>LBS可以向商家提供有价值的、商家感兴趣的数据，这类数据既可以是用户公开的信息，又可以是基于公开信息的分析结果，以实现双赢的效果。</p>
+<p>结合我使用GIS技术开发应用的经验，我想到2种可以技术实现的LBS面向商家的应用，分别是商家选址和决策支持。</p>
+<p>商家拓展业务会建立分店或者分部，新开商铺也会在地址选择上下很大功夫。GIS最典型的应用就是地址的选择。GIS系统可以将商家选址的条件转换成空间信息，通过空间运算将满足商家要求的位置计算出来，然后将计算结果形象的展现在地图上。这种方式准确快捷，能为商家节省大量的时间。</p>
+<p>现在GIS最常被用到的功能是做决策支持系统，GIS在交通、城市规划等领域经常用于辅助决策。LBS也可以考虑为商家提供决策支持类型的服务。</p>
+<h4 id="3-2-3_综合类的服务">3.2.3 综合类的服务</h4><p>LBS可以考虑与地图服务结合，结合实时路况，向用户和商家推送信息；用户在地图上进行查询时（如最优路径查询），向用户提供具有LBS特色的更加丰富多彩的信息。</p>
+<h3 id="3-3-_为何要LBS提供这些服务？">3.3. 为何要LBS提供这些服务？</h3><ol>
+<li>LBS作为以“位置”为特色的服务，应该让用户对自己的位置有更好的体验，享受更好的服务，并让自己的生活更美好；</li>
+<li>LBS若要在数据挖掘上产生质的变化，必然要在“位置”上下功夫，与GIS技术结合，建立GIS的系统，LBS有能力提供这些需要GIS技术做支持的服务；</li>
+<li>目前市场上没有类似的服务，用户和商家也不可能建立这样的服务，LBS应该抓住机遇</li>
+</ol>
+<h3 id="3-4_LBS产品要做什么？">3.4 LBS产品要做什么？</h3><p>LBS产品应该在“位置”上多做数据挖掘，提供更加优质的服务，这要求GIS技术的支持，但更需要获取更多关于地点的空间数据、属性数据，并用更加合理的形式去组织数据。</p>
+<p>LBS产品若要走的更远，需要在数据层面上做足准备，用空间数据库管理海量数据，用GIS技术做数据挖掘。</p>
+<p>LBS产品在丰富的数据基础上，不妨向用户提供最简洁的、最吸引眼球的特色服务，然后开放数据和api，让更多的第三方开发者基于自己的产品为用户提供更多更丰富的服务。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/wordpress/">wordpress</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/GIS/">GIS</a><a href="/tags/LBS/">LBS</a><a href="/tags/SNS/">SNS</a><a href="/tags/互联网/">互联网</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.igevin.info/2011/10/27/wordpress/LBS-VS-GIS/" data-title="LBS VS GIS | Gevin&#39;s blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2012/03/16/wordpress/how-sina-weibo-bad/" title="新浪微博哪里不好？">
+  <strong>上一篇：</strong><br/>
+  <span>
+  新浪微博哪里不好？</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2011/10/06/wordpress/in-memory-of-steve-jobs/"  title="纪念乔布斯">
+ <strong>下一篇：</strong><br/> 
+ <span>纪念乔布斯
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2011/10/27/wordpress/LBS-VS-GIS/" data-title="LBS VS GIS" data-url="http://blog.igevin.info/2011/10/27/wordpress/LBS-VS-GIS/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_定义"><span class="toc-number">1.</span> <span class="toc-text">1. 定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_现状"><span class="toc-number">2.</span> <span class="toc-text">2. 现状</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_互联网中的GIS技术应用现状"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 互联网中的GIS技术应用现状</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_GIS技术在互联网中的应用现状"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 GIS技术在互联网中的应用现状</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_LBS与GIS的结合"><span class="toc-number">3.</span> <span class="toc-text">3. LBS与GIS的结合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1_LBS应该做什么？"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 LBS应该做什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-1_基于地点的人与人关系的服务"><span class="toc-number">3.1.1.</span> <span class="toc-text">3.1.1 基于地点的人与人关系的服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-2_改善用户对位置的体验"><span class="toc-number">3.1.2.</span> <span class="toc-text">3.1.2 改善用户对位置的体验</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-_LBS可以提供的服务"><span class="toc-number">3.2.</span> <span class="toc-text">3.2. LBS可以提供的服务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1_面向用户"><span class="toc-number">3.2.1.</span> <span class="toc-text">3.2.1 面向用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2_面向商家"><span class="toc-number">3.2.2.</span> <span class="toc-text">3.2.2 面向商家</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-3_综合类的服务"><span class="toc-number">3.2.3.</span> <span class="toc-text">3.2.3 综合类的服务</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-_为何要LBS提供这些服务？"><span class="toc-number">3.3.</span> <span class="toc-text">3.3. 为何要LBS提供这些服务？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4_LBS产品要做什么？"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 LBS产品要做什么？</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/github/" title="github">github<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/tech/" title="tech">tech<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/wechat/" title="wechat">wechat<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/wordpress/" title="wordpress">wordpress<sup>44</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程序员/" title="程序员">程序员<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/互联网/" title="互联网">互联网<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/GIS/" title="GIS">GIS<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/微信/" title="微信">微信<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SNS/" title="SNS">SNS<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/app/" title="app">app<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/营销/" title="营销">营销<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/黑客文化/" title="黑客文化">黑客文化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/tip/" title="tip">tip<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/苹果/" title="苹果">苹果<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/open-source/" title="open source">open source<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/English/" title="English">English<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/LBS/" title="LBS">LBS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/用户体验/" title="用户体验">用户体验<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Stay hungry, stay foolish. <br/>
+			Stop when you are perfect.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/flyhigher139" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/flyhigher139" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/igevin" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="http://blog.igevin.info/about" target="_blank" title="Gevin">Gevin</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"gevin-essay"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+  </body>
+</html>

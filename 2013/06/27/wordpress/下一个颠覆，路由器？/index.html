@@ -1,0 +1,595 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>下一个颠覆，路由器？ | Gevin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Gevin">
+    
+
+    
+    <meta name="description" content="如果说iPhone颠覆了手机，微博颠覆了新闻，微信颠覆了短信，那么下一个被颠覆的将是什么？路由器么？最近老看到这样的文章或评论，Gevin也忍不住想说几句，毕竟路由器是个基础设施，除了少数懂得给路由器刷DD-WRT极客，路由器给用户的体验几乎10年没有改善。
+wifi是个几乎覆盖家家户户和大量公共场合的东西，极客公园也在《wifi的想象力》一文中，wifi上可以有的创新，有兴趣的同学可以搜索看看。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="下一个颠覆，路由器？">
+<meta property="og:url" content="http://blog.igevin.info/2013/06/27/wordpress/下一个颠覆，路由器？/index.html">
+<meta property="og:site_name" content="Gevin's blog">
+<meta property="og:description" content="如果说iPhone颠覆了手机，微博颠覆了新闻，微信颠覆了短信，那么下一个被颠覆的将是什么？路由器么？最近老看到这样的文章或评论，Gevin也忍不住想说几句，毕竟路由器是个基础设施，除了少数懂得给路由器刷DD-WRT极客，路由器给用户的体验几乎10年没有改善。
+wifi是个几乎覆盖家家户户和大量公共场合的东西，极客公园也在《wifi的想象力》一文中，wifi上可以有的创新，有兴趣的同学可以搜索看看。">
+<meta property="og:image" content="http://media.tumblr.com/d7001a1a4edfead37486bd8638e76a7e/tumblr_inline_moyaqg5XpN1qz4rgp.jpg">
+<meta property="og:image" content="http://blog.igevin.info/wp-content/uploads/2013/06/qrcode_for_gh_df84b04855a2_430-300x300.jpg">
+<meta property="og:image" content="http://blog.igevin.info/wp-content/uploads/2012/05/image.png">
+<meta property="og:image" content="http://static.wumii.cn/site_images/ti/ev0oZ9cH.jpg?i=eyWwklBG">
+<meta property="og:image" content="http://static.wumii.cn/site_images/ti/lj5h6np4.jpg?i=QdXpthCK">
+<meta property="og:image" content="http://static.wumii.cn/site_images/ti/3C65YGOh.jpg?i=ugASoxyy">
+<meta property="og:image" content="http://static.wumii.cn/resources/images/related_item_default/98.jpg">
+<meta property="og:image" content="http://static.wumii.cn/site_images/ti/6gYhQNTQ.png?i=905ZwCUy">
+<meta property="og:image" content="http://static.wumii.cn/site_images/ti/8BGOvmHc.jpg?i=15ro7hRHX">
+<meta property="og:image" content="http://static.wumii.cn/site_images/ti/1aUgFbdW.jpg?i=17qDDYgQK">
+<meta property="og:image" content="http://static.wumii.cn/site_images/ti/7QAVZO8D.jpg?i=42gLEDOF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="下一个颠覆，路由器？">
+<meta name="twitter:description" content="如果说iPhone颠覆了手机，微博颠覆了新闻，微信颠覆了短信，那么下一个被颠覆的将是什么？路由器么？最近老看到这样的文章或评论，Gevin也忍不住想说几句，毕竟路由器是个基础设施，除了少数懂得给路由器刷DD-WRT极客，路由器给用户的体验几乎10年没有改善。
+wifi是个几乎覆盖家家户户和大量公共场合的东西，极客公园也在《wifi的想象力》一文中，wifi上可以有的创新，有兴趣的同学可以搜索看看。">
+<meta name="twitter:creator" content="@igevin">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Gevin&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/gevin-pacman.svg" alt="Gevin&#39;s blog" title="Gevin&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Gevin&#39;s blog">Gevin&#39;s blog</a></h1>
+				<h2 class="blog-motto">技术生活都要折腾</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.igevin.info">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2013/06/27/wordpress/下一个颠覆，路由器？/" title="下一个颠覆，路由器？" itemprop="url">下一个颠覆，路由器？</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://blog.igevin.info/about" title="Gevin" target="_blank" itemprop="author">Gevin</a>
+		
+  <p class="article-time">
+    <time datetime="2013-06-27T10:10:28.000Z" itemprop="datePublished"> 发表于 2013-06-27</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p><img src="http://media.tumblr.com/d7001a1a4edfead37486bd8638e76a7e/tumblr_inline_moyaqg5XpN1qz4rgp.jpg" alt=""></p>
+<p>如果说iPhone颠覆了手机，微博颠覆了新闻，微信颠覆了短信，那么下一个被颠覆的将是什么？路由器么？最近老看到这样的文章或评论，Gevin也忍不住想说几句，毕竟路由器是个基础设施，除了少数懂得给路由器刷DD-WRT极客，路由器给用户的体验几乎10年没有改善。</p>
+<p>wifi是个几乎覆盖家家户户和大量公共场合的东西，极客公园也在《wifi的想象力<span style="font-size: 1rem;">》</span><span style="line-height: 1.714285714; font-size: 1rem;">一文中，wifi上可以有的创新，有兴趣的同学可以搜索看看。Gevin也根据自己的了解，推荐几个有价值的关注点吧～<span id="more-1945"></span></span></p>
+<p>&nbsp;</p>
+<p>最早了解到的wifi创新，不记得是迅雷路由器还是JooMe™ 了，一个一个的说吧。迅雷路由器的最大创新是在路由器上绑定了迅雷下载，是迅雷公司和路由器厂商合作定制的，这样可以在不开电脑的情况下下载游戏、电影或软件等资源。立足于一个很基本的需求，迅雷路由器被用户的接受度可想而知。</p>
+<p>JooMe™ 号称“是一个全球化的 WiFi 开放运动，旨在鼓励互联网使用者分享闲置带宽给周围的人免费使用，并由此获取一定的回报。与以往的 WiFi 分享项目不同的是，JooMe™ 对使用者没有任何收费或回报带宽分享的限制。所有人都可以自由使用 JooMe™ 提供的免费 WiFi。”JooMe™ 是一个典型的基于免费的双赢，可以用前面或者后面写到的免费的理论来解读</p>
+<p>特别想说的是hiwifi路由器，也就是图片上那个，Gevin目前在用的路由器也是这个。hiwifi路由器是北京一个创业团队做的，目前第三批工程机正在火热开卖。hiwifi路由器是Gevin了解的路由器中，创新最多的一款，比如，它可以屏蔽视频网站上的广告，让用户观看视频时不再痛苦的忍受无价值的等待；对下载的加速，尤其是针对苹果应用下载、谷歌应用下载的优化，大大加强了用户体验，或者它免费的出国加速功能，对好奇如何科学上网的用户绝对是一种诱惑，还有手机远程控制路由器功能，能有效阻止被蹭网等。hiwifi能够给路由器安装app，官方提供的很多功能，原本只有极客懂得如何折腾，现在这些功能都以wifi的形式带到每位普通用户面前了，所以hiwifi路由器才自称专为懒人设计的路由器。</p>
+<p>最后要说的是号称要做“安全路由器”的奇虎360，目前刚刚推出便捷路由器产品“360随身WiFi”。这是个价值19.9元的类似蓝牙接收器的东西，把它插在一个可以上网的电脑上，就产生了一个wifi上网环境，供手机，ipad等使用，物有所值。现在360随身WiFi正在预订中，每周二和周四上午10点有200台免费放出，手快的用户可以去抢一把，不过无论抢到的还是预订的，都要7月5号发货。</p>
+<p>不管路由器会不会成为下一个引爆点，Gevin都很看好路由器上的创新，至少，路由器的机会不见得比蓝牙4.0少。</p>
+<p>——-What’s more———-</p>
+<p>最近在考虑，“免费”这类非实时性的话题，可以穿插着写，老写一个主题，大家难免会觉得无趣，写点近期的想法，或对实时的一些事情做点评论，会更有意思，不知大家怎么看？</p>
+<p>本文作者Gevin，欢迎大家关注公共账户@GevinKnow，如果大家觉得文章有价值，不妨分享到朋友圈或者微博中</p>
+<p><a href="http://blog.igevin.info/wp-content/uploads/2013/06/qrcode_for_gh_df84b04855a2_430.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2013/06/qrcode_for_gh_df84b04855a2_430-300x300.jpg" alt="qrcode_for_gh_df84b04855a2_430"></a></p>
+<p>图片来源于hiwifi官方网站 <a href="http://www.hiwifi.com/" target="_blank" rel="external">http://www.hiwifi.com/</a></p>
+<p>文章均备份到这里 <a href="http://essay.igevin.info/" target="_blank" rel="external">http://essay.igevin.info</a></p>
+<p><div style="margin-top: 15px"></div></p>
+<p></p><p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
+<p><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2013/06/innovation-wifi/" target="_blank" rel="external">下一个颠覆，路由器？</a></p>
+<p></p>
+<p><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div></p>
+<table class="wumii-related-items" cellspacing="0" cellpadding="3" border="0" style="clear: both;"><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">猜您也喜欢：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Falipay-fund-reliable%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Finnovation-wifi%2F" title="余额宝靠谱么？" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/ev0oZ9cH.jpg?i=eyWwklBG" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">余额宝靠谱么？</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Fhello-weixi%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Finnovation-wifi%2F" title="Hello, 微信" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/lj5h6np4.jpg?i=QdXpthCK" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">Hello, 微信</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F11%2Ffree-mode-on-internet%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Finnovation-wifi%2F" title="互联网上的免费" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/3C65YGOh.jpg?i=ugASoxyy" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">互联网上的免费</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2011%2F05%2F5-good-ui-jquery-plugin%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Finnovation-wifi%2F" title="五款改善用户体验的jQuery插件" target="_blank" rel="external"><br><img src="http://static.wumii.cn/resources/images/related_item_default/98.jpg" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">五款改善用户体验的jQuery插件</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2010%2F10%2F15-%25E4%25B8%25AA%25E4%25B8%2580%25E5%25AE%259A%25E8%25A6%2581%25E4%25BC%259A%25E7%259A%2584-windows7-%25E5%25BF%25AB%25E6%258D%25B7%25E9%2594%25AE%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Finnovation-wifi%2F" title="15 个一定要会的 Windows7 快捷键" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/6gYhQNTQ.png?i=905ZwCUy" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">15 个一定要会的 Windows7 快捷键</font>
+</a><br></td><br></tr><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">来自无觅网络的相关文章：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fjingdian230.com%2F%3Fp%3D4126&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Finnovation-wifi%2F" title="生活的真谛在于创新，生活的理想在于远大(@jingdian230)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/8BGOvmHc.jpg?i=15ro7hRHX" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">生活的真谛在于创新，生活的理想在于远大(@jingdian230)</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fbs321.net%2Fthread-1432-1-1.html&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Finnovation-wifi%2F" title="大庆油田宽带路由器共享串机上网调试安装不额外多花钱(@bs321)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/1aUgFbdW.jpg?i=17qDDYgQK" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">大庆油田宽带路由器共享串机上网调试安装不额外多花钱(@bs321)</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fbs321.net%2Fthread-810-1-1.html&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Finnovation-wifi%2F" title="电脑维护大图系统安装可上门服务！安油田路由器！(@bs321)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/7QAVZO8D.jpg?i=42gLEDOF" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">电脑维护大图系统安装可上门服务！安油田路由器！(@bs321)</font>
+</a><br></td><br></tr><br><br><tr><br><td colspan="5" align="right"><br><a href="http://www.wumii.com/widget/relatedItems" title="无觅关联推荐" target="_blank" rel="external"><br><font size="-1" color="#bbbbbb" style="display: block !important; font-family: arial !important; padding: 5px 0 !important; font-size: 12px !important; color: #bbb !important;">无觅</font>
+</a><br></td><br></tr><br></table>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/wordpress/">wordpress</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/创新/">创新</a><a href="/tags/微信/">微信</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.igevin.info/2013/06/27/wordpress/下一个颠覆，路由器？/" data-title="下一个颠覆，路由器？ | Gevin&#39;s blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2013/07/03/wordpress/start-discussion-from-hacker/" title="从黑客说起">
+  <strong>上一篇：</strong><br/>
+  <span>
+  从黑客说起</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2013/06/23/wordpress/internet-free-2/"  title="天上掉的馅饼（二）">
+ <strong>下一篇：</strong><br/> 
+ <span>天上掉的馅饼（二）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2013/06/27/wordpress/下一个颠覆，路由器？/" data-title="下一个颠覆，路由器？" data-url="http://blog.igevin.info/2013/06/27/wordpress/下一个颠覆，路由器？/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/github/" title="github">github<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/tech/" title="tech">tech<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/wechat/" title="wechat">wechat<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/wordpress/" title="wordpress">wordpress<sup>44</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程序员/" title="程序员">程序员<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/互联网/" title="互联网">互联网<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/GIS/" title="GIS">GIS<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/微信/" title="微信">微信<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SNS/" title="SNS">SNS<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/app/" title="app">app<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/营销/" title="营销">营销<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/黑客文化/" title="黑客文化">黑客文化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/tip/" title="tip">tip<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/苹果/" title="苹果">苹果<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/open-source/" title="open source">open source<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/English/" title="English">English<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/LBS/" title="LBS">LBS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/用户体验/" title="用户体验">用户体验<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Stay hungry, stay foolish. <br/>
+			Stop when you are perfect.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/flyhigher139" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/flyhigher139" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/igevin" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="http://blog.igevin.info/about" target="_blank" title="Gevin">Gevin</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"gevin-essay"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+  </body>
+</html>

@@ -1,0 +1,1167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[Gevin's blog]]></title>
+  <subtitle><![CDATA[技术生活都要折腾]]></subtitle>
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://blog.igevin.info/"/>
+  <updated>2015-03-19T04:41:31.409Z</updated>
+  <id>http://blog.igevin.info/</id>
+  
+  <author>
+    <name><![CDATA[Gevin]]></name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Docker Tips]]></title>
+    <link href="http://blog.igevin.info/2015/02/05/docker-tips/"/>
+    <id>http://blog.igevin.info/2015/02/05/docker-tips/</id>
+    <published>2015-02-05T08:42:01.000Z</published>
+    <updated>2015-03-19T04:41:31.409Z</updated>
+    <content type="html"><![CDATA[<h2 id="镜像">镜像</h2><h3 id="获取镜像">获取镜像</h3><p>可以使用 <code>docker pull</code> 命令来从仓库获取所需要的镜像</p>
+<p>e.g. sudo docker pull ubuntu:12.04</p>
+<h3 id="列出本地镜像">列出本地镜像</h3><p>sudo docker images</p>
+<h3 id="修改已有镜像来创建新镜像">修改已有镜像来创建新镜像</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker commit -m <span class="string">"change source list"</span> -<span class="tag">a</span> <span class="string">"gevin"</span> <span class="number">0</span>b2616b0e5a8 gevin/ubuntu:v1</span><br></pre></td></tr></table></figure>
+<p>-m 来指定提交的说明信息，跟我们使用的版本控制工具一样；-a 可以指定更新的用户信息；之后是用来创建镜像的容器的 ID；最后指定目标镜像的仓库名和 tag 信息。创建成功后会返回这个镜像的 ID 信息</p>
+<h3 id="载入镜像">载入镜像</h3><p>使用 <code>docker load</code> 从导出的本地文件中再导入到本地镜像库，例如</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker load --<span class="tag">input</span> ubuntu_14.<span class="number">04</span><span class="class">.tar</span></span><br><span class="line">或</span><br><span class="line">$ sudo docker load &lt; ubuntu_14.<span class="number">04</span>.tar</span><br></pre></td></tr></table></figure>
+<h3 id="导出镜像">导出镜像</h3><p>使用 <code>docker save</code> 导出镜像到本地，如：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker save mynewimage_id &gt; <span class="regexp">/tmp/mynewimage</span>.tar</span><br></pre></td></tr></table></figure>
+<p>详细的导出方法如下：</p>
+<p>The current (and correct) behavior is as follows:</p>
+<p>1.<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">docker</span> save repo</span><br></pre></td></tr></table></figure></p>
+<p>Saves all tagged images + parents in the repo, and creates a repositories file listing the tags</p>
+<p>2.<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">docker</span> <span class="tag">save</span> <span class="tag">repo</span><span class="pseudo">:tag</span></span><br></pre></td></tr></table></figure></p>
+<p>Saves tagged image + parents in repo, and creates a repositories file listing the tag</p>
+<p>3.<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">docker</span> save imageid</span><br></pre></td></tr></table></figure></p>
+<p>Saves image + parents, does not create repositories file. The save relates to the image only, and tags are left out by design and left as an exercise for the user to populate based on their own naming convention.</p>
+<h3 id="移除本地镜像">移除本地镜像</h3><p>如果要移除本地的镜像，可以使用 <code>docker rmi</code> 命令。注意 docker rm 命令是移除容器。<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>sudo docker rmi training/sinatra</span><br></pre></td></tr></table></figure></p>
+<h2 id="容器">容器</h2><h3 id="启动容器">启动容器</h3><h4 id="新建并启动">新建并启动</h4><p>所需要的命令主要为 <code>docker run</code><br>交互式的容器:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker run -t -i ubuntu:<span class="number">14.04</span> /bin/bash</span><br><span class="line">root@af8bae53bdd3:/<span class="comment">#</span></span><br></pre></td></tr></table></figure></p>
+<p><code>-t</code> 选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上， <code>-i</code> 则让容器的标准输入保持打开</p>
+<h4 id="守护态运行">守护态运行</h4><p>让 Docker 容器在后台以守护态（Daemonized）形式运行。此时，可以通过添加 -d 参数来实现。</p>
+<p>例如下面的命令会在后台运行容器。</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker <span class="keyword">run</span> -<span class="keyword">d</span> ubuntu:14.04 /bin/<span class="keyword">sh</span> -c <span class="string">"while true; do echo hello world; sleep 1; done"</span></span><br><span class="line">1e5535038e285177d5214659a068137486f96ee5c2e85a4ac52dc83f2ebe4147</span><br></pre></td></tr></table></figure>
+<h4 id="启动已终止容器">启动已终止容器</h4><p>可以利用 docker start 命令，直接将一个已经终止的容器启动运行。</p>
+<h3 id="终止容器">终止容器</h3><p>可以使用 <code>docker stop</code> 来终止一个运行中的容器</p>
+<h3 id="查看容器信息">查看容器信息</h3><p>通过 <code>docker ps</code> 命令来查看容器信息。</p>
+<figure class="highlight puppet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo docker <span class="built_in">ps</span></span><br><span class="line"><span class="keyword">or</span></span><br><span class="line">sudo docker <span class="built_in">ps</span> -a</span><br></pre></td></tr></table></figure>
+<h3 id="获取容器的输出信息">获取容器的输出信息</h3><p>要获取容器的输出信息，可以通过 <code>docker logs</code> 命令</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>sudo docker logs container_name</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">. . .</span><br></pre></td></tr></table></figure>
+<h3 id="进入容器">进入容器</h3><p>在使用 -d 参数时，容器启动后会进入后台。 某些时候需要进入容器进行操作，有很多种方法，包括使用 docker attach 命令或 nsenter 工具等。</p>
+<h4 id="attach_命令">attach 命令</h4><p>docker attach 是Docker自带的命令。下面示例如何使用该命令。<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>sudo docker run -idt ubuntu</span><br><span class="line"><span class="number">243</span>c32535da7d142fb0e6df616a3c3ada0b8ab417937c853a9e1c251f499f55<span class="number">0</span></span><br><span class="line"><span class="variable">$ </span>sudo docker ps</span><br><span class="line"><span class="constant">CONTAINER ID </span>       <span class="constant">IMAGE </span>              <span class="constant">COMMAND </span>            <span class="constant">CREATED </span>        <span class="constant">STATUS </span>        <span class="constant">PORTS </span>  <span class="constant">NAMES</span></span><br><span class="line"><span class="number">243</span>c32535da7        <span class="symbol">ubuntu:</span>latest       <span class="string">"/bin/bash"</span>         <span class="number">18</span> seconds ago  <span class="constant">Up </span><span class="number">17</span> seconds          nostalgi_hypatia</span><br><span class="line"><span class="variable">$sudo</span> docker attach nostalgic_hypatia</span><br><span class="line">root<span class="variable">@243c32535da7</span><span class="symbol">:/</span><span class="comment">#</span></span><br></pre></td></tr></table></figure></p>
+<p>但是使用 attach 命令有时候并不方便。当多个窗口同时 attach 到同一个容器的时候，所有窗口都会同步显示。当某个窗口因命令阻塞时,其他窗口也无法执行操作了。</p>
+<h4 id="nsenter_命令参考这里">nsenter 命令参考<a href="http://yeasy.gitbooks.io/docker_practice/content/container/enter.html" target="_blank" rel="external">这里</a></h4><h3 id="导出容器">导出容器</h3><p>如果要导出本地某个容器，可以使用 docker export 命令。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker ps <span class="operator">-a</span></span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                    PORTS               NAMES</span><br><span class="line"><span class="number">7691</span>a814370e        ubuntu:<span class="number">14.04</span>        <span class="string">"/bin/bash"</span>         <span class="number">36</span> hours ago        Exited (<span class="number">0</span>) <span class="number">21</span> hours ago                       <span class="built_in">test</span></span><br><span class="line">$ sudo docker <span class="built_in">export</span> <span class="number">7691</span>a814370e &gt; ubuntu.tar</span><br></pre></td></tr></table></figure></p>
+<p>这样将导出容器快照到本地文件。</p>
+<h3 id="导入容器快照">导入容器快照</h3><p>可以使用 docker import 从容器快照文件中再导入为镜像，例如<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cat ubuntu.tar | sudo docker import - <span class="built_in">test</span>/buntu:v1.<span class="number">0</span></span><br><span class="line">$ sudo docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED              VIRTUAL SIZE</span><br><span class="line"><span class="built_in">test</span>/ubuntu         v1.<span class="number">0</span>                <span class="number">9</span>d37a6082e97        About a minute ago   <span class="number">171.3</span> MB</span><br></pre></td></tr></table></figure></p>
+<p>此外，也可以通过指定 URL 或者某个目录来导入，例如<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sudo docker <span class="keyword">import</span> <span class="string">http:</span><span class="comment">//example.com/exampleimage.tgz example/imagerepo</span></span><br></pre></td></tr></table></figure></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[本文简要总结了docker中的常用命令]]>
+    
+    </summary>
+    
+      <category term="docker" scheme="http://blog.igevin.info/tags/docker/"/>
+    
+      <category term="tip" scheme="http://blog.igevin.info/tags/tip/"/>
+    
+      <category term="tech" scheme="http://blog.igevin.info/categories/tech/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Django 实现下载文件功能]]></title>
+    <link href="http://blog.igevin.info/2015/01/27/django-download-function/"/>
+    <id>http://blog.igevin.info/2015/01/27/django-download-function/</id>
+    <published>2015-01-26T16:00:00.000Z</published>
+    <updated>2015-03-19T04:41:31.409Z</updated>
+    <content type="html"><![CDATA[<h1 id="Django_实现下载文件功能">Django 实现下载文件功能</h1><p>基于Django建立的网站，如果提供文件下载功能，最简单的方式莫过于将静态文件交给Nginx等处理，但有些时候，由于网站本身逻辑，需要通过Django提供下载功能，如页面数据导出功能（下载动态生成的文件）、先检查用户权限再下载文件等。因此，有必要研究一下文件下载功能在Django中的实现。</p>
+<h2 id="最简单的文件下载功能的实现">最简单的文件下载功能的实现</h2><p>将文件流放入HttpResponse对象即可，如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">file_download</span><span class="params">(request)</span>:</span></span><br><span class="line">  <span class="comment"># do something...</span></span><br><span class="line">  <span class="keyword">with</span> open(<span class="string">'file_name.txt'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    c = f.read()</span><br><span class="line">  <span class="keyword">return</span> HttpResponse(c)</span><br></pre></td></tr></table></figure>
+<p>这种方式简单粗暴，适合小文件的下载，但如果这个文件非常大，这种方式会占用大量的内存，甚至导致服务器崩溃。</p>
+<h2 id="更合理的文件下载功能">更合理的文件下载功能</h2><p>Django的<code>HttpResponse</code>对象<a href="https://docs.djangoproject.com/en/dev/ref/request-response/#passing-iterators" target="_blank" rel="external">允许将迭代器作为传入参数</a>，将上面代码中的传入参数<code>c</code>换成一个迭代器，便可以将上述下载功能优化为对大小文件均适合；而Django更进一步，推荐使用 <code>StreamingHttpResponse</code>对象取代<code>HttpResponse</code>对象，<code>StreamingHttpResponse</code>对象用于<a href="https://docs.djangoproject.com/en/dev/ref/request-response/#django.http.StreamingHttpResponse" target="_blank" rel="external">将文件流发送给浏览器</a>，与HttpResponse对象非常相似，对于文件下载功能，使用<code>StreamingHttpResponse</code>对象更合理。</p>
+<p>因此，更加合理的文件下载功能，应该先写一个迭代器，用于处理文件，然后将这个迭代器作为参数传递给<code>StreaminghttpResponse</code>对象，如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> StreamingHttpResponse</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">big_file_download</span><span class="params">(request)</span>:</span></span><br><span class="line">  <span class="comment"># do something...</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">file_iterator</span><span class="params">(file_name, chunk_size=<span class="number">512</span>)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(file_name) <span class="keyword">as</span> f:</span><br><span class="line">      <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        c = f.read(chunk_size)</span><br><span class="line">        <span class="keyword">if</span> c:</span><br><span class="line">          <span class="keyword">yield</span> c</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">          <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">  the_file_name = <span class="string">"file_name.txt"</span></span><br><span class="line">  response = StreamingHttpResponse(file_iterator(the_file_name))</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> response</span><br></pre></td></tr></table></figure>
+<h2 id="文件下载功能再次优化">文件下载功能再次优化</h2><p>上述的代码，已经完成了将服务器上的文件，通过文件流传输到浏览器，但文件流通常会以乱码形式显示到浏览器中，而非下载到硬盘上，因此，还要在做点优化，让文件流写入硬盘。优化很简单，给StreamingHttpResponse对象的<code>Content-Type</code>和<code>Content-Disposition</code>字段赋下面的值即可，如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">response[<span class="string">'Content-Type'</span>] = <span class="string">'application/octet-stream'</span></span><br><span class="line">response[<span class="string">'Content-Disposition'</span>] = <span class="string">'attachment;filename="test.pdf"'</span></span><br></pre></td></tr></table></figure>
+<p>完整代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> StreamingHttpResponse</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">big_file_download</span><span class="params">(request)</span>:</span></span><br><span class="line">  <span class="comment"># do something...</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">file_iterator</span><span class="params">(file_name, chunk_size=<span class="number">512</span>)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(file_name) <span class="keyword">as</span> f:</span><br><span class="line">      <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        c = f.read(chunk_size)</span><br><span class="line">        <span class="keyword">if</span> c:</span><br><span class="line">          <span class="keyword">yield</span> c</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">          <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">  the_file_name = <span class="string">"big_file.pdf"</span></span><br><span class="line">  response = StreamingHttpResponse(file_iterator(the_file_name))</span><br><span class="line">  response[<span class="string">'Content-Type'</span>] = <span class="string">'application/octet-stream'</span></span><br><span class="line">  response[<span class="string">'Content-Disposition'</span>] = <span class="string">'attachment;filename="&#123;0&#125;"'</span>.format(the_file_name)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> response</span><br></pre></td></tr></table></figure></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[Django文件下载功能，应该先写一个迭代器，用于处理文件，然后将这个迭代器作为参数传递给`StreaminghttpResponse`对象]]>
+    
+    </summary>
+    
+      <category term="django" scheme="http://blog.igevin.info/tags/django/"/>
+    
+      <category term="python" scheme="http://blog.igevin.info/tags/python/"/>
+    
+      <category term="tech" scheme="http://blog.igevin.info/categories/tech/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[vagrant使用简介]]></title>
+    <link href="http://blog.igevin.info/2014/11/13/vagrant-basic-usage/"/>
+    <id>http://blog.igevin.info/2014/11/13/vagrant-basic-usage/</id>
+    <published>2014-11-12T16:00:00.000Z</published>
+    <updated>2015-03-19T04:41:31.409Z</updated>
+    <content type="html"><![CDATA[<h1 id="Outline">Outline</h1><ul>
+<li><p>安装</p>
+</li>
+<li><p>初始化工作环境</p>
+<ul>
+<li>初始化工作目录</li>
+<li>首次启动vagrant</li>
+<li>使用vagrant中的ubuntu环境</li>
+<li>同步的目录</li>
+</ul>
+</li>
+<li><p>基本用法</p>
+</li>
+</ul>
+<hr>
+<blockquote>
+<p>Vagrant provides easy to configure, reproducible, and portable work environments built on top of industry-standard technology and controlled by a single consistent workflow to help maximize the productivity and flexibility of you and your team.</p>
+<p>— <a href="https://docs.vagrantup.com/v2/why-vagrant/index.html" target="_blank" rel="external">WHY VAGRANT?</a></p>
+</blockquote>
+<hr>
+<h1 id="安装">安装</h1><p>使用vagrant时，会启动虚拟机，默认使用的虚拟机是virtualbox，所以使用vagrant前，首先安装<code>virtualbox</code>和<code>vagrant</code></p>
+<h1 id="初始化工作环境">初始化工作环境</h1><h2 id="初始化工作目录">初始化工作目录</h2><p>创建一个开发环境的根目录，如<code>E:\projects\vagrant-project1</code></p>
+<p>cmd中，cd到该根目录，使用下面命令，会初始化工作目录，并在工作目录下创建配置文件<code>vagrantfile</code>，配置文件中设置了该工作目录的开发环境为<code>ubuntu-14.04-amd64</code></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">vagrant</span> init phusion/ubuntu-<span class="number">14</span>.<span class="number">04</span>-amd64</span><br></pre></td></tr></table></figure>
+<h2 id="首次启动vagrant">首次启动vagrant</h2><p>启动vagrant的命令如下：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">vagrant</span> up</span><br></pre></td></tr></table></figure></p>
+<p>启动vagrant后，会自动开启虚拟机。由于我们初始化工作目录时，使用的开发环境为<code>phusion/ubuntu-14.04-amd64</code>，现在系统中没有这个文件，因此执行<code>vagrant up</code>时，首先会下载此文件到本地目录。<code>phusion/ubuntu-14.04-amd64</code>放在vagrant的公共目录，因此以后初始化其他工作环境时，如果使用这个文件，也不需要继续下载</p>
+<h2 id="使用vagrant中的ubuntu环境">使用vagrant中的ubuntu环境</h2><p>使用ubuntu环境，需要ssh登录虚拟机</p>
+<p>由于Windows系统的命令行中，没有自带ssh客户端，因此需要借助putty。</p>
+<p>登录相关信息如下：<br><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">username</span>: <span class="string">vagrant</span></span><br><span class="line"><span class="attribute">password</span>: <span class="string">vagrant</span></span><br><span class="line"><span class="attribute">port</span>: <span class="string">2222</span></span><br></pre></td></tr></table></figure></p>
+<p>除了上述方法，在集成了ssh的系统中，还可以直接通过下面命令进入虚拟机环境：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">vagrant</span> ssh</span><br></pre></td></tr></table></figure></p>
+<h2 id="同步的目录">同步的目录</h2><p>默认设置下，上面的工作环境根目录<code>E:\projects\vagrant-project1</code>与虚拟机中的目录<code>/vagrant</code>是一致的，始终同步，可以在虚拟机中使用命令<code>ls /vagrant</code>查看目录文件，内容与主机开发环境根目录完成一样。主机开发环境根目录下对文件的所有读写操作，都会同步到虚拟机的<code>/vagrant</code>中</p>
+<p>可以<a href="http://docs.vagrantup.com/v2/synced-folders/basic_usage.html" target="_blank" rel="external">修改vagrantfile文件</a>，添加更多同步目录</p>
+<h1 id="基本用法">基本用法</h1><ul>
+<li><p>启动虚拟机<br><code>vagrant up</code></p>
+</li>
+<li><p>登录虚拟机<br><code>vagrant ssh</code><br>Windows命令行中没有安装ssh client的话，请使用putty</p>
+</li>
+<li><p>销毁虚拟机<br><code>vagrant destory</code></p>
+</li>
+<li><p>关闭虚拟机<br><code>vagrant halt</code></p>
+</li>
+<li><p>挂起虚拟机<br><code>vagrant suspend</code></p>
+</li>
+<li><p>恢复虚拟机<br><code>vagrant resume</code></p>
+</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[本文是介绍了vagrant基本使用]]>
+    
+    </summary>
+    
+      <category term="vagrant" scheme="http://blog.igevin.info/tags/vagrant/"/>
+    
+      <category term="tech" scheme="http://blog.igevin.info/categories/tech/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[基于nginx和uWSGI在Ubuntu上部署Django]]></title>
+    <link href="http://blog.igevin.info/2014/09/30/deploy-django-with-nginx-and-uwsgi-on-Ubuntu/"/>
+    <id>http://blog.igevin.info/2014/09/30/deploy-django-with-nginx-and-uwsgi-on-Ubuntu/</id>
+    <published>2014-09-29T16:00:00.000Z</published>
+    <updated>2015-03-19T04:41:31.409Z</updated>
+    <content type="html"><![CDATA[<p>本文主要参考<a href="http://uwsgi-docs.readthedocs.org/en/latest/tutorials/Django_and_nginx.html" target="_blank" rel="external"> uWSGI</a>的文档</p>
+<h1 id="1-_nginx">1. nginx</h1><h3 id="安装">安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nginx</span><br></pre></td></tr></table></figure>
+<h3 id="启动、停止和重启">启动、停止和重启</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/nginx start</span><br><span class="line">sudo /etc/init.d/nginx stop</span><br><span class="line">sudo /etc/init.d/nginx restart</span><br></pre></td></tr></table></figure>
+<p>或者<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo service nginx start</span><br><span class="line">sudo service nginx stop</span><br><span class="line">sudo service nginx restart</span><br></pre></td></tr></table></figure></p>
+<h1 id="2-_uWSGI安装">2. uWSGI安装</h1><p>用python的pip安装最简单：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install python-dev <span class="comment">#不安装这个，下面的安装可能会失败</span></span><br><span class="line">pip install uwsgi</span><br></pre></td></tr></table></figure></p>
+<h1 id="3-_基于uWSGI和nginx部署Django">3. 基于uWSGI和nginx部署Django</h1><h2 id="1-原理">1.原理</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">the web client &lt;-&gt; the web server(nginx) &lt;-&gt; the socket &lt;-&gt; uwsgi &lt;-&gt; Django</span><br></pre></td></tr></table></figure>
+<h2 id="2-基本测试">2.基本测试</h2><h3 id="测试uWSGI是否正常">测试uWSGI是否正常</h3><p>在django项目的根目录下创建test.py文件，添加源码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test.py</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">application</span><span class="params">(env, start_response)</span>:</span></span><br><span class="line">    start_response(<span class="string">'200 OK'</span>, [(<span class="string">'Content-Type'</span>,<span class="string">'text/html'</span>)])</span><br><span class="line">    <span class="keyword">return</span> [<span class="string">"Hello World"</span>] <span class="comment"># python2</span></span><br><span class="line">    <span class="comment">#return [b"Hello World"] # python3</span></span><br></pre></td></tr></table></figure></p>
+<p>然后，Run uWSGI:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --http :<span class="number">8000</span> --wsgi-file test.py</span><br></pre></td></tr></table></figure></p>
+<p>参数含义:</p>
+<ul>
+<li><code>http :8000</code>: 使用http协议，8000端口</li>
+<li><code>wsgi-file</code> test.py: 加载指定文件 test.py</li>
+</ul>
+<p>打开下面url，浏览器上应该显示<code>hello world</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com:<span class="number">8000</span></span><br></pre></td></tr></table></figure>
+<p>如果显示正确，说明下面3个环节是通畅的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">the web client &lt;-&gt; uWSGI &lt;-&gt; Python</span><br></pre></td></tr></table></figure>
+<h3 id="测试Django项目是否正常">测试Django项目是否正常</h3><p>首先确保project本身是正常的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py runserver <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">8000</span></span><br></pre></td></tr></table></figure>
+<p>如果没问题，使用uWSGI把project拉起来：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --http :<span class="number">8000</span> --module mysite.wsgi</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>module mysite.wsgi</code>: 加载wsgi module</li>
+</ul>
+<p>如果project能够正常被拉起，说明以下环节是通的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">the web client &lt;-&gt; uWSGI &lt;-&gt; Django</span><br></pre></td></tr></table></figure>
+<h2 id="3-配置nginx">3.配置nginx</h2><p>安装nginx完成后，如果能正常打开<code>http://hostname</code>，说明下面环节是通畅的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">the web client &lt;-&gt; the web server</span><br></pre></td></tr></table></figure>
+<h3 id="增加nginx配置">增加nginx配置</h3><ul>
+<li>将<code>uwsgi_params</code>文件拷贝到项目文件夹下。<code>uwsgi_params</code>文件在<code>/etc/nginx/</code>目录下，也可以从<a href="https://github.com/nginx/nginx/blob/master/conf/uwsgi_params" target="_blank" rel="external">这个页面</a>下载</li>
+<li>在项目文件夹下创建文件<code>mysite_nginx.conf</code>,填入并修改下面内容：</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mysite_nginx.conf</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># the upstream component nginx needs to connect to</span></span><br><span class="line"><span class="title">upstream</span> django &#123;</span><br><span class="line">    <span class="comment"># server unix:///path/to/your/mysite/mysite.sock; # for a file socket</span></span><br><span class="line">    <span class="title">server</span> <span class="number">127.0.0.1:8001</span>; <span class="comment"># for a web port socket (we'll use this first)</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># configuration of the server</span></span><br><span class="line"><span class="title">server</span> &#123;</span><br><span class="line">    <span class="comment"># the port your site will be served on</span></span><br><span class="line">    <span class="title">listen</span>      <span class="number">8000</span>;</span><br><span class="line">    <span class="comment"># the domain name it will serve for</span></span><br><span class="line">    <span class="title">server_name</span> .example.com; <span class="comment"># substitute your machine's IP address or FQDN</span></span><br><span class="line">    <span class="title">charset</span>     utf-<span class="number">8</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># max upload size</span></span><br><span class="line">    <span class="title">client_max_body_size</span> <span class="number">75M</span>;   <span class="comment"># adjust to taste</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Django media</span></span><br><span class="line">    <span class="title">location</span> /media  &#123;</span><br><span class="line">        <span class="title">alias</span> /path/to/your/mysite/media;  <span class="comment"># your Django project's media files - amend as required</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title">location</span> /static &#123;</span><br><span class="line">        <span class="title">alias</span> /path/to/your/mysite/static; <span class="comment"># your Django project's static files - amend as required</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Finally, send all non-media requests to the Django server.</span></span><br><span class="line">    <span class="title">location</span> / &#123;</span><br><span class="line">        <span class="title">uwsgi_pass</span>  django;</span><br><span class="line">        <span class="title">include</span>     /path/to/your/mysite/uwsgi_params; <span class="comment"># the uwsgi_params file you installed</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个configuration文件告诉nginx从文件系统中拉起media和static文件作为服务，同时相应django的request</p>
+<p>在<code>/etc/nginx/sites-enabled</code>目录下创建本文件的连接，使nginx能够使用它：<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s ~<span class="regexp">/path/to</span><span class="regexp">/your/mysite</span><span class="regexp">/mysite_nginx.conf /etc</span><span class="regexp">/nginx/sites</span>-enabled/</span><br></pre></td></tr></table></figure></p>
+<h3 id="部署static文件">部署static文件</h3><p>在django的setting文件中，添加下面一行内容：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">STATIC_ROOT = os<span class="class">.path</span><span class="class">.join</span>(BASE_DIR, <span class="string">"static/"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>然后运行：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage<span class="class">.py</span> collectstatic</span><br></pre></td></tr></table></figure></p>
+<h3 id="测试nginx">测试nginx</h3><p>首先重启nginx服务：<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="regexp">/etc/i</span>nit.d<span class="regexp">/nginx restart</span></span><br></pre></td></tr></table></figure></p>
+<p>然后检查media文件是否已经正常拉起：<br>在目录<code>/path/to/your/project/project/media directory</code>下添加文件<code>meida.png</code>，然后访问<a href="http://example.com:8000/media/media.png" target="_blank" rel="external">http://example.com:8000/media/media.png</a> ，成功后进行下一步测试。</p>
+<h2 id="4-nginx_and_uWSGI_and_test-py">4.nginx and uWSGI and test.py</h2><p>执行下面代码测试能否让nginx在页面上显示<code>hello, world</code><br><figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">uwsgi</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">socket</span> <span class="comment">:8001</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">wsgi</span><span class="literal">-</span><span class="comment">file</span> <span class="comment">test</span><span class="string">.</span><span class="comment">py</span></span><br></pre></td></tr></table></figure></p>
+<p>访问<a href="http://example.com:8000" target="_blank" rel="external">http://example.com:8000</a> ,如果显示<code>hello world</code>，则下面环节是否通畅:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">the web client <span class="tag">&lt;<span class="title">-</span>&gt;</span> the web server <span class="tag">&lt;<span class="title">-</span>&gt;</span> the socket <span class="tag">&lt;<span class="title">-</span>&gt;</span> uWSGI <span class="tag">&lt;<span class="title">-</span>&gt;</span> Python</span><br></pre></td></tr></table></figure></p>
+<h3 id="用UNIX_socket取代TCP_port">用UNIX socket取代TCP port</h3><p>对<code>mysite_nginx.conf</code>做如下修改：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">server <span class="symbol">unix:</span>/<span class="regexp">//path</span><span class="regexp">/to/your</span><span class="regexp">/mysite/mysite</span>.sock; <span class="comment"># for a file socket</span></span><br><span class="line"><span class="comment"># server 127.0.0.1:8001; # for a web port socket (we'll use this first)</span></span><br></pre></td></tr></table></figure>
+<p>重启nginx，并在此运行<code>uWSGI</code><br><figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">uwsgi</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">socket</span> <span class="comment">mysite</span><span class="string">.</span><span class="comment">sock</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">wsgi</span><span class="literal">-</span><span class="comment">file</span> <span class="comment">test</span><span class="string">.</span><span class="comment">py</span></span><br></pre></td></tr></table></figure></p>
+<p>打开 <a href="http://example.com:8000/" target="_blank" rel="external">http://example.com:8000/</a> ，看看是否成功</p>
+<h4 id="如果没有成功:">如果没有成功:</h4><p>检查 nginx error log(/var/log/nginx/error.log)。如果错误如下：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">connect</span><span class="params">()</span></span> to unix:<span class="comment">///path/to/your/mysite/mysite.sock failed (13: Permission</span></span><br><span class="line">denied)</span><br></pre></td></tr></table></figure></p>
+<p>添加socket权限再次运行：<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --<span class="keyword">socket</span> mysite.sock --wsgi-file test.py --<span class="keyword">chmod</span>-<span class="keyword">socket</span>=<span class="number">666</span> <span class="comment"># (very permissive)</span></span><br></pre></td></tr></table></figure></p>
+<p>or<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --<span class="keyword">socket</span> mysite.sock --wsgi-file test.py --<span class="keyword">chmod</span>-<span class="keyword">socket</span>=<span class="number">664</span> <span class="comment"># (more sensible)</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="5-Running_the_Django_application_with_uswgi_and_nginx">5.Running the Django application with uswgi and nginx</h2><p>如果上面一切都显示正常，则下面命令可以拉起django application<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --socket mysite<span class="class">.sock</span> --module mysite<span class="class">.wsgi</span> --chmod-socket=<span class="number">664</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Configuring_uWSGI_to_run_with_a_-ini_file">Configuring uWSGI to run with a .ini file</h3><p>每次都运行上面命令拉起django application实在麻烦，使用.ini文件能简化工作，方法如下：</p>
+<p>在application目录下创建文件<code>mysite_uwsgi.ini</code>，填入并修改下面内容：<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor"># mysite_uwsgi.ini file</span></span><br><span class="line">[uwsgi]</span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># Django-related settings</span></span><br><span class="line"><span class="preprocessor"># the base directory (full path)</span></span><br><span class="line">chdir           = /path/to/your/project</span><br><span class="line"><span class="preprocessor"># Django's wsgi file</span></span><br><span class="line">module          = project.wsgi</span><br><span class="line"><span class="preprocessor"># the virtualenv (full path)</span></span><br><span class="line">home            = /path/to/virtualenv</span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># process-related settings</span></span><br><span class="line"><span class="preprocessor"># master</span></span><br><span class="line">master          = <span class="literal">true</span></span><br><span class="line"><span class="preprocessor"># maximum number of worker processes</span></span><br><span class="line">processes       = <span class="number">10</span></span><br><span class="line"><span class="preprocessor"># the socket (use the full path to be safe</span></span><br><span class="line">socket          = /path/to/your/project/mysite.sock</span><br><span class="line"><span class="preprocessor"># ... with appropriate permissions - may be needed</span></span><br><span class="line"><span class="preprocessor"># chmod-socket    = 664</span></span><br><span class="line"><span class="preprocessor"># clear environment on exit</span></span><br><span class="line">vacuum          = <span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
+<p>现在，只要执行以下命令，就能够拉起django application：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">uwsgi</span> --ini mysite_uwsgi.ini <span class="comment"># the --ini option is used to specify a file</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Make_uWSGI_startup_when_the_system_boots">Make uWSGI startup when the system boots</h3><p>编辑文件<code>/etc/rc.local</code>, 添加下面内容到这行代码之前<code>exit 0</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/<span class="built_in">local</span>/bin/uwsgi --socket /path/to/mysite.sock --module /path/to/mysite.wsgi --chmod-socket=<span class="number">666</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="uWSGI的更多配置">uWSGI的更多配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">env = DJANGO_SETTINGS_MODULE=mysite.settings <span class="comment"># set an environment variable</span></span><br><span class="line">pidfile = /tmp/project-master.pid <span class="comment"># create a pidfile</span></span><br><span class="line">harakiri = <span class="number">20</span> <span class="comment"># respawn processes taking more than 20 seconds</span></span><br><span class="line"><span class="built_in">limit</span>-as = <span class="number">128</span> <span class="comment"># limit the project to 128 MB</span></span><br><span class="line">max-requests = <span class="number">5000</span> <span class="comment"># respawn processes after serving 5000 requests</span></span><br><span class="line">daemonize = /var/<span class="built_in">log</span>/uwsgi/yourproject.log <span class="comment"># background the process &amp; log</span></span><br></pre></td></tr></table></figure>
+]]></content>
+    <summary type="html">
+    <![CDATA[本文是一个step by step的 Django deployment with nginx and uWSGI on ubuntu]]>
+    
+    </summary>
+    
+      <category term="nginx" scheme="http://blog.igevin.info/tags/nginx/"/>
+    
+      <category term="tech" scheme="http://blog.igevin.info/categories/tech/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Yet another awesome collection]]></title>
+    <link href="http://blog.igevin.info/2014/09/17/yet-another-awesome-collection/"/>
+    <id>http://blog.igevin.info/2014/09/17/yet-another-awesome-collection/</id>
+    <published>2014-09-17T08:42:01.000Z</published>
+    <updated>2015-03-19T04:41:31.440Z</updated>
+    <content type="html"><![CDATA[<p>github上有一大堆『awesome-*』的repository相当有料。</p>
+<p>最近我重复造了一个轮子，把这堆资源整理到repository <a href="https://github.com/flyhigher139/awesome-collection" target="_blank" rel="external">awesome-collection</a>中，这个repository中也包含了别人造的一些轮子，以后这个repository的维护难免受我的知识结构所限，内容的添加、删除或者合并如果不太准确，欢迎大家Pull Request，也欢迎大家Fork这个repo。</p>
+<p>本文把这些轮子枚举如下，想看干货的童靴可以随意打开一个轮子：</p>
+<ul>
+<li><a href="https://github.com/sindresorhus/awesome" target="_blank" rel="external">Awesome</a> - A curated list of awesome lists</li>
+<li><a href="https://github.com/bradoyler/awesome-all" target="_blank" rel="external">awesome-all</a> – A curated list of awesome lists of awesome frameworks, libraries and software</li>
+<li><a href="https://github.com/emijrp/awesome-awesome" target="_blank" rel="external">awesome-awesome</a> by @emijrp – A curated list of awesome curated lists of many topics.</li>
+<li><a href="https://github.com/erichs/awesome-awesome" target="_blank" rel="external">awesome-awesome</a> by @erichs – A curated list of awesome curated lists! Inspired by inspiration.</li>
+<li><a href="https://github.com/oyvindrobertsen/awesome-awesome" target="_blank" rel="external">awesome-awesome</a> by @oyvindrobertsen – A curated list of curated lists of libraries, resources and shiny things for various languages.</li>
+<li><a href="https://github.com/bayandin/awesome-awesomeness" target="_blank" rel="external">awesome-awesomeness</a> – A curated list of awesome awesomeness</li>
+<li><a href="https://github.com/fleveque/awesome-awesomes" target="_blank" rel="external">awesome-awesomes</a> – Awesome collection of awesome lists of libraries, tools, frameworks and software for any programming language</li>
+<li><a href="https://github.com/flyhigher139/awesome-collection" target="_blank" rel="external">awesome-collection</a> - 这是我那个轮子</li>
+</ul>
+<ul>
+<li><a href="https://github.com/jnv/lists" target="_blank" rel="external">lists</a>  - The definitive list of (awesome) lists curated on GitHub<br>(这个虽然没有赋予『awesome-*』的名字，但内容更多更全，甚至在我这个repo刚刚创建的时候，就把我的库填入其中了，推荐)</li>
+</ul>
+<p>—-what’s more—-</p>
+<p>欢迎大家fork或者pull request to <a href="https://github.com/flyhigher139/awesome-collection" target="_blank" rel="external">awesome-collection</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[Yet another awesome collection by gevin]]>
+    
+    </summary>
+    
+      <category term="open source" scheme="http://blog.igevin.info/tags/open-source/"/>
+    
+      <category term="github" scheme="http://blog.igevin.info/categories/github/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[如何生成SSH key]]></title>
+    <link href="http://blog.igevin.info/2014/08/28/How-to-create-SSH-key/"/>
+    <id>http://blog.igevin.info/2014/08/28/How-to-create-SSH-key/</id>
+    <published>2014-08-28T08:42:01.000Z</published>
+    <updated>2015-03-19T04:41:31.409Z</updated>
+    <content type="html"><![CDATA[<p>SSH key提供了一种与GitHub通信的方式，通过这种方式，能够在不输入密码的情况下，将GitHub作为自己的remote端服务器，进行版本控制</p>
+<h2 id="步骤">步骤</h2><ul>
+<li>检查SSH keys是否存在</li>
+<li>生成新的ssh key</li>
+<li>将ssh key添加到GitHub中</li>
+</ul>
+<p><img src="http://gevin-zone.qiniudn.com/gevin-essay-how-to-generate-SSH-key.png" alt="如何生成SSH KEY" title="如何生成SSH KEY"></p>
+<h2 id="1-_检查SSH_keys是否存在">1. 检查SSH keys是否存在</h2><p>输入下面的命令，如果有文件<code>id_rsa.pub</code> 或 <code>id_dsa.pub</code>，则直接进入步骤3将SSH key添加到GitHub中，否则进入第二步生成SSH key</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al ~/.ssh&#10;# Lists the files in your .ssh directory, if they exist</span><br></pre></td></tr></table></figure>
+<h2 id="2-_生成新的ssh_key">2. 生成新的ssh key</h2><p><strong>第一步：生成public/private rsa key pair</strong><br>在命令行中输入<code>ssh-keygen -t rsa -C &quot;your_email@example.com&quot;</code></p>
+<p>默认会在相应路径下（/your_home_path）生成<code>id_rsa</code>和<code>id_rsa.pub</code>两个文件，如下面代码所示</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">"your_email@example.com"</span></span><br><span class="line"><span class="comment"># Creates a new ssh key using the provided email</span></span><br><span class="line">Generating public/<span class="keyword">private</span> rsa key pair.</span><br><span class="line">Enter <span class="built_in">file</span> <span class="operator">in</span> which <span class="built_in">to</span> save <span class="operator">the</span> key (/your_home_path/.ssh/id_rsa):</span><br></pre></td></tr></table></figure>
+<p><strong>第二步：输入passphrase（本步骤可以跳过）</strong></p>
+<p>设置passphrase后，进行版本控制时，每次与GitHub通信都会要求输入passphrase，以避免某些“失误”</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Enter passphrase (empty for no passphrase): [Type a passphrase]&#10;Enter same passphrase again: [Type passphrase again]</span><br></pre></td></tr></table></figure>
+<p>sample result:</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Your identification has been saved <span class="keyword">in</span> <span class="regexp">/your_home_path/</span>.ssh/id_rsa.</span><br><span class="line">Your <span class="keyword">public</span> key has been saved <span class="keyword">in</span> <span class="regexp">/your_home_path/</span>.ssh/id_rsa.pub.</span><br><span class="line">The key fingerprint <span class="string">is:</span></span><br><span class="line">#<span class="number">01</span>:<span class="number">0</span><span class="string">f:</span><span class="string">f4:</span><span class="number">3</span><span class="string">b:</span><span class="string">ca:</span><span class="number">85</span>:<span class="string">d6:</span><span class="number">17</span>:<span class="string">a1:</span><span class="number">7</span><span class="string">d:</span><span class="string">f0:</span><span class="number">68</span>:<span class="number">9</span><span class="string">d:</span><span class="string">f0:</span><span class="string">a2:</span>db your_email<span class="annotation">@example</span>.com</span><br></pre></td></tr></table></figure>
+<p><strong>第三步：将新生成的key添加到ssh-agent中:</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># start the ssh-agent in the background</span></span><br><span class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(ssh-agent -s)</span>"</span></span><br><span class="line">Agent pid <span class="number">59566</span></span><br><span class="line">ssh-add ~/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
+<h2 id="3-_将ssh_key添加到GitHub中">3. 将ssh key添加到GitHub中</h2><p>用自己喜欢的文本编辑器打开<code>id_rsa.pub</code>文件，里面的信息即为SSH key，将这些信息复制到GitHub的<code>Add SSH key</code>页面即可</p>
+<p>不同的操作系统，均有一些命令，直接将SSH key从文件拷贝到粘贴板中，如下：</p>
+<p><strong>mac</strong><br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pbcopy &lt; ~<span class="regexp">/.ssh/id</span>_rsa.pub</span><br><span class="line"><span class="comment"># Copies the contents of the id_rsa.pub file to your clipboard</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>windows</strong><br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clip &lt; ~<span class="regexp">/.ssh/id</span>_rsa.pub</span><br><span class="line"><span class="comment"># Copies the contents of the id_rsa.pub file to your clipboard</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>linux</strong></p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install xclip</span><br><span class="line"># Downloads <span class="literal">and</span> installs xclip. <span class="keyword">If</span> you don't have <span class="escape">`a</span>pt-get<span class="escape">`,</span> you might need to use another installer (like <span class="escape">`y</span>um<span class="escape">`)</span></span><br><span class="line"></span><br><span class="line">xclip -sel clip &lt; ~/.ssh/id_rsa.pub</span><br><span class="line"># Copies the contents of the id_rsa.pub file to your <span class="built_in"><span class="keyword">clipboard</span></span></span><br></pre></td></tr></table></figure>
+]]></content>
+    <summary type="html">
+    <![CDATA[本文主要内容来源于GitHub中添加SSH Key的帮助文档]]>
+    
+    </summary>
+    
+      <category term="tip" scheme="http://blog.igevin.info/tags/tip/"/>
+    
+      <category term="github" scheme="http://blog.igevin.info/categories/github/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[GitHub上有趣的资料]]></title>
+    <link href="http://blog.igevin.info/2014/03/21/2014-03-21-github-study-materials/"/>
+    <id>http://blog.igevin.info/2014/03/21/2014-03-21-github-study-materials/</id>
+    <published>2014-03-21T08:42:01.000Z</published>
+    <updated>2015-03-19T04:41:31.393Z</updated>
+    <content type="html"><![CDATA[<h1 id="GitHub_Starred_Projects_|_document">GitHub Starred Projects | document</h1><p>本文整理了一些github上有趣的资料，并在github上创建了repository—<a href="https://github.com/flyhigher139/repo_starred" target="_blank" rel="external">repo_starred</a>进行维护,有兴趣的童鞋可以fork或者给我发issue共同维护，正文如下,最新版本请看上面链接中的github repo</p>
+<h2 id="navigation">navigation</h2><ul>
+<li><a href="#collection">collection</a></li>
+<li><a href="#algorithm">algorithm</a></li>
+<li><a href="#android">android</a></li>
+<li><a href="#database">database</a></li>
+<li><a href="#javascript">javascript</a></li>
+<li><a href="#nginx">nginx</a></li>
+<li><a href="#objective-c">objective-c</a></li>
+<li><a href="#other">other</a></li>
+<li><a href="#python">python</a></li>
+<li><a href="#php">php</a></li>
+</ul>
+<h2 id="collection">collection</h2><p><br></p>
+<p><a href="https://github.com/apiaryio/api-blueprint" target="_blank" rel="external">api-blueprint</a></p>
+<ul>
+<li>API Blueprint<br><a href="http://apiblueprint.org" target="_blank" rel="external">http://apiblueprint.org</a></li>
+</ul>
+<p><a href="https://github.com/hzlzh/Best-App" target="_blank" rel="external">Best-App</a></p>
+<ul>
+<li>收集&amp;推荐优秀的 Apps (Mac OS/iOS/Mac硬件/周边等)</li>
+</ul>
+<p><a href="https://github.com/execat/bookmarks" target="_blank" rel="external">bookmarks</a></p>
+<ul>
+<li>A list of interesting open source projects.</li>
+</ul>
+<p><a href="https://github.com/lexrus/CNiDev" target="_blank" rel="external">CNiDev</a></p>
+<ul>
+<li>我关注的中文 iOS/Mac 开发小伙伴以及 TA 们的 Blog 的列表，提供 OPML 方便在阅读器里订阅哦，欢迎补充</li>
+</ul>
+<p><a href="https://github.com/Suxiaogang/Code_Guide" target="_blank" rel="external">Code_Guide</a></p>
+<ul>
+<li>Code guide and best practice</li>
+</ul>
+<p><a href="https://github.com/chaconnewu/free-data-science-books" target="_blank" rel="external">free-data-science-books</a></p>
+<ul>
+<li>Free resources for learning data science</li>
+</ul>
+<p><a href="https://github.com/vhf/free-programming-books" target="_blank" rel="external">free-programming-books</a></p>
+<ul>
+<li><a href="http://resrc.io/list/10/list-of-free-programming-books/" target="_blank" rel="external">http://resrc.io/list/10/list-of-free-programming-books/</a></li>
+</ul>
+<p><a href="https://github.com/bingwen/free-programming-books" target="_blank" rel="external">free-programming-books</a></p>
+<ul>
+<li>focus on chinese version</li>
+</ul>
+<p><a href="https://github.com/justjavac/free-programming-books-zh_CN" target="_blank" rel="external">free-programming-books-zh_CN</a></p>
+<ul>
+<li>免费的计算机编程类中文书籍，欢迎投稿</li>
+</ul>
+<p><a href="https://github.com/lisposter/frontend-books" target="_blank" rel="external">frontend-books</a></p>
+<ul>
+<li>收集前端方面的书籍</li>
+</ul>
+<p><a href="https://github.com/foru17/front-end-collect" target="_blank" rel="external">front-end-collect</a></p>
+<ul>
+<li>分享自己长期关注的前端开发相关的优秀网站、博客、以及活跃开发者</li>
+</ul>
+<p><a href="https://github.com/dypsilon/frontend-dev-bookmarks" target="_blank" rel="external">frontend-dev-bookmarks</a></p>
+<ul>
+<li>A huge list of frontend development resources I collected over time</li>
+</ul>
+<p><a href="https://github.com/darcyclarke/Front-end-Developer-Interview-Questions" target="_blank" rel="external">Front-end-Developer-Interview-Questions</a></p>
+<ul>
+<li>A list of helpful front-end related questions you can use to interview potential candidates, test yourself or completely ignore</li>
+</ul>
+<p><a href="https://github.com/markyun/My-blog/tree/master/Front-end-Developer-Questions" target="_blank" rel="external">Front-end-Developer-Questions</a></p>
+<ul>
+<li>2014年最新前端开发面试题</li>
+</ul>
+<p><a href="https://github.com/chhantyal/influential-programming-books" target="_blank" rel="external">influential-programming-books</a></p>
+<ul>
+<li>Most influential computer science/programming books</li>
+</ul>
+<p><a href="https://github.com/adambard/learnxinyminutes-docs" target="_blank" rel="external">learnxinyminutes-docs</a></p>
+<ul>
+<li>Code documentation written as code! How novel and totally my idea!</li>
+</ul>
+<p><a href="https://github.com/neiesc/ListOfMinimalistFrameworks" target="_blank" rel="external">ListOfMinimalistFrameworks</a></p>
+<ul>
+<li>A list of minimalist frameworks (simple and lightweight).</li>
+</ul>
+<p><a href="https://github.com/papers-we-love/papers-we-love" target="_blank" rel="external">papers-we-love</a></p>
+<ul>
+<li>Papers from the computer science community to read and discuss</li>
+</ul>
+<p><a href="https://github.com/greatghoul/remote-working" target="_blank" rel="external">remote-working</a></p>
+<ul>
+<li>收集整理远程工作相关的资料</li>
+</ul>
+<p><a href="https://github.com/LearnProgramming/standards-and-practices" target="_blank" rel="external">standards-and-practices</a></p>
+<ul>
+<li>A collection of documents outlining what it is that we intend to do</li>
+</ul>
+<h2 id="algorithm">algorithm</h2><p><br></p>
+<p><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July" target="_blank" rel="external">The-Art-Of-Programming-By-July</a></p>
+<ul>
+<li>本项目是Csdn博客「结构之法 算法之道」的部分经典博文的github版本</li>
+</ul>
+<p><a href="https://github.com/SamyPesse/How-to-Make-a-Computer-Operating-System" target="_blank" rel="external">How-to-Make-a-Computer-Operating-System</a></p>
+<ul>
+<li>How to Make a Computer Operating System in C++</li>
+</ul>
+<h2 id="android">android</h2><p><a href="https://github.com/Trinea/android-open-project" target="_blank" rel="external">android-open-project</a></p>
+<ul>
+<li>collect and classify android open projects</li>
+</ul>
+<p><a href="https://github.com/thecodepath/android_guides" target="_blank" rel="external">android_guides</a></p>
+<ul>
+<li>Extensive Open-Source Guides for Android Developers<br><a href="http://guides.thecodepath.com/" target="_blank" rel="external">http://guides.thecodepath.com/</a></li>
+</ul>
+<h2 id="database">database</h2><p><a href="https://github.com/karlseguin/the-little-mongodb-book" target="_blank" rel="external">the-little-mongodb-book</a></p>
+<ul>
+<li>The Little MongoDB Book</li>
+</ul>
+<h2 id="git">git</h2><p><a href="https://github.com/progit/progit" target="_blank" rel="external">progit</a><br>Pro Git Book Content<br><a href="http://git-scm.com/book/" target="_blank" rel="external">http://git-scm.com/book/</a></p>
+<h2 id="javascript">javascript</h2><p><a href="https://github.com/JacksonTian/fks" target="_blank" rel="external">fks</a></p>
+<ul>
+<li>前端技能汇总 Frontend Knowledge Structure<br><a href="http://html5ify.com/fks/" target="_blank" rel="external">http://html5ify.com/fks/</a></li>
+</ul>
+<p><a href="https://github.com/airbnb/javascript" target="_blank" rel="external">javascript</a></p>
+<ul>
+<li>JavaScript Style Guide</li>
+</ul>
+<h3 id="angularjs">angularjs</h3><p><a href="https://github.com/jmcunningham/AngularJS-Learning" target="_blank" rel="external">AngularJS-Learning</a></p>
+<ul>
+<li>A bunch of links to blog posts, articles, videos, etc for learning AngularJS</li>
+</ul>
+<p><a href="https://github.com/mgechev/angularjs-style-guide" target="_blank" rel="external">angularjs-style-guide</a></p>
+<ul>
+<li>Community-driven set of best practices for AngularJS application development</li>
+</ul>
+<h3 id="nodejs">nodejs</h3><p><a href="https://github.com/nqdeng/7-days-nodejs" target="_blank" rel="external">7-days-nodejs</a></p>
+<ul>
+<li>七天学会NodeJS</li>
+</ul>
+<p><a href="https://github.com/youyudehexie/node123" target="_blank" rel="external">node123</a></p>
+<ul>
+<li>node.js中文资料导航</li>
+</ul>
+<p><a href="https://github.com/manuelkiessling/NodeBeginnerBook" target="_blank" rel="external">NodeBeginnerBook</a></p>
+<ul>
+<li>A comprehensive Node.js tutorial for beginners<br><a href="http://www.NodeBeginner.org" target="_blank" rel="external">http://www.NodeBeginner.org</a></li>
+</ul>
+<p><a href="https://github.com/sergtitov/NodeJS-Learning" target="_blank" rel="external">NodeJS-Learning</a></p>
+<ul>
+<li>This page contains collection of curated links to blog posts, articles, etc. to help you learn Node.js and keep up to date.</li>
+</ul>
+<h2 id="nginx">nginx</h2><p><a href="https://github.com/taobao/nginx-book" target="_blank" rel="external">nginx-book</a></p>
+<ul>
+<li>Nginx开发从入门到精通</li>
+</ul>
+<p><a href="https://github.com/h5bp/server-configs-nginx" target="_blank" rel="external">server-configs-nginx</a></p>
+<ul>
+<li>Nginx HTTP server boilerplate configs</li>
+</ul>
+<h2 id="nosql">nosql</h2><h3 id="mongodb">mongodb</h3><p><a href="https://github.com/karlseguin/the-little-mongodb-book" target="_blank" rel="external">the-little-mongodb-book</a></p>
+<ul>
+<li>The Little MongoDB Book<br><a href="http://openmymind.net/2011/3/28/The-Little-MongoDB-Book" target="_blank" rel="external">http://openmymind.net/2011/3/28/The-Little-MongoDB-Book</a></li>
+</ul>
+<h2 id="objective-c">objective-c</h2><p><a href="https://github.com/raywenderlich/objective-c-style-guide" target="_blank" rel="external">objective-c-style-guide</a></p>
+<ul>
+<li>A style guide that outlines the coding conventions for raywenderlich.com</li>
+</ul>
+<p><a href="https://github.com/NYTimes/objective-c-style-guide" target="_blank" rel="external">objective-c-style-guide</a></p>
+<ul>
+<li>The Objective-C Style Guide used by The New York Times<br><a href="http://open.blogs.nytimes.com/2013/08/01/objectively-stylish/" target="_blank" rel="external">http://open.blogs.nytimes.com/2013/08/01/objectively-stylish/</a></li>
+</ul>
+<h2 id="python">python</h2><p><a href="https://github.com/rpicard/explore-flask" target="_blank" rel="external">explore-flask</a></p>
+<ul>
+<li>Source of Explore Flask book</li>
+</ul>
+<p><a href="https://github.com/humiaozuzu/flask-dev-bookmarks" target="_blank" rel="external">flask-dev-bookmarks</a></p>
+<ul>
+<li>Lists of flask development recourses</li>
+</ul>
+<p><a href="https://github.com/kirang89/pycrumbs" target="_blank" rel="external">pycrumbs</a></p>
+<ul>
+<li>Bits and bytes of Python from the Internet</li>
+</ul>
+<p><a href="https://github.com/hit9/PyZh" target="_blank" rel="external">PyZh</a></p>
+<ul>
+<li>一起写Python文章，一起看Python文章 - 利用readthedocs的Python技术文章的收集和翻译</li>
+</ul>
+<h2 id="PHP">PHP</h2><p><a href="https://github.com/ziadoz/awesome-php" target="_blank" rel="external">awesome-php</a></p>
+<ul>
+<li>A curated list of amazingly awesome PHP libraries, resources and shiny things.</li>
+</ul>
+<h2 id="other">other</h2><p><a href="https://github.com/larrycai/kaiyuanbook" target="_blank" rel="external">kaiyuanbook</a></p>
+<ul>
+<li>How to write opensource books</li>
+</ul>
+<p><a href="https://github.com/hzlzh/1MarkDown" target="_blank" rel="external">1MarkDown</a></p>
+<ul>
+<li>The only one MarkDown standard for one team.</li>
+</ul>
+<p><a href="https://github.com/chriskempson/base16" target="_blank" rel="external">base16</a></p>
+<ul>
+<li>Color schemes for hackers</li>
+</ul>
+<p><a href="https://github.com/chriskempson/tomorrow-theme" target="_blank" rel="external">tomorrow-theme</a></p>
+<ul>
+<li>Tomorrow Theme the precursor to Base16 Theme</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[本文整理了一些github上有趣的资料，感兴趣的同学可以一起维护]]>
+    
+    </summary>
+    
+      <category term="code" scheme="http://blog.igevin.info/tags/code/"/>
+    
+      <category term="github" scheme="http://blog.igevin.info/categories/github/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[如何有效使用印象笔记]]></title>
+    <link href="http://blog.igevin.info/2014/03/21/2014-03-24-how-to-use-evernote-efficiently/"/>
+    <id>http://blog.igevin.info/2014/03/21/2014-03-24-how-to-use-evernote-efficiently/</id>
+    <published>2014-03-20T16:00:00.000Z</published>
+    <updated>2015-03-19T04:41:31.409Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://gevin-zone.qiniudn.com/evernote.jpg" alt="image"></p>
+<p>印象笔记有多种用法，比如印象笔记官方收集的<a href="http://weibo.com/2797465504/AduqhbYgz" target="_blank" rel="external">这些</a>和<a href="http://weibo.com/2797465504/AeoSsjAe3" target="_blank" rel="external">那些</a>奇葩用法。</p>
+<p>如果将印象笔记作为知识管理工具，管理自己的大脑，如何使用就需要点技巧了。</p>
+<p>本文分享的是Gevin使用印象笔记的一些经验，不见得多少高效，但至少是有效的。如果大家对如何使用印象笔记有好的建议，或者想分享下自己的用法，欢迎留言～ 下面正文开始：</p>
+<h2 id="记笔记">记笔记</h2><p>虽说笔记大部分时候都是给自己看的，但记笔记的时候还是要注意一下笔记的可读性，凌乱的内容恐怕自己也不喜欢回头再看。如何写好笔记，不是本文的主题，用我以前一篇文章<a href="http://blog.igevin.info/2011/06/write-cool-blog/" target="_blank" rel="external">『如何写漂亮的博客』</a>来抛砖引玉吧</p>
+<p>喜欢markdown的童鞋，可以用<a href="http://maxiang.info/" target="_blank" rel="external">马克飞象</a>来记笔记，省去排版的麻烦</p>
+<h2 id="信息的组织和管理">信息的组织和管理</h2><p>如果想有效管理印象笔记中的内容，需要为每个笔记设置<strong>有用的目录和标签</strong>，目录和标签都可以将笔记分类，也都可以用于查找指定条件（如隶属那个目录或打上某个标签）的内容，不同之处在于一个笔记只能放在一个目录中，但却可以打上N个标签。因此，管理印象笔记中的内容时，不妨用目录来为内容分类，标签作为内容的关键字，便于检索。</p>
+<p>目录和标签少的时候，上述方法是很有效的，但目录和标签多了，我们会面临一个新的问题：如何管理目录和标签，以便我们能更有效的管理内容？</p>
+<h3 id="先说目录">先说目录</h3><p>目录多少其实不是问题，关键在于如何迅速找到相应目录。</p>
+<p>不妨以数字或者字母作为目录的开头，如“01资料”、“02工作”，或者“g工作”、“z资料”，这样，所有的目录是以一种<strong>便于我们自己检索</strong>的方式有序排列的</p>
+<p>印象笔记还允许用户对目录再做一次分类，即笔记本组功能。可以把类似属性的目录划分到用一个笔记本组中，笔记本组的命名，也可以结合上面描述的方式。</p>
+<p>最后，对目录如何组织有兴趣的童鞋，还可以再看看豆瓣上<a href="http://www.douban.com/online/11202436/" target="_blank" rel="external">这个活动</a></p>
+<h3 id="再说说标签">再说说标签</h3><p>标签也是可以建立层级关系的，而且可以建立多层嵌套的层级关系（笔记本组是不能嵌套的）。但我不认为嵌套标签是一种很好的组织方式，至少不应该为目录和标签都以嵌套的方式来管理，这会在内容管理的逻辑上造成混乱</p>
+<p>标签应该是平级的，所谓『标签云』么</p>
+<h2 id="信息的收集">信息的收集</h2><ul>
+<li><p>手机上记录备忘或者ToDO，可以用<a href="http://appcenter.yinxiang.com/app/evermemo/iphone/" target="_blank" rel="external">EverMemo</a></p>
+</li>
+<li><p>微信上可以关注公共账号『我的印象笔记』，将有价值的信息可以分享给这个账号即可保存到印象笔记中 —<a href="http://appcenter.yinxiang.com/app/myyxbj/wechat/" target="_blank" rel="external">详情</a></p>
+</li>
+<li><p>微博上可以follow『我的印象笔记』的微博账号，有用的微博信息在转发或者评论中“@我的印象笔记” 即可 — <a href="http://appcenter.yinxiang.com/app/myyxbj/weibo/" target="_blank" rel="external">详情</a></p>
+</li>
+<li><p>对于网页上有价值的信息，可以安装浏览器插件『剪藏』，直接将这些信息保存到印象笔记中</p>
+</li>
+<li><p><a href="https://ifttt.com/evernote" target="_blank" rel="external">ifttt</a>也是一个很好的将信息整合到印象笔记的application</p>
+</li>
+<li><p>善用佳软上还有更全面的<a href="http://xbeta.info/gtd-evernote.htm#toc1" target="_blank" rel="external">内容</a>供大家参考（内容有点老了，但很经典）</p>
+</li>
+</ul>
+<h2 id="模板">模板</h2><p>印象笔记官方，还制作/收集了一些模板，以提高工作/学习的效率：</p>
+<ul>
+<li><a href="https://app.yinxiang.com/shard/s7/sh/ef283470-f245-406e-9a8e-af1632265415/c7dcc95d8392783598e646b5728d4503" target="_blank" rel="external">番茄工作法</a></li>
+<li><a href="https://app.yinxiang.com/shard/s7/sh/c991c121-1abb-485f-a3de-83524733ec8d/877e118ef08451d3d4ed320d4e6e7b71" target="_blank" rel="external">四象限法则</a></li>
+<li><a href="https://app.yinxiang.com/shard/s7/sh/fa909912-8886-4715-a2ab-422e693b6fec/7e1ee12e97eeac5af984d3c5dc2d691e" target="_blank" rel="external">让效率翻5倍的工作模板</a></li>
+<li><p><a href="https://app.yinxiang.com/shard/s7/sh/e17e1199-2f7a-471d-a920-55108cdc0325/2f60f2ba37832ffe3b22f7d3012b9868" target="_blank" rel="external">最具执行力的日程规划模板</a></p>
+</li>
+<li><p><a href="https://app.yinxiang.com/shard/s7/sh/2e041eb5-adeb-46ef-b79f-be9ceab8033b/62f5e3ddb8476e7f0e83850da4236db3" target="_blank" rel="external">康奈尔笔记模版</a></p>
+</li>
+<li><p><a href="https://app.yinxiang.com/shard/s7/sh/c896f30c-2bc2-41a9-b330-4525256927a3/f46b6a8a81ed5a21e94085ee86b3ba33" target="_blank" rel="external">踏青装备清单</a></p>
+</li>
+</ul>
+<h2 id="最后">最后</h2><p>我就说这么多啦，接下来听/看着了～</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[本文分享的是Gevin使用印象笔记的一些经验，不见得多少高效，但至少是有效的]]>
+    
+    </summary>
+    
+      <category term="杂谈" scheme="http://blog.igevin.info/tags/%E6%9D%82%E8%B0%88/"/>
+    
+      <category term="工具" scheme="http://blog.igevin.info/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[什么是黑客]]></title>
+    <link href="http://blog.igevin.info/2013/08/06/wordpress/what-is-hacker/"/>
+    <id>http://blog.igevin.info/2013/08/06/wordpress/what-is-hacker/</id>
+    <published>2013-08-06T14:12:02.000Z</published>
+    <updated>2015-03-19T04:41:31.424Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://upload-images.jianshu.io/upload_images/4041-a829bba3dce91e88.jpg" alt="什么是黑客"></p>
+<p><em>本文源自我的微信公共账号 @GevinKnow，由于工作忙碌，没时间继续打理公共账号了，把原来的一些质量还可以的内容移植到这里，下面是正文:</em></p>
+<p>前段时间，Gevin在微信中写了一点关于黑客的内容，并开启了“黑客”这个话题，打算长期更新，前几天在网上看到老外也写了一篇关于黑客的文章——What is a ’hacker’,这篇文章已经把黑客总结的相当到位了，包含了我想写的关于黑客的绝大多数观点，在此分享一下，有兴趣的童鞋搜索英文原文。</p>
+<p>——————-</p>
+<p>对于媒体和许多政府类型“黑客”常常让人联想到的是戴着滑雪面具蹲在电脑屏幕前面的不满者,但世界其他国家(特别是因特网)，这个词有一个非常非常不同的含义。然而，见鬼的是，甚至《韦氏词典》定义了黑客 为：</p>
+<p>1: one that hacks<br>2: a person who is inexperienced or unskilled at a particular activity <a tennis="" hacker=""><br>3: an expert at programming and solving problems with a computer<br>4: a person who illegally gains access to and sometimes tampers with information in a computer system</a></p>
+<p>成为一个黑客不是为了窃取信用卡号码或者使公共设施失灵，而恰恰相反。他们是所有那几种含义的同时的体现，他们分享，开放，反对中央集权… 他们试图通过挑战预期值和把不现实变成现实，来满足一种不可遏制的渴望， often involving nothing more than duct tape, bubblegum, and ultimately solutions that purported experts would certainly balk at for being too simplistic。（这一句没想好怎么翻译）</p>
+<p>黑客这词可追述到20世纪60年代，它的出现是为了描述MIT（麻省理工）那群既聪明又幽默的学生（计算机探索者）的，他们公然的推进了世界上首批计算机的极限。今天，它继续体现了追求卓越的理论：不断地问自己”这是可能的吗?”(然后本能的回答”让我们去找到答案吧!”)。这是一种通过解决以前从没解决过的问题并且克服了根据传统的知识而假设出无法解决的限制时而获得的发自内心的高兴。</p>
+<p>出人意料的是，黑客不是通晓所有的技术，而是共同协作。这表现在黑客的精神，黑客的方式，以及黑客的文化中。</p>
+<h3 id="黑客精神">黑客精神</h3><p>黑客被各种文化所激励，黑客精神是关于分享的文化。黑客所需要的素质是能够把问题拆分开，并分析各自的原理，希望通过这种方式来改进它们。必须自己动手， 不但能参与，而且能创造出某个项目的分支，使之更有趣，更优秀。黑客精神是关于开放的精神。黑客行为是基于团队的，只有开放才能让参与者们发挥出最大的能量，去修补，去改造，去重新创造。保密只会扼杀创新，所谓自由当然包括获取信息的自由。黑客精神是关于「反对中央集权」的精神，促进信息交流的最好方式就是提供一个让所有 人都可以自由交流，没有阻碍的平台，有意地，或者无意地拆除信息流动的障碍，官僚主义，无论是企业，还是政府，甚至是大学，这些都是信息交流的固有障碍。</p>
+<h3 id="黑客的方式">黑客的方式</h3><p>但这不仅仅是意识形态。它也有着实用的一面。这是一种渴望，这是一种驱动。这是一种持续乞求被挠的知识之痒。这个世界充满了问题等待解决。运用创造性思维和技术可以使世上一切变得更美好。正如运动员寻求让他们的身体超过其物理极限的喜悦一样，黑客们寻求的刺激是推动工具的革新，超越已知的，已有的和潜在的。但这也意味着没有哪个问题应该必须被解决两次。创造性思维是一种宝贵的、有限的资源,还有其它引人入胜的未解决的问题亟待解决，不应该浪费在重复发明轮子上。</p>
+<h3 id="黑客文化">黑客文化</h3><p>黑客体现了一种经常公然违抗传统范例的独特文化。这是一个精英文化：贡献是互联网的唯一货币。金钱和名望的重量远远小于有意义的贡献，他们编码、拷贝、设计，etc… 这是一个关于优雅的文化。黑客们追求技术的艺术性和创新性，力求以尽可能少的指令完成复杂任务。它也是一个关于智慧和顽皮的文化：要成为一个黑客需要有一定的幽默与智慧，这点经常在把才智和文化基因注入到原本乏味的任务中来表现出来。</p>
+<h3 id="商业下的黑客">商业下的黑客</h3><p>毫不奇怪，随着技术和创新的加快，总是被黑客们谴责的官僚机构也开始拥抱他们，拥抱黑客们不断以小成本换取高价值的能力。白宫甚至在最近宣布了第一届黑客马拉松。 但在传统组织提升黑客的地位并不仅仅是创建另一个“臭鼬工作室”，黑客马拉松不意味着可以阻止不断培育创新文化的脚步。 这不意味着工作更快或更廉价。</p>
+<h3 id="最后">最后</h3><p>“黑客”不只是时下一个热门的流行语，并非继“摇滚明星”，“忍者”，“大师”的后尘， 也不是“网络犯罪”的代名词，或暗示任何任何邪恶的意图。 而是事实正好相反。这是一种风气的凝聚，一种驱动，一种文化。他们在用代码来改变世界！</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://upload-images.jianshu.io/upload_images/4041-a829bba3dce91e88.jpg" alt="什么是黑客"></p>
+<p><em>本文源自我的微信公共账号 @GevinKnow，由于工作忙碌]]>
+    </summary>
+    
+      <category term="微信" scheme="http://blog.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
+    
+      <category term="黑客文化" scheme="http://blog.igevin.info/tags/%E9%BB%91%E5%AE%A2%E6%96%87%E5%8C%96/"/>
+    
+      <category term="wechat" scheme="http://blog.igevin.info/categories/wechat/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[互联网上的海盗]]></title>
+    <link href="http://blog.igevin.info/2013/07/26/wordpress/pirate-in-internet/"/>
+    <id>http://blog.igevin.info/2013/07/26/wordpress/pirate-in-internet/</id>
+    <published>2013-07-26T05:49:12.000Z</published>
+    <updated>2015-03-19T04:41:31.424Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://upload-images.jianshu.io/upload_images/4041-c53d851e695493ce.jpg" alt="互联网上的海盗"></p>
+<p><em>本文源自我的微信公共账号 @GevinKnow，由于工作忙碌，没时间继续打理公共账号了，把原来的一些质量还可以的内容移植到这里，下面是正文:</em></p>
+<p>电影里有事会打造了一个乌托邦式的生活环境，作为故事背景；现实中，科技也孕育了一个数字乌托邦。在这个乌托邦里，最high的一帮人是这个大航海时代的那群“海盗”。</p>
+<p>创业者（其中不乏相当一部分极客/黑客，这两个词也有交集，真不好表达，极客是一个大圈，黑客基本是里面一个小圈:P）是海盗中最典型的一类，其实，是否是一个海盗可以称得上是判断一个人是为了创业而生活还是为了享受而生活的标准。互联网上的海盗们，不仅推动了科技的发展，而且也影响了我们的生活，最典型的一个人，就是乔布斯。</p>
+<p>乔布斯是一个真正的创业者，也是最早拿海盗和科技领域的拓荒者们做类比的人之一。苹果公司创建之初，乔布斯曾在公司里正对大门的墙上挂过一只海盗旗，这个被很多（自）媒体解读过，Gevin也有自己的看法，我觉得把那些计算机领域的拓荒者或者创业者与海盗做类比实在太形象了：</p>
+<p>首先，与海盗的生活一样，互联网上也充满冒险和刺激，没准哪时候自己就撑不住了或者被其他人给打败了。互联网上的创业者，一旦决心创业，和挂上海盗旗，在海盗船上扬帆起航没什么区别，黑白势力，盟友敌军，一一面对。</p>
+<p>其次，真正的海盗，应该是像《加勒比海盗》里描述的那样，他们追求财富，却是在享受刺激，获取财富之后，伺机下一场刺激；财富可能会被一下子挥霍掉，冒险才是生活的主线，海盗们会朝着另一个财富目标前进，并乐此不疲。互联网上真正的创业者(黑客)们也是如此，他们追求的是用科技改变世界的那种刺激，而非以一技之长去敛财，所以乔布斯会对比尔盖茨有“他就是个商人”这个评价（当然，这更多是站在顶峰的一个人对顶峰上另一方人的评价，并非我等仰视之人所能及）。</p>
+<p>再次，海盗生涯中不乏鸡鸣狗盗之事，海盗会为了自己去危害他人，侵略别人的地盘；互联网的战场也是如此，最典型的就是复制创新（这里不倾向于说“山寨”，因为山寨给人的错觉是山寨产品无法超越原创产品）和盗版，苹果创建之初，乔布斯和他的小伙伴们也曾抄袭过别人的创意，而且更狠的是，乔布斯一边抄袭还一边宣称，创意是属于大家的，一个好的创意在一群挫人手上是玩不好的，他的行为是对创意的救赎（原话我不记得了，是说这个意思，有兴趣的同学可以翻看《乔布斯传》查查）。国内一个典型的例子是雷军创建的小米，标榜向苹果学习的小米，不仅精通了苹果的铁人三项，这方面也深得精髓，有兴趣的同学不妨去新浪微博找找小米的各种口水战。</p>
+<p>最后，海盗这个词，就是个paradox，有点自相矛盾，又很耐人寻味。虽然我上文说，真正的海盗是《加勒比海盗》里描述的那样，颇有侠客风范，但一提起海盗，人们总是情不自禁的与“恶人”挂钩。互联网上也是如此，正如说海盗的时候可能会用“真正的海盗”一词来强调一样，说黑客的时候也会倾向于说“真正的黑客”应该如何如何。互联网上的创业者，如同海盗一样，亦正亦邪。</p>
+<p>从海盗的角度，互联网还有很多讨论点，以后还会继续～</p>
+<p>——-What’s more——-</p>
+<p>图片是《海贼王》，其实《海贼王》一直是一个能够很好的阐述互联网的漫画，热爱互联网的人不妨一看。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://upload-images.jianshu.io/upload_images/4041-c53d851e695493ce.jpg" alt="互联网上的海盗"></p>
+<p><em>本文源自我的微信公共账号 @GevinKnow，由于工作]]>
+    </summary>
+    
+      <category term="微信" scheme="http://blog.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
+    
+      <category term="黑客文化" scheme="http://blog.igevin.info/tags/%E9%BB%91%E5%AE%A2%E6%96%87%E5%8C%96/"/>
+    
+      <category term="wechat" scheme="http://blog.igevin.info/categories/wechat/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[余额宝靠谱么？]]></title>
+    <link href="http://blog.igevin.info/2013/07/13/wordpress/%E4%BD%99%E9%A2%9D%E5%AE%9D%E9%9D%A0%E8%B0%B1%E4%B9%88%EF%BC%9F/"/>
+    <id>http://blog.igevin.info/2013/07/13/wordpress/余额宝靠谱么？/</id>
+    <published>2013-07-13T13:15:43.000Z</published>
+    <updated>2015-03-19T04:41:31.424Z</updated>
+    <content type="html"><![CDATA[<p><a href="http://blog.igevin.info/wp-content/uploads/2013/07/conceptual.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2013/07/conceptual.jpg" alt="long tail module"></a></p>
+<p><span style="color: #008000;">『核心观点』余额宝可以用，但它并不是一个理财产品，不要在余额宝上花费太多</span></p>
+<p>近日，支付宝里推出一个新的项目——“余额宝”，并有文章分析号称：</p>
+<blockquote>
+<p>通过“余额宝”，用户存留在支付宝的资金不仅能拿到“利息”，而且和银行活期存款利息相比收益更高。根据其官方介绍，2012 年，10 万元活期储蓄利息 350 元，如通过“余额宝”收益能超过 4000 元</p>
+</blockquote>
+<p>余额宝是什么，它到底靠谱不靠谱？<span id="more-1959"></span></p>
+<p>使用余额宝就是对基金投资，它采用了一种简单的方式，将支付宝中的余额投资到基金（天弘基金）中，并获取资金收益，支付宝还允许直接消费余额宝中的资金和收益，在淘宝和天猫中使用。</p>
+<h1 id="一、余额宝的风险">一、余额宝的风险</h1><p>1. 既然余额宝是一种基金投资，它自然有基金所固有的风险。</p>
+<p>分析金融工具或金融资产时，维度永远是三个：流动性、收益性和安全性。流动性，就是钱花的时候方便不方便；收益性，就是钱放在那里不动能拿到多少收益。这两方面余额宝都比较有竞争力，下面需要分析下它的安全性。</p>
+<p>（1）余额宝必然是有风险的。尽管基金的风险比较低，支付宝和及其合作者天弘基金也会花很多精力在控制风险上，还是把钱放在银行，我们才敢说风险是0。</p>
+<p>（2）再看天弘基金。《经济之声》曾指出，“基金公司抵御流动性风险的能力较弱，一旦基金出现大幅缩水或投资者集中赎回投资的情况，而基金手中所持流动性资产又不敷支出时，货币市场基金必将面临严重的被动局面”。天弘基金的管理规模在100亿元左右，按规模在业内排名50名左右。业内专家分析，一般来说基金规模较小的基金公司，相对风险还是比较大的。</p>
+<p>2. 余额宝也算阿里的一个新产品，自然有新产品上线面临的风险</p>
+<p>据<a href="http://tech.sina.com.cn/i/2013-06-21/17338466330.shtml" target="_blank" rel="external">新浪科技</a>消息，“余额宝”被证监会称之为违规。余额宝业务违反了基金销售管理办法和基金销售结算资金管理暂行办法有关规定。监管部门已要求支付宝对余额宝中未备案的基金销售支付结算账户补充备案。如果逾期未进行备案的，将根据相应法律规定进行调查处罚。支付宝回应称，支付宝会在规定时间内完成主管部门的相应要求。余额宝业务不会暂停，用户的利益会得到充分保障。</p>
+<p>总体来看，余额宝没有什么“与众不同”的风险，还是很可以接受的（极客应该不懂理财，不惧风险，上面的话当我没说吧……）</p>
+<h1 id="二、余额宝的创新">二、余额宝的创新</h1><p>（1）从基金的角度上，余额宝的创新主要是渠道的创新，它让个人消费者购买基金更加方便</p>
+<p>（2）余额宝提供了一种有效的方式，使用户在支付宝中的余额得以增值。</p>
+<p>（3）余额宝的另一个重要的创新在于它对“长尾”需求的挖掘。余额宝与传统意义上的理财产品有不少差别，把它作为一个理财产品使用难免会南辕北辙，传统的理财产品需要大量资金的投入，而余额宝却从“余额”入手，可谓与传统理财产品的一个互补。</p>
+<h1 id="三、余额宝的作用">三、余额宝的作用</h1><p>（1）提高自己支付宝的价值</p>
+<p>（2）促使用户在淘宝和天猫上消费更多</p>
+<p>（3）巩固自己的用户基础，加强自己在电商中的竞争力</p>
+<h1 id="四、是否使用余额宝">四、是否使用余额宝</h1><p>（1）余额宝是有创新的，创新是应该鼓励和支持的。</p>
+<p>（2）余额宝确实能给用户带来一定的实惠</p>
+<p>（3）余额宝加强了阿里在电商中的竞争力，如果能做出成绩，也会刺激其他电商，没准后面还有更多的创新和变革出现</p>
+<p>所以，小额投入余额宝是一个不错的选择。</p>
+<p>作为金融领域的门外汉，本文参考了<a href="http://www.huxiu.com/article/15996/1.html" title="支付宝“余额宝”到底是什么？" target="_blank" rel="external">这篇</a>文章</p>
+<p>本文首发于Gevin的微信公共账号@GevinKnow，欢迎大家关注，题图为长尾理论模型</p>
+<p><a href="http://blog.igevin.info/wp-content/uploads/2013/06/qrcode_for_gh_df84b04855a2_430.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2013/06/qrcode_for_gh_df84b04855a2_430-300x300.jpg" alt="qrcode_for_gh_df84b04855a2_430"></a></p>
+<p>&nbsp;</p>
+<p><div style="margin-top: 15px"></div></p>
+<p></p><p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
+<p><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2013/07/alipay-fund-reliable/" target="_blank" rel="external">余额宝靠谱么？</a></p>
+<p></p>
+<p><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div></p>
+<table class="wumii-related-items" cellspacing="0" cellpadding="3" border="0" style="clear: both;"><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">猜您也喜欢：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F11%2Ffree-mode-on-internet%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Falipay-fund-reliable%2F" title="互联网上的免费" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/3C65YGOh.jpg?i=ugASoxyy" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">互联网上的免费</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Finnovation-wifi%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Falipay-fund-reliable%2F" title="下一个颠覆，路由器？" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/JrTAKS7Y.jpg?i=CJ84mLet" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">下一个颠覆，路由器？</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Ffree-mode1%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Falipay-fund-reliable%2F" title="天上掉的馅饼（一）" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/1au7ahc5y.jpg?i=Jf5p94PG" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">天上掉的馅饼（一）</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2F%25E5%25A4%25A9%25E4%25B8%258A%25E6%258E%2589%25E7%259A%2584%25E9%25A6%2585%25E9%25A5%25BC%25EF%25BC%2588%25E4%25BA%258C%25EF%25BC%2589%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Falipay-fund-reliable%2F" title="天上掉的馅饼（二）" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/3C65YGOh.jpg?i=kICOQC5k" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">天上掉的馅饼（二）</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F04%2Fsns-rhapsody%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Falipay-fund-reliable%2F" title="SNS狂想曲" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/aJW14PRO.jpg?i=nAe34dD1" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">SNS狂想曲</font>
+</a><br></td><br></tr><br><br><tr><br><td colspan="5" align="right"><br><a href="http://www.wumii.com/widget/relatedItems" title="无觅关联推荐" target="_blank" rel="external"><br><font size="-1" color="#bbbbbb" style="display: block !important; font-family: arial !important; padding: 5px 0 !important; font-size: 12px !important; color: #bbb !important;">无觅</font>
+</a><br></td><br></tr><br></table>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><a href="http://blog.igevin.info/wp-content/uploads/2013/07/conceptual.jpg" target="_blank" rel="external"><img src="http://blog.igevin.i]]>
+    </summary>
+    
+      <category term="互联网" scheme="http://blog.igevin.info/tags/%E4%BA%92%E8%81%94%E7%BD%91/"/>
+    
+      <category term="创新" scheme="http://blog.igevin.info/tags/%E5%88%9B%E6%96%B0/"/>
+    
+      <category term="微信" scheme="http://blog.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
+    
+      <category term="营销" scheme="http://blog.igevin.info/tags/%E8%90%A5%E9%94%80/"/>
+    
+      <category term="wordpress" scheme="http://blog.igevin.info/categories/wordpress/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[从黑客说起]]></title>
+    <link href="http://blog.igevin.info/2013/07/03/wordpress/start-discussion-from-hacker/"/>
+    <id>http://blog.igevin.info/2013/07/03/wordpress/start-discussion-from-hacker/</id>
+    <published>2013-07-03T06:35:27.000Z</published>
+    <updated>2015-03-19T04:41:31.424Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://upload-images.jianshu.io/upload_images/4041-dc8b498d9221f33d.jpg" alt="neo-matrix.jpg"></p>
+<p><em>本文源自我的微信公共账号 @GevinKnow，由于工作忙碌，没时间继续打理公共账号了，把原来的一些质量还可以的内容移植到这里，下面是正文:</em></p>
+<p>黑客是一个被新闻和娱乐圈魔化的词，不止在国内，国外也是如此。不过中文中的黑客有一点与英文不同。英文中的黑客是分为hacker和cracker的，而中文把这两个词均翻译为黑客。英文中的hack这个词很有趣，用一些旁门左道破坏一个东西称为hack，非常精通于某个技能，把某个东西用的出神入化也称为hack，因此，hacker一词，即可以表示那些搞破坏的人，也能表示那些技能高超，能够巧妙高效解决问题的人。当计算机繁荣发展起来以后，正是因为hacker噱头，媒体魔化了hacker以吸引读者和观众的注意。而cracker一词比较简单，就是那些搞破坏的人。</p>
+<p>hacker中有大量的天才兼计算机高手，他们所做的事情带来了计算机的繁荣——推动了计算机技术的发展，完善了计算机的架构体系，创造了个人计算机并让计算机进入家家户户。也许，真正的黑客都不约而同的专注在计算机的某一个领域，从来不自称hacker或者“Real Programmer”，但很多资历尚浅的黑客会与cracker划清界限：他们把嚷着自己是黑客，又蓄意破坏别人计算机或者电话系统的人成为骇客（cracker），并不屑与之为伍，还会宣称“黑客搞建设，骇客搞破坏”。</p>
+<p>黑客们解决问题，建设事物，同时他们崇尚自由和无私的双向帮助。 要被他人承认是一名黑客，你的行为得体现出你好像具备了这种态度一般。 而要想做得好象你具备这种态度一般，你就得切切实实坚持它。</p>
+<p>黑客认为，世界充满了待解决的迷人问题，而且一个问题不应该被解决两次。聪明的脑袋是宝贵的有限的资源。当世界还充满非常多有待解决的有趣的新问题时， 它们不应该被浪费在重新发明轮子这类事情上。</p>
+<p>作为一名黑客，你必须相信其他黑客的思考时间是宝贵的——因此共享信息， 解决问题并发布结果给其他黑客几乎是一种道义，这样其他人就可以去解决 新问题而不是不断地忙于对付旧问题。</p>
+<p>黑客们崇尚自由万岁，他们是天生的反独裁主义者。 任何能向你发命令的人能够迫使你停止解决令你着迷的问题， 同时，按照独裁者的一般思路，他通常会给出一些极端愚昧的理由。 因此，不论何处，任何独裁主义的作法，只要它压迫你和其他黑客，你就要和它斗到底。</p>
+<p>权威喜欢审查和保密。他们不信任自愿的合作和信息的共享—— 他们只喜欢由他们控制的所谓“合作”。因此，作为一个黑客， 你得对审查、保密，以及使用武力或欺骗去压迫有行为能力的人们的做法有一种本能的敌意。 同时你要有为此信念斗争的意愿。</p>
+<p>关于黑客，今天就先说这么多。之所以写关于黑客的内容，主要原因是，黑客带来了计算机的蓬勃发展，黑客文化和互联网上的免费有千丝万缕的联系，黑客文化本来就是值得去写的内容，这个话题还能很好的与前面说的互联网上的免费互补。本文算是黑客话题开篇了。讨论这个话题，还有一点是因为斯诺登，再不说两句，黄花菜都凉了。</p>
+<p>黑客崇尚自由，反对独裁。信息应该是公开的，免费共享的。备受黑客文化影响的信息时代，审查和保密不是什么值得称道的事情。做技术的人，即便称不上黑客，也或多或少有这么一点共识。因此，在懂技术的人看来，斯诺登牺牲了自己的很多利益，勇敢的做了一件正确的事情，他可以被称为一个英雄。不过，我更认同小道君的说法，把斯诺登称之为侠客。侠客有自己的行事准则，他们也许会违法律法，但他们会借助自己的能力做一些独特的事情，用自己的方式表达一种正义，因此，把斯诺登看作是一位信息时代的侠客更合适。</p>
+<p>信息的大航海中，需要海贼，但来点侠客也不错。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://upload-images.jianshu.io/upload_images/4041-dc8b498d9221f33d.jpg" alt="neo-matrix.jpg"></p>
+<p><em>本文源自我的微信公共账号 @GevinKn]]>
+    </summary>
+    
+      <category term="微信" scheme="http://blog.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
+    
+      <category term="黑客文化" scheme="http://blog.igevin.info/tags/%E9%BB%91%E5%AE%A2%E6%96%87%E5%8C%96/"/>
+    
+      <category term="wechat" scheme="http://blog.igevin.info/categories/wechat/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[下一个颠覆，路由器？]]></title>
+    <link href="http://blog.igevin.info/2013/06/27/wordpress/%E4%B8%8B%E4%B8%80%E4%B8%AA%E9%A2%A0%E8%A6%86%EF%BC%8C%E8%B7%AF%E7%94%B1%E5%99%A8%EF%BC%9F/"/>
+    <id>http://blog.igevin.info/2013/06/27/wordpress/下一个颠覆，路由器？/</id>
+    <published>2013-06-27T10:10:28.000Z</published>
+    <updated>2015-03-19T04:41:31.424Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://media.tumblr.com/d7001a1a4edfead37486bd8638e76a7e/tumblr_inline_moyaqg5XpN1qz4rgp.jpg" alt=""></p>
+<p>如果说iPhone颠覆了手机，微博颠覆了新闻，微信颠覆了短信，那么下一个被颠覆的将是什么？路由器么？最近老看到这样的文章或评论，Gevin也忍不住想说几句，毕竟路由器是个基础设施，除了少数懂得给路由器刷DD-WRT极客，路由器给用户的体验几乎10年没有改善。</p>
+<p>wifi是个几乎覆盖家家户户和大量公共场合的东西，极客公园也在《wifi的想象力<span style="font-size: 1rem;">》</span><span style="line-height: 1.714285714; font-size: 1rem;">一文中，wifi上可以有的创新，有兴趣的同学可以搜索看看。Gevin也根据自己的了解，推荐几个有价值的关注点吧～<span id="more-1945"></span></span></p>
+<p>&nbsp;</p>
+<p>最早了解到的wifi创新，不记得是迅雷路由器还是JooMe™ 了，一个一个的说吧。迅雷路由器的最大创新是在路由器上绑定了迅雷下载，是迅雷公司和路由器厂商合作定制的，这样可以在不开电脑的情况下下载游戏、电影或软件等资源。立足于一个很基本的需求，迅雷路由器被用户的接受度可想而知。</p>
+<p>JooMe™ 号称“是一个全球化的 WiFi 开放运动，旨在鼓励互联网使用者分享闲置带宽给周围的人免费使用，并由此获取一定的回报。与以往的 WiFi 分享项目不同的是，JooMe™ 对使用者没有任何收费或回报带宽分享的限制。所有人都可以自由使用 JooMe™ 提供的免费 WiFi。”JooMe™ 是一个典型的基于免费的双赢，可以用前面或者后面写到的免费的理论来解读</p>
+<p>特别想说的是hiwifi路由器，也就是图片上那个，Gevin目前在用的路由器也是这个。hiwifi路由器是北京一个创业团队做的，目前第三批工程机正在火热开卖。hiwifi路由器是Gevin了解的路由器中，创新最多的一款，比如，它可以屏蔽视频网站上的广告，让用户观看视频时不再痛苦的忍受无价值的等待；对下载的加速，尤其是针对苹果应用下载、谷歌应用下载的优化，大大加强了用户体验，或者它免费的出国加速功能，对好奇如何科学上网的用户绝对是一种诱惑，还有手机远程控制路由器功能，能有效阻止被蹭网等。hiwifi能够给路由器安装app，官方提供的很多功能，原本只有极客懂得如何折腾，现在这些功能都以wifi的形式带到每位普通用户面前了，所以hiwifi路由器才自称专为懒人设计的路由器。</p>
+<p>最后要说的是号称要做“安全路由器”的奇虎360，目前刚刚推出便捷路由器产品“360随身WiFi”。这是个价值19.9元的类似蓝牙接收器的东西，把它插在一个可以上网的电脑上，就产生了一个wifi上网环境，供手机，ipad等使用，物有所值。现在360随身WiFi正在预订中，每周二和周四上午10点有200台免费放出，手快的用户可以去抢一把，不过无论抢到的还是预订的，都要7月5号发货。</p>
+<p>不管路由器会不会成为下一个引爆点，Gevin都很看好路由器上的创新，至少，路由器的机会不见得比蓝牙4.0少。</p>
+<p>——-What’s more———-</p>
+<p>最近在考虑，“免费”这类非实时性的话题，可以穿插着写，老写一个主题，大家难免会觉得无趣，写点近期的想法，或对实时的一些事情做点评论，会更有意思，不知大家怎么看？</p>
+<p>本文作者Gevin，欢迎大家关注公共账户@GevinKnow，如果大家觉得文章有价值，不妨分享到朋友圈或者微博中</p>
+<p><a href="http://blog.igevin.info/wp-content/uploads/2013/06/qrcode_for_gh_df84b04855a2_430.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2013/06/qrcode_for_gh_df84b04855a2_430-300x300.jpg" alt="qrcode_for_gh_df84b04855a2_430"></a></p>
+<p>图片来源于hiwifi官方网站 <a href="http://www.hiwifi.com/" target="_blank" rel="external">http://www.hiwifi.com/</a></p>
+<p>文章均备份到这里 <a href="http://essay.igevin.info/" target="_blank" rel="external">http://essay.igevin.info</a></p>
+<p><div style="margin-top: 15px"></div></p>
+<p></p><p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
+<p><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2013/06/innovation-wifi/" target="_blank" rel="external">下一个颠覆，路由器？</a></p>
+<p></p>
+<p><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div></p>
+<table class="wumii-related-items" cellspacing="0" cellpadding="3" border="0" style="clear: both;"><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">猜您也喜欢：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2013%2F07%2Falipay-fund-reliable%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Finnovation-wifi%2F" title="余额宝靠谱么？" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/ev0oZ9cH.jpg?i=eyWwklBG" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">余额宝靠谱么？</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Fhello-weixi%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Finnovation-wifi%2F" title="Hello, 微信" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/lj5h6np4.jpg?i=QdXpthCK" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">Hello, 微信</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F11%2Ffree-mode-on-internet%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Finnovation-wifi%2F" title="互联网上的免费" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/3C65YGOh.jpg?i=ugASoxyy" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">互联网上的免费</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2011%2F05%2F5-good-ui-jquery-plugin%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Finnovation-wifi%2F" title="五款改善用户体验的jQuery插件" target="_blank" rel="external"><br><img src="http://static.wumii.cn/resources/images/related_item_default/98.jpg" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">五款改善用户体验的jQuery插件</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2010%2F10%2F15-%25E4%25B8%25AA%25E4%25B8%2580%25E5%25AE%259A%25E8%25A6%2581%25E4%25BC%259A%25E7%259A%2584-windows7-%25E5%25BF%25AB%25E6%258D%25B7%25E9%2594%25AE%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Finnovation-wifi%2F" title="15 个一定要会的 Windows7 快捷键" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/6gYhQNTQ.png?i=905ZwCUy" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">15 个一定要会的 Windows7 快捷键</font>
+</a><br></td><br></tr><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">来自无觅网络的相关文章：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fjingdian230.com%2F%3Fp%3D4126&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Finnovation-wifi%2F" title="生活的真谛在于创新，生活的理想在于远大(@jingdian230)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/8BGOvmHc.jpg?i=15ro7hRHX" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">生活的真谛在于创新，生活的理想在于远大(@jingdian230)</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fbs321.net%2Fthread-1432-1-1.html&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Finnovation-wifi%2F" title="大庆油田宽带路由器共享串机上网调试安装不额外多花钱(@bs321)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/1aUgFbdW.jpg?i=17qDDYgQK" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">大庆油田宽带路由器共享串机上网调试安装不额外多花钱(@bs321)</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fbs321.net%2Fthread-810-1-1.html&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Finnovation-wifi%2F" title="电脑维护大图系统安装可上门服务！安油田路由器！(@bs321)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/7QAVZO8D.jpg?i=42gLEDOF" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">电脑维护大图系统安装可上门服务！安油田路由器！(@bs321)</font>
+</a><br></td><br></tr><br><br><tr><br><td colspan="5" align="right"><br><a href="http://www.wumii.com/widget/relatedItems" title="无觅关联推荐" target="_blank" rel="external"><br><font size="-1" color="#bbbbbb" style="display: block !important; font-family: arial !important; padding: 5px 0 !important; font-size: 12px !important; color: #bbb !important;">无觅</font>
+</a><br></td><br></tr><br></table>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://media.tumblr.com/d7001a1a4edfead37486bd8638e76a7e/tumblr_inline_moyaqg5XpN1qz4rgp.jpg" alt=""></p>
+<p>如果说iPhone颠覆了手机，微博颠]]>
+    </summary>
+    
+      <category term="创新" scheme="http://blog.igevin.info/tags/%E5%88%9B%E6%96%B0/"/>
+    
+      <category term="微信" scheme="http://blog.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
+    
+      <category term="wordpress" scheme="http://blog.igevin.info/categories/wordpress/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[天上掉的馅饼（二）]]></title>
+    <link href="http://blog.igevin.info/2013/06/23/wordpress/internet-free-2/"/>
+    <id>http://blog.igevin.info/2013/06/23/wordpress/internet-free-2/</id>
+    <published>2013-06-23T14:09:19.000Z</published>
+    <updated>2015-03-19T04:41:31.424Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://upload-images.jianshu.io/upload_images/4041-c7656ad14c51fd1b.jpg" alt="互联网上的免费"></p>
+<p><em>本文源自我的微信公共账号 @GevinKnow，由于工作忙碌，没时间继续打理公共账号了，把原来的一些质量还可以的内容移植到这里，下面是正文:</em></p>
+<p>互联网诞生以来，就不断的改变着世界，它的价值不在于创造了一个虚拟的世界，而在于改善着人们的现实生活，让我们的生活更加有趣和美好。免费，在互联网的作用下，开始是越来越多的展现到人们眼前，现在是变着花样的在人们眼前走秀。传统的免费手段，在互联网的作用下表现的淋漓尽致，互联网的发展也催生了真正可以免费的东西。</p>
+<p>微信公共平台上，很多公共帐号都会分享大量有价值的信息，甚至有像“小道消息”，“道哥的黑板报”等公共大号，每天都更新原创的优质内容，这些内容版权归属创作者，但所有人都可以免费获取。优质的内容价值不菲，但价值的衡量并不总以金钱为单位，声誉，关注度，以及一些不容易察觉的其他因素，如表达观点、分享快乐、种下善因、得到满足感，或者纯粹的自我兴趣，促使了信息的传播，也为信息创造了更加丰富的价值。</p>
+<p>互联网上的信息和价值，并不总是与金钱挂钩的。</p>
+<p>另外一种经典的互联网的免费，是劳动交换。例如Google通过其高效的算法，为用户免费提供优质的搜索服务，使得互联网上海量的信息，能够按大家都需求，精确的展现到每个用户面前。免费提供搜索服务，不断优化搜索算法，Google在搜索的基础上，成为了超越微软的IT巨头，Google的盈利从何而来？前期的Google，盈利主要来源于广告。人们每次用Google进行搜索，都能帮助Google提高精确定位广告的算法，也优化了搜索的算法。人们使用Google越多，Google的广告投放越精确，而人们获取的搜索结果也越准确。这是一种双赢。</p>
+<p>除了通过劳动交换，优质的服务还可以使用“免费+付费”模式。号称要做用户第二大脑evernote就是这种模式的典型产品。免费版的evernote，已经足够普通用户使用，而且其跨平台、方便高效和开放api等特点，也使其在与同类产品的竞争中处于优势地位。足够优秀的免费版evernote，已经获得了无数用户，其中不乏大量铁杆用户。但如果要获得evernote的更多服务，如离线笔记，协同工作，附件信息的搜索等，或者由于更简单的原因，免费用户的存储容量已经耗尽，需要购买更多容量，这时就需要成为付费用户。</p>
+<p>“免费+付费”模式的开发者多遵守守5%定律，即5%的付费用户是网站的所有收入来源，95%的用户获得优质的免费服务，这些用户加强了app或者网站的黏度，成为自己发展壮大的基础。这也是一种双赢。</p>
+<p>再有常见的互联网的免费，就是各家电商，制造各种免费和优惠，对消费者进行争夺了。在电商之战愈加激烈的今天，相信大家都感同身受吧～</p>
+<p>互联网上的免费层出不穷，很多的创新，以及互联网公司的盈利模式，也都是在“免费”上做文章，互联网上为什么会产生如此之多的免费，免费为何可以在互联网上蓬勃发展起来呢？欲知原因何在，且听下回分解。</p>
+<p>——-What’s more———</p>
+<p>原本说要在本文介绍免费模式——“三方市场”的，那时本没打算花这么多笔墨讨论互联网的免费，结果现在这部分内容不好穿插到本文中来了，这段内容以后再写吧，整理下其他相关内容，作为一篇独立的文章展开好了。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://upload-images.jianshu.io/upload_images/4041-c7656ad14c51fd1b.jpg" alt="互联网上的免费"></p>
+<p><em>本文源自我的微信公共账号 @GevinKnow，由于工作]]>
+    </summary>
+    
+      <category term="微信" scheme="http://blog.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
+    
+      <category term="营销" scheme="http://blog.igevin.info/tags/%E8%90%A5%E9%94%80/"/>
+    
+      <category term="wechat" scheme="http://blog.igevin.info/categories/wechat/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[天上掉的馅饼（一）]]></title>
+    <link href="http://blog.igevin.info/2013/06/17/wordpress/internet-free-1/"/>
+    <id>http://blog.igevin.info/2013/06/17/wordpress/internet-free-1/</id>
+    <published>2013-06-17T11:35:58.000Z</published>
+    <updated>2015-03-19T04:41:31.424Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://media.tumblr.com/a75cca17cebbbee2721143ceedfa5979/tumblr_inline_mnz3mbuEst1qz4rgp.jpg" alt="互联网上的免费"></p>
+<p><em>本文源自我的微信公共账号 @GevinKnow，由于工作忙碌，没时间继续打理公共账号了，把原来的一些质量还可以的内容移植到这里，下面是正文:</em></p>
+<p>今天的话题是“免费”。</p>
+<p>俗话说，天下没有免费的午餐，不过天上掉馅饼的事却真的会发生，比如超市、地铁口的免费报纸杂志，宜家的免费食物，这些天上掉的馅饼，它们本身存在价值，而且让顾客感觉赚到了便宜，但他们并非真正免费。</p>
+<p>传统的行业里，做到真正的免费是不可能的，商家为什么还要提供免费，提供免费造成的损失，又要怎么来补偿呢？</p>
+<ol>
+<li>免费的心理效力</li>
+</ol>
+<p>商家之所以提供免费，很大的一部分原因是由于“免费”给人们带来的心理效应。心理学家曾做过实验，在同一个展柜里同时销售劣质的2元巧克力和优质的12元的巧克力时，大部分消费者会经过思考，选择12元的优质巧克力；当把巧克力的价格均降低1元后，大部分消费者依然会经过理性的思考，选择11元的优质巧克力；当价格再降低1元后，大部分消费者会蜂拥的选择免费的劣质巧克力。免费会严重影响消费者的理想判断力。</p>
+<p>心理学家还发现，一旦碰到要收费的问题，我们的脑子里就会立起一面小旗，会考虑“掏这笔钱值得吗”。如果要收费，甭管收费多少，我们作为消费者都会扪心自问是否真的想掏钱包。但如果某件商品的价格是零的话，脑子里的那个小旗就不会立起来了，这时，我们倾向于消费很多，而且毫不在意。</p>
+<ol>
+<li>免费的交叉补贴</li>
+</ol>
+<p>既然在传统的行业里不可能有完全免费的东西，那免费的差价又是如何补贴的呢？</p>
+<p><a href="http://book.douban.com/subject/3932520/" target="_blank" rel="external">《免费》</a>一书中指出，交叉补贴的方法有三种：（1）用付费产品补贴免费产品；（2）用日后付费补贴当前免费；（3）付费人群为免费人群提供补贴。</p>
+<p>传统行业里的免费形式，无非这些补贴方法的灵活使用。最直接的一种免费形式叫做“直接交叉补贴”，是指利用免费商品吸引消费者注意，当消费者的消费欲望被激发后，会花钱购买商家的一大堆不免费的商品，从而补贴了用于免费的商品消耗的成本。这种形式的免费最常见，而且在电商中快用烂了，一说到这里第一反应就是“满××元免运费”，“××商品0元起购”……</p>
+<p>直接交叉补贴中，免费的东西是“吸引消费者掏腰包买其他东西的商品”，享受免费人是“最后掏腰包消费的人”；还有一种免费形式，免费的东西是“信息、实物、服务或者软件等生活中随处可见的东西”，享受免费人是“所有人”，这种免费形式叫做“三方市场”，打算下一篇再详细介绍。</p>
+<p>另外，虽然在传统行业里，有价值的东西无法真正免费，但互联网的诞生却带来了真正免费的东西，互联网不仅创造了真正免费的东西，而且也为免费带来了变革，让所有人享受到了更多免费带来的好处。下一篇的主题将围绕“互联网上的免费”展开。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://media.tumblr.com/a75cca17cebbbee2721143ceedfa5979/tumblr_inline_mnz3mbuEst1qz4rgp.jpg" alt="互联网上的免费"></p>
+<p><em>本文源自我的微]]>
+    </summary>
+    
+      <category term="微信" scheme="http://blog.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
+    
+      <category term="营销" scheme="http://blog.igevin.info/tags/%E8%90%A5%E9%94%80/"/>
+    
+      <category term="wechat" scheme="http://blog.igevin.info/categories/wechat/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hello, 微信]]></title>
+    <link href="http://blog.igevin.info/2013/06/17/wordpress/Hello-%E5%BE%AE%E4%BF%A1/"/>
+    <id>http://blog.igevin.info/2013/06/17/wordpress/Hello-微信/</id>
+    <published>2013-06-17T11:24:14.000Z</published>
+    <updated>2015-03-19T04:41:31.424Z</updated>
+    <content type="html"><![CDATA[<p><a href="http://blog.igevin.info/2013/06/hello-weixin" target="_blank" rel="external"><img src="http://media.tumblr.com/8120e71c1f10233a05652bd232f169f2/tumblr_inline_mnpsdtMNaU1qz4rgp.jpg" alt=""></a></p>
+<p>本文是源自我的微信公共账户 @GevinKnow</p>
+<p>GevinKnow是Gevin的微信公共账户，打算写互联网，兴趣，产品，编程，这是开张第一篇，写点对电子书态度，不知以后能有多少干货。</p>
+<p>电子书一定会取代纸质书的，正如纸质书取代了竹简一样，这是科技发展的趋势，童鞋们应该有这个思想准备，还在说读电子书远没有纸质书感觉到童鞋，应该去接受电子书了。<span id="more-1904"></span></p>
+<p>所谓取代，字典上的解释是：</p>
+<p><em>“排除别人或别的事物而占有其位置”</em></p>
+<p>但Gevin认为，电子书对纸质书的取代，是指电子书取代纸质书作为阅读主要载体的地位，电子书取代纸质书之后，也依然会有人以阅读纸质书为主，但那已经不是主流。</p>
+<p>很多人说电子书阅读的体验远远赶不上纸质书，其实很多这样的人并不了解电子书。</p>
+<p>电子书不是盗版书，而是有版权的，被出版的，很多电子书也不是免费的。盗版的txt小说，影印版的pdf，虽然也可以在ipad，手机和电脑上阅读，但这些都称不上电子书，拿这些和正版纸质书做比较是没有意义的。精心排版的电子书的阅读体验并不亚于正版纸质书，而且电子书的阅读体验会越做越好。</p>
+<p>现在，很多的互联网创业团队都在研究怎样让电子书的体验更好，唐茶，多看和豆瓣阅读都是相当不错的产品，欢迎还不太接受电子书的童鞋们试用体验一下，它们的在线书店都有很多免费的正版电子书可供下载。</p>
+<p>关于电子阅读的体验，Gevin也有一些想法，和大家交流一下：</p>
+<p>1. 电子书不一定要完全模仿纸质书，要做出自己的特色，甚至重新定义书</p>
+<p>2. 电子书流畅的翻页效果，会给读者看完一页书的反馈暗示，不同的翻页效果会给读者不同的阅读体验和阅读心情</p>
+<ol>
+<li>字体，标点，符号和背景需要精心设计，差的设计很容易让用户阅读疲劳</li>
+</ol>
+<p>4. 阅读的整体把握</p>
+<p>阅读纸质书，读者可以从书的厚度了解到阅读量的大小，从已读和未读的比例判断阅读的进度，确定下一步阅读的计划，这是用户阅读时的重要体验，也是电子书做的不到位的地方。</p>
+<p>5. 创建读者社区，便于读书交流</p>
+<p>6. 创建读者个人知识库，便于读者整理资料和分享心得</p>
+<p>最后，支持正版，当然，这只是一种态度，消费并享受优质的服务，或者吝啬并受罪</p>
+<p>—————————————What’s more —————————————</p>
+<p>第一篇，不知所云，希望大家不要介意，有想法，欢迎留言交流。</p>
+<p>点击<a href="http://essay.igevin.info/post/51877757164/hello-world" target="_blank" rel="external">原文链接</a>查看tumblr上的文章备份，以后所有文章都备份到<a href="http://essay.igevin.info/" target="_blank" rel="external">http://essay.igevin.info</a></p>
+<p>欢迎大家关注我的公共帐号 @GevinKnow</p>
+<p><a href="http://blog.igevin.info/wp-content/uploads/2013/06/qrcode_for_gh_df84b04855a2_430.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2013/06/qrcode_for_gh_df84b04855a2_430.jpg" alt="qrcode_for_gh_df84b04855a2_430"></a></p>
+<div style="margin-top: 15px">
+
+<p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
+<p><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2013/06/hello-weixi/" target="_blank" rel="external">Hello, 微信</a></p>
+<p></p></div><p></p>
+<p><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div></p>
+<table class="wumii-related-items" cellspacing="0" cellpadding="3" border="0" style="clear: both;"><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">猜您也喜欢：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2011%2F05%2F5-good-ui-jquery-plugin%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Fhello-weixi%2F" title="五款改善用户体验的jQuery插件" target="_blank" rel="external"><br><img src="http://static.wumii.cn/resources/images/related_item_default/100.jpg" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">五款改善用户体验的jQuery插件</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F03%2Fdisadvantage-of-sina-microblog%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Fhello-weixi%2F" title="新浪微博哪里不好？" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/kLin3ksS.jpg?i=EqqHDw33" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">新浪微博哪里不好？</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2011%2F05%2Fmicrosoft-academic-search%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Fhello-weixi%2F" title="学术搜索利器——微软学术搜索" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/Ns36HfJ.png?i=7DXAN1Ks" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">学术搜索利器——微软学术搜索</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2Farchives%2F1073&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Fhello-weixi%2F" title="web2.0上网攻略——微博篇" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/bzAKxh9d.jpg?i=3hvxLHif" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">web2.0上网攻略——微博篇</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2Farchives%2F306&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Fhello-weixi%2F" title="向同步控推荐“一堆微博客”" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/EtejGypw.png?i=Ma2xePur" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">向同步控推荐“一堆微博客”</font>
+</a><br></td><br></tr><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">来自无觅网络的相关文章：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fprogramonkey.me%2Fto-who-the-hell-is-this-wrong%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Fhello-weixi%2F" title="[转]这到底是谁之错？(@programonkey)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/4g3ABC9I.jpg?i=3ljftCXb" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">[转]这到底是谁之错？(@programonkey)</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.luoyundeng.com%2F%3Fp%3D176&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Fhello-weixi%2F" title="谷歌用户体验设计准则[转](@luoyundeng)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/resources/images/related_item_default/17.jpg" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">谷歌用户体验设计准则<a href="@luoyundeng">转</a></font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.portablesoft.org%2Fflip-powerpoint%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2013%2F06%2Fhello-weixi%2F" title="Flip PowerPoint绿色便携版：PowerPoint转换为翻页电子书(@portablesoft)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/5jCBD0ID.jpg?i=K49rUq3X" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">Flip PowerPoint绿色便携版：PowerPoint转换为翻页电子书(@portablesoft)</font>
+</a><br></td><br></tr><br><br><tr><br><td colspan="5" align="right"><br><a href="http://www.wumii.com/widget/relatedItems" title="无觅关联推荐" target="_blank" rel="external"><br><font size="-1" color="#bbbbbb" style="display: block !important; font-family: arial !important; padding: 5px 0 !important; font-size: 12px !important; color: #bbb !important;">无觅</font>
+</a><br></td><br></tr><br></table>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><a href="http://blog.igevin.info/2013/06/hello-weixin" target="_blank" rel="external"><img src="http://media.tumblr.com/8120e71c1f10233a0]]>
+    </summary>
+    
+      <category term="微信" scheme="http://blog.igevin.info/tags/%E5%BE%AE%E4%BF%A1/"/>
+    
+      <category term="用户体验" scheme="http://blog.igevin.info/tags/%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/"/>
+    
+      <category term="wordpress" scheme="http://blog.igevin.info/categories/wordpress/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[产品经理要懂多少技术]]></title>
+    <link href="http://blog.igevin.info/2013/05/17/2013-05-01-how-pm-know-tech/"/>
+    <id>http://blog.igevin.info/2013/05/17/2013-05-01-how-pm-know-tech/</id>
+    <published>2013-05-16T16:00:00.000Z</published>
+    <updated>2015-03-19T04:41:31.393Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://gevin-zone.qiniudn.com/gevin_essayjobs6A_meitu_1.jpg" alt="image"></p>
+<p>本文首载于<a href="http://www.geekpark.net/read/view/167249" target="_blank" rel="external">极客公园</a>，本文重新排版配图</p>
+<hr>
+<p> <strong>『核心提示』 产品经理不需要在技术上登峰造极，但必须要赢得程序猿的尊敬。</strong></p>
+<hr>
+<p><br></p>
+<p>产品经理是个辛苦的工作，除了要最热爱产品，练功坐禅研究用户体验外，还要和一大堆人打交道——写代码的，做设计的，搞运营的，做市场的。前两类人算是艺术家，自然会带点艺术家特有的奇葩气质，第一类人又是和产品经理打交道的人里面最聪明的，一个不小心，没准就被程序猿们划入“白痴”族群，作为茶余饭后鄙视的对象。</p>
+<p>那么，产品经理要懂多少技术，才能游刃有余的和程序猿们打交道呢？</p>
+<p>在Gevin看来，成功的产品经理必须是被程序猿尊敬的。虽然程序猿的水平和素质也良莠不齐，但要做一个成功的产品经理，必须假设面对的是一帮最优秀的程序猿，这样才不至于被当作白痴来骂。因此程序猿应该是这样一帮人，他们是聪明的，坚毅的，勇于克服困难的；中间也不乏文艺类的，或懂艺术，或注重体验，或关心人文。产品经理也不必为了能和各种程序猿沟通，使自己面面俱到，但至少对自己要有一个明确的定位，并把自己的定位展现在程序猿面前。<br>Gevin 会把产品经理分为两类：</p>
+<ul>
+<li>A 改变世界的海贼</li>
+<li>B 自给自足的农夫</li>
+</ul>
+<p><strong>A类是那些真正热爱互联网的人</strong>，有自己的梦想，希望在互联网的海洋里冒险驰骋，不断创新，不断探索前行，看中的是这份冒险精神，享受的是冒险成功后的喜悦，他们也许会失败，但虽败犹荣，他们一旦成功，则会带来革命性的东西，甚至改变世界。<strong>B 类只是在互联网上求生存的人</strong>，他们并不热爱互联网，如果有更好的生存平台，他们可以放弃互联网；他们会踏实的基于数据做些分析，把一些实际可靠的元素融入产品，只要赚钱就行，创新和探索这些不靠谱的东西，尽量不碰。</p>
+<p><img src="http://gevin-zone.qiniudn.com/gevin_essayhistoire-one-piece.png" alt="image"></p>
+<p>产品经理在开始做事之前，需要明确自己是 A 类还是 B 类，与程序猿沟通时，通过语言或者行动表明自己的定位。如果你是 A 类，优秀的程序猿会成为你强大的助手，如果你是 B 类，好的程序猿也会帮你衣钵满载。但如果你有 A 类的心，却做 B 类的事，不被骂白痴才怪；如果你按 B 类的要求与程序猿沟通，却心怀 A 类的雄心，高傲的程序猿会认为你在玩弄他。</p>
+<p>A 类的产品经理，对技术的要求高，能力覆盖范围广，程序猿对 B 类产品经理的要求，只是 A 类的一个子集。下面提到的产品经理，如无特别说明，是指 A 类。</p>
+<p>程序猿也知道产品经理是要与多种职责的人打交道的，要有较强的综合能力，不会在技术领域拿自己的强项和产品经理过不去，但他们同时认为一个优秀的产品经理要具备一些能力，能力不足的产品经理不会被程序猿尊敬。这些能力包括：</p>
+<ul>
+<li>对技术的理解</li>
+<li>美学的修养</li>
+<li>强大的学习能力</li>
+<li>无限热情</li>
+</ul>
+<h3 id="对技术的理解">对技术的理解</h3><p>产品经理不懂技术当然不行，但产品经理也没必要掌握技术细节。产品的技术实现是由程序猿完成的，产品经理只要做到理解程序猿，尽量和程序猿做“无损沟通”即可。</p>
+<p>非技术出身的产品经理是比较辛苦的，因为你要在技术上下不少功夫。技术不简单，种类多，各有特色，发展日新月异，是产品经理和程序猿要时刻关注的主题。即便是对技术做整体的宏观的把握，也不是一个不懂技术的人一时半会就能融会贯通的。非技术出身的产品经理首先要迈过技术上的一道坎，让不懂技术的人看来，你是一个技术领域的内行。技术出身的产品经理，对技术的理解自然不是问题，但在和程序猿沟通时，会不自觉疏忽的是，容易过分纠结于细节，尤其是曾经在技术领域有不菲造诣的产品经理。产品经理不是对产品做技术实现的人，技术更新那么快，技术细节本身甚至技术实现的理念，会迅速更新迭代，产品经理和程序猿死磕技术细节得不偿失。</p>
+<p>上文提到的“无损沟通”，是指产品经理和程序猿在沟通中彼此完全理解，不存在疏漏和误解。这是不可能的，但这必须是二者沟通的目标。</p>
+<p>产品经理和程序猿沟通时，两个方面尤其重要：</p>
+<ul>
+<li>A：对需求的沟通</li>
+<li>B：对技术实现的沟通</li>
+</ul>
+<p>对需求的沟通主要应用于产品经理向程序猿阐述需求的场景中。程序猿实现产品功能，是基于对需求的理解；在功能实现过程中和实现完成后，需求的变化又可能带来产品实现上的灾难。如果程序猿不能准确理解产品经理对需求的描述，很可能实现的功能与产品经理的想法大相径庭，浪费大家的时间；如果产品经理想法不够明确，导致需求变来变去，无疑是对程序猿的恶意攻击。需求上任意一个小小的变化，在代码实现中的都有可能产生巨大麻烦，甚至会动摇代码的整体架构。从程序猿的角度来说，虽然程序猿在技术实现时以构建稳定的系统为目标，尽量灵活应对需求的变化，让系统易于扩展和维护，但这也是要基于程序猿们对需求的理解，以及对潜在的需求变化的预测。如果在沟通过程中做不到让程序猿准确把握需求，那就不用考虑产品实现的满意度了。</p>
+<p>对技术实现的沟通主要应用于程序猿向产品经理沟通的场景中。如果产品经理对技术理解不够，程序猿很难向产品经理讲明白自己的工作现状，当产品经理想要改变需求或者希望为产品添加新的特性时，也无法准确理解程序猿对此产生的各种反应。</p>
+<p>只有依靠足够技术基础，产品经理才能理解程序猿对工作和任务的描述，把握技术实现的难度，制定更加合适的计划。至于多少技术才算“足够”，需要产品经理和程序猿慢慢中磨合了。</p>
+<p>最后，请相信程序猿，请在技术上放手！</p>
+<h3 id="美学修养">美学修养</h3><p>为什么程序猿可能会关注这一点？虽然程序猿不会像设计师那样与产品经理讨论产品的设计和交互等问题，但也会关注下用户体验的，而且优秀的程序猿也是艺术家，没准还是个真实的画家，要想赢得程序猿的尊敬，美学修养低于程序猿说不过去吧？</p>
+<h3 id="学习能力">学习能力</h3><p>产品经理和程序猿，是互联网上最需要频繁接受并掌握新知识的人。新知识新概念接受的慢，谁放心把产品交给这样的产品经理？何况产品经理要与聪明的程序猿们交流沟通，学习能力差的产品经理在沟通过程中会遇到各种困难，各种无法理解，在工作过程中也无法应该程序猿的尊敬。</p>
+<h3 id="无限热情">无限热情</h3><p>这是产品经理最重要的素质，也是程序猿最需要从产品经理身上获取的元素。产品经理是最热爱自己产品的人，如果产品经理不能把自己的热情传递出去，程序猿也不会实心实意做产品的实现，实现一个没有激情的产品经理的想法，实在不是一件很 cool 的事情！</p>
+<h3 id="小结">小结</h3><p>产品经理若要和程序猿默契配合，最重要的是要赢得程序猿们的尊敬。产品经理并不是懂的技术越细越好，而是要在宏观上对技术有总体上的把握，在微观上懂得放手，相信程序猿，并锻炼好自己其他几项能力。</p>
+<p><strong>做一个站在科技和人文交叉口上的产品经理吧！带着自己的梦想和激情去改变世界，会有一帮优秀的程序猿帮你的！</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[产品经理不需要在技术上登峰造极，但必须要赢得程序猿的尊敬]]>
+    
+    </summary>
+    
+      <category term="产品" scheme="http://blog.igevin.info/tags/%E4%BA%A7%E5%93%81/"/>
+    
+      <category term="程序员" scheme="http://blog.igevin.info/categories/%E7%A8%8B%E5%BA%8F%E5%91%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[互联网上的免费]]></title>
+    <link href="http://blog.igevin.info/2012/11/25/wordpress/internet-free/"/>
+    <id>http://blog.igevin.info/2012/11/25/wordpress/internet-free/</id>
+    <published>2012-11-25T14:40:08.000Z</published>
+    <updated>2015-03-19T04:41:31.424Z</updated>
+    <content type="html"><![CDATA[<p>&nbsp;</p>
+<p><a href="http://blog.igevin.info/wp-content/uploads/2012/11/Downloads-001.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/11/Downloads-001.jpg" alt="" title="互联网上的免费"></a></p>
+<p><span style="color: #008000;">『核心观点』互联网是众多行业中的一种,在传统的行业里,通过免费盈利的案例早已存在,这是互联网可以借鉴之处;另外,互联网这个行业利用自己的特点,可以向用户提供一些&#8221;真正免费&#8221;的东西。免费的灵活应用以及盈利模式的创新，让互联网更加丰富，也让互联网更加优质。<span id="more-1853"></span></span></p>
+<p>打开laptop,就可以利用Google Docs办公,用Evernote管理自己的大脑。</p>
+<p>打开Firefox/Chrome,就可以浏览信息,学习进修,休闲娱乐。</p>
+<p>打开iphone,就可以利用facebook的app与好友交流,在flipboard上阅读资讯,在instagram上分享图片。</p>
+<p>在普及了互联网的世界里,只要有一个连接互联网的物理介质,不花一分钱,我们就可以活的很潇洒</p>
+<p>互联网给我们提供了免费优质的服务,让我们的现实生活更加便利.在免费的背后,服务的盈利是如何实现的?</p>
+<p>互联网是众多行业中的一种,在传统的行业里,通过免费盈利的案例早已存在,这是互联网可以借鉴之处;另外,互联网这个行业利用自己的特点,可以向用户提供一些&#8221;真正免费&#8221;的东西。免费的灵活应用以及盈利模式的创新，让互联网更加丰富，也让互联网更加优质。</p>
+<h1 id="1-_传统的免费">1. 传统的免费</h1><p>传统的免费，即交叉补贴。天下没有免费的午餐，我们在这里享受到免费，一定是在其他地方付过钱的，只不过付钱的并不一定是我们自己。交叉补贴的作用形式有三类：（1）用付费产品补贴免费产品；（2）用日后付费补贴当前免费；（3）付费人群为免费人群提供补贴。</p>
+<p>在交叉补贴的世界里，免费模式主要有以下四类：</p>
+<h2 id="（1）_直接交叉补贴">（1） 直接交叉补贴</h2><p>什么免费：吸引套掏腰包买其他东西的商品</p>
+<p>谁享受免费：以某种方式最后掏腰包的人</p>
+<p>这种模式最常见于电商。比如京东上那些打低折销售的商品。京东确实是低价甚至亏本销售这些商品，这些商品的作用是吸引用户进入京东商城，用户的消费欲望一旦被激发，购买的商品便不仅仅是这些让利商品。直接交叉补贴通过收费直接补贴免费。</p>
+<h2 id="（2）三方市场">（2）三方市场</h2><p>什么免费：内容、服务、软件等</p>
+<p>谁享受免费：任何人</p>
+<p>这是最常见的交叉补贴方式，广播、电视、杂志、报纸均采用这种模式，门户网站也是如此。在门户网站上，新闻资讯、学习娱乐信息均免费提供给用户。用户越多，流量越大，门户盈利越多，为何？因为门户在免费向用户提供资讯的同时，收费向商家提供广告位。当有用户对商家的广告感兴趣时，便产生了资金的流动，如下图所示。经济学家把这种模式称为“双边市场”：有两个截然不同的群体在为媒体做支持：广告商为媒体付费，为了把信息传递给消费者；媒体则给广告商提供支持；消费者会最终付费——以非直接的方式付费。</p>
+<div id="attachment_1860" style="width: 650px" class="wp-caption aligncenter"><a href="http://blog.igevin.info/wp-content/uploads/2012/11/三方市场.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/11/三方市场.jpg" alt="" title="三方市场"></a><br><br>三方市场<br></div>
+
+<p>在互联网上，媒体还可以围绕“免费的信息”用多种方式赚钱，如把客户信息出售给品牌授权商，提供“增值”订阅服务，或者直接玩电商。三方市场的模式下，成本已经被分散化了，或者变得不明显了，所以消费者会有免费的感觉。</p>
+<h2 id="（3）_免费+收费模式">（3） 免费+收费模式</h2><p>什么免费：和付费版本相匹配的任何商品</p>
+<p>谁享受免费：基本用户</p>
+<p>这是互联网上最常见的模式，一提到这种模式，相信大家会有多种场景映入眼帘吧：开发者免费提供某个图片处理app的免费版本，如果想要更多的滤镜和处理方式，请选择付费版本；免费试用30天，30天后请付费获得产品授权；苹果app store里的限时免费……</p>
+<p>互联网上的开发者一般会遵守5%定律，即5%的付费用户是网站的所有收入来源，95%的用户获得优质的免费服务，这些用户加强了app或者网站的黏度，成为自己发展壮大的基础。</p>
+<h2 id="（4）非货币市场">（4）非货币市场</h2><p>什么免费：人们选择免费赠送的、没有寄希望付钱的任何东西</p>
+<p>谁享受免费：任何人</p>
+<p>这种模式在互联网上很常见，它虽然不直接与货币打交道，但对用户使用互联网的体验和互联网产品的发展壮大却非常重要。</p>
+<p>人们在使用互联网的过程中，利他主义的动机总是存在的。人们会在互联网上输出自己的价值观、与他人分享快乐，为他人提供帮助，而做这些事情时，人们并不打算获得货币上的利益，而是获得满足感或者名望。人们在免费使用互联网的过程中，还会互动的进行劳动交换。例如，我们利用Google搜索信息，我们在获取自己需要信息的同时，也帮Google提高了准确定位广告的系统运算法则，让Google能够更精确的投放广告并盈利。在这个非货币市场里，我们创造了价值，收获了名誉或者享受了优质的体验，而网站提高了服务的质量，加强了用户黏度。在这里，互联网和用户以良性循环的方式，相互促进，实现双赢。</p>
+<h1 id="2-_互联网的特色">2. 互联网的特色</h1><p>互联网除了能灵活应用传统的免费盈利模式，其自身特点也丰富的免费的领域。</p>
+<h2 id="（1）摩尔定律">（1）摩尔定律</h2><p>物理设备是沟通用户和互联网的介质，根据摩尔定律，设备的价格会越来越低，而设备的性能会越来越高。未来人们可以付出更低的价额，享受更优质的服务，KK的“技术想要免费”，也是指日可待。</p>
+<h2 id="（2）思想的无穷充裕">（2）思想的无穷充裕</h2><p>专利之父托马斯 杰弗逊说，“接受我思想的人，会从我这里得到教益，但不会影响到我；就好象有人在我面前点亮了一根蜡烛，自己得到了光亮，也让我眼前一亮”。思想几乎可以不受限制和成本约束进行复制，而人们为了保证思想的稀缺创造了专利，但专利会过期，思想的传播不会停滞。</p>
+<p>正式由于思想的这种特点，专利之战，山寨与被山寨，盗版与反盗版…… 各种有趣的现象不断发生，这些现象将最终共同促进互联网向更好的方向发展。</p>
+<h1 id="3-_三种价格">3. 三种价格</h1><p>关于互联网免费的盈利和创新，还想谈的最后一点是三种价格——正价格、零价格和负价格——的作用。</p>
+<p>正价格，即我们购买产品或者使用服务的价值的表现，是盈利和消费的载体，而零价格和负价格，与正价格相比，其心理作用更加重要。</p>
+<p>零价格即上面讨论的“免费”，免费可以抵消用户消费时的警觉（用户总是懒的，免费可以让用户不再考虑钱花的值不值，钱该不该花等问题），引导消费者走上商家规划的道路。</p>
+<p>负价格即商家给用户钱。这种情况虽然少见，但用的好却能收获客观的效果，负价格可以引导消费者形成商家预期的消费锚点（anchor，参考《怪诞行为学》），可以帮助商家树立形象，打造自己的生态等。</p>
+<p>写到这里，我想感慨一下：互联网不仅是一个新奇有趣的地方，也是一个研究心理学的乐土。呃…… 我突然想到360的安全和免费杀毒了，也相当新浪微博上乌合之众般的各种黑各种粉各种水了……</p>
+<p>就此打住吧，最后想说明一下：以前看《怪诞行为学》时，开始对免费产生好奇，并开始关注互联网上的免费，最近想写本文内容时，居然看到相同主题的《免费》一书，由于作者比我强太多了，我在写文章时不自觉的照抄了上面的好多理论，希望大家见谅啦！另外，也向大家推荐上面那几本书，确实不错！</p>
+<p><div style="margin-top: 15px"></div></p>
+<p></p><p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>&nbsp;</p>
+<p><a href="http://blog.igevin.info/wp-content/uploads/2012/11/Downloads-001.jpg" target="_blank" rel="external"><img src="htt]]>
+    </summary>
+    
+      <category term="营销" scheme="http://blog.igevin.info/tags/%E8%90%A5%E9%94%80/"/>
+    
+      <category term="wordpress" scheme="http://blog.igevin.info/categories/wordpress/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[SNS随想]]></title>
+    <link href="http://blog.igevin.info/2012/07/11/wordpress/SNS%E9%9A%8F%E6%83%B3/"/>
+    <id>http://blog.igevin.info/2012/07/11/wordpress/SNS随想/</id>
+    <published>2012-07-11T14:23:28.000Z</published>
+    <updated>2015-03-19T04:41:31.424Z</updated>
+    <content type="html"><![CDATA[<p>&nbsp;</p>
+<p><a href="http://blog.igevin.info/wp-content/uploads/2012/07/SNS-1.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/07/SNS-1.jpg" alt="" title="SNS"></a></p>
+<p><span style="color: #008000;">『核心观点』现实世界和虚拟世界的进一步发展，会让人类世界变得更加奇妙，也许会与现在大有不同。这让我想到美剧fringe里的平行世界，只不过这两个世界的交叠不会带来crash，而是更好的融合。没准未来的现实世界，成了虚拟世界的一个子集。</span></p>
+<p>频繁的使用path，是因为有关心的人在活跃；其他平台，要么不认识的人在活跃，要么熟悉的人在潜水；path上不需要太多的好友，这是发出自己心声，与知心朋友沟通的港湾。</p>
+<p><span id="more-1715"></span>facebook，是对“六度空间”理论的偶然实现，人们进入facebook的网络，是在生产信息，扩展自己交际圈和知识面的维度。</p>
+<p>社交网络就是个放大器，有人喜欢在虚拟的世界里做真实的自己，有人虽然不想表现自己最真实的一面，却在不知不觉中暴露了自己的真实。现实中是怎样的，在社交网络上就是怎样的。只不过虚拟世界中的放大，给人以略有不同的错觉。无论在哪一边做出改变，都会真实的改变自己。</p>
+<p>twitter，是一个习惯了没有身边人的、有价值信息最多的产品。twitter给我的感觉像极了收音机，喜欢的就接收，不喜欢的就屏蔽。这让twitter摆脱了所谓好友的的束缚，在twitter上也许不会很 黏，但 一定不会抛弃。这是我喜欢twitter最重要的原因。同样的，quora也类似，只不过让人把对他人的关注，转移到对兴趣的关注。这两个平台，都应该是输 出价值的地方。</p>
+<p>位置，是一个与我们如影随形的属性。当位置以互联网服务的形式进入社交网络之后，现实时间与虚拟世界的联系进一步加强。一个签到也许不算什么，但虚拟的世界能够感知好友在真实世界的位置时，朋友间距离的远近、好友位置的变化，给我们带来的兴奋、失落、愉快、哀伤，那可绝不是硅基世界各元素相互作用的产物。</p>
+<p>现实世界和虚拟世界的进一步发展，会让人类世界变得更加奇妙，也许会与现在大有不同。这让我想到美剧fringe里的平行世界，只不过这两个世界的交叠不会带来crash，而是更好的融合。没准未来的现实世界，成了虚拟世界的一个子集。</p>
+<p>现实世界是真实的，但现实世界中人们人们总是披着各种皮、带着各种面具，习惯了伪装的人们也许更怕伤害，真实的世界是一片贫瘠的土壤，真实的自我很难在此生长。</p>
+<p>社交网络中，那个虚拟的自我已经脱掉了皮、丢掉了面具，能够通过真实的灵魂感受这个世界。这是一片沃土，心灵深处的那颗种子，可以在此野蛮疯长。</p>
+<p>真实是社交网络的趋势，也是社交网络上所有结点的呼唤。而处于另一极的虚伪，也将如影随形，现实世界将会向社交网络中做出映射。</p>
+<p>距离产生真实，真实又与虚伪相依。</p>
+<p><div style="margin-top: 15px"></div></p>
+<p></p><p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
+<p><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2012/07/sns-thoughts/" target="_blank" rel="external">SNS随想</a></p>
+<p></p>
+<p><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div></p>
+<table class="wumii-related-items" cellspacing="0" cellpadding="3" border="0" style="clear: both;"><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">猜您也喜欢：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F05%2F10-cool-sns-apps%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F07%2Fsns-thoughts%2F" title="10款给力的SNS类APP" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/7o1tA2uY.png?i=9ZU7FQBu" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">10款给力的SNS类APP</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F04%2Fsns%25E7%258B%2582%25E6%2583%25B3%25E6%259B%25B2%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F07%2Fsns-thoughts%2F" title="SNS狂想曲" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/aJW14PRO.jpg?i=p12C7pZi" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">SNS狂想曲</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2011%2F02%2Fweb2-0-sns%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F07%2Fsns-thoughts%2F" title="web2.0上网攻略——SNS篇" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/kFwuNv2e.png?i=15LnjbCAP" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">web2.0上网攻略——SNS篇</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2011%2F10%2Flbs-vs-gis%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F07%2Fsns-thoughts%2F" title="LBS VS GIS" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/3NiCy0eA.png?i=HSobu2uB" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">LBS VS GIS</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F03%2Fdisadvantage-of-sina-microblog%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F07%2Fsns-thoughts%2F" title="新浪微博哪里不好？" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/kLin3ksS.jpg?i=EqqHDw33" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">新浪微博哪里不好？</font>
+</a><br></td><br></tr><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">来自无觅网络的相关文章：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fbs321.net%2Fthread-1417-1-1.html&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F07%2Fsns-thoughts%2F" title="随笔(@bs321)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/7l4GWkkN.jpg?i=V2nxyiZ2" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">随笔(@bs321)</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fjingdian230.com%2F12755&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F07%2Fsns-thoughts%2F" title="好书推荐：让人沉静的8本随笔(@jingdian230)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/wOXyIlw3.jpg?i=2KR73w5h" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">好书推荐：让人沉静的8本随笔(@jingdian230)</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fbs321.net%2Fthread-5178-1-1.html&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F07%2Fsns-thoughts%2F" title="简字，随笔[3P](@bs321)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/kQMF6KRt.jpg?i=gj24QpDD" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">简字，随笔<a href="@bs321">3P</a></font>
+</a><br></td><br></tr><br><br><tr><br><td colspan="5" align="right"><br><a href="http://www.wumii.com/widget/relatedItems" title="无觅关联推荐" target="_blank" rel="external"><br><font size="-1" color="#bbbbbb" style="display: block !important; font-family: arial !important; padding: 5px 0 !important; font-size: 12px !important; color: #bbb !important;">无觅</font>
+</a><br></td><br></tr><br></table>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>&nbsp;</p>
+<p><a href="http://blog.igevin.info/wp-content/uploads/2012/07/SNS-1.jpg" target="_blank" rel="external"><img src="http://blog]]>
+    </summary>
+    
+      <category term="SNS" scheme="http://blog.igevin.info/tags/SNS/"/>
+    
+      <category term="app" scheme="http://blog.igevin.info/tags/app/"/>
+    
+      <category term="随笔" scheme="http://blog.igevin.info/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+      <category term="wordpress" scheme="http://blog.igevin.info/categories/wordpress/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Android上给力的拍照类app]]></title>
+    <link href="http://blog.igevin.info/2012/06/21/wordpress/Android-photo-app/"/>
+    <id>http://blog.igevin.info/2012/06/21/wordpress/Android-photo-app/</id>
+    <published>2012-06-20T16:36:24.000Z</published>
+    <updated>2015-03-19T04:41:31.409Z</updated>
+    <content type="html"><![CDATA[<p>&nbsp;</p>
+<p>『核心观点』手机镜头既能拍出质量不错的照片，又便于照片处理和网络分享，对于拍客族，强大的拍照类app是必不可少的。Gevin折腾过不少的拍照类app，本文向大家介绍几款给力的！</p>
+<p><a href="http://blog.igevin.info/wp-content/uploads/2012/06/tmp.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/06/tmp.jpg" alt="" title="camera apps"><span id="more-1795"></span></a></p>
+<h1 id="Instagram">Instagram</h1><p><a href="http://blog.igevin.info/wp-content/uploads/2012/06/instagram.png" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/06/instagram.png" alt="" title="instagram"></a></p>
+<p><a href="https://play.google.com/store/apps/details?id=com.instagram.android&amp;feature=search_result" target="_blank" rel="external">Instagram</a>是神器，也是Gevin最喜欢的拍照类app，原因可以参考：<a href="http://blog.igevin.info/2012/05/advantage-of-instagram/" target="_blank" rel="external">Instagram哪里好</a>，本文不再介绍。</p>
+<h1 id="Camera360_Ultimate"><span style="color: #333333; font-style: normal; line-height: 24px;">Camera360 Ultimate</span></h1><p><a href="http://blog.igevin.info/wp-content/uploads/2012/06/Camera360.png" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/06/Camera360.png" alt="Camera360" title="Camera360"></a></p>
+<p><a href="https://play.google.com/store/apps/details?id=vStudio.Android.Camera360&amp;feature=search_result" target="_blank" rel="external">Camera360</a>是国内开发者开发的一款相当不错的拍照类app，能拍出多种照片效果，照片的质量也很好。在Instagram开发android版本以前，Gevin一直用这款app。关于Camera360，有兴趣的朋友可以参考这篇文章：<a href="http://content.businessvalue.com.cn/post/6420.html" target="_blank" rel="external">Camera360:工具类应用的前途在哪里？</a>看看商业价值杂志的记者全方位的介绍。</p>
+<h1 id="Retro_Camera">Retro Camera</h1><p><a href="http://blog.igevin.info/wp-content/uploads/2012/06/retro_camera_android_2.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/06/retro_camera_android_2.jpg" alt="" title="retro_camera_android_2"></a></p>
+<p><a href="https://play.google.com/store/apps/details?id=org.urbian.android.tools.vintagecam&amp;feature=search_result" target="_blank" rel="external">Retro Camera</a>是很有趣，内置几款不同风格的虚拟复古相机，能够轻松拍出好玩的照片，其灵感来源于LOMO、HOLGA、宝丽来、Diana和玩具相机应用的风格。根据选择相机的不同，Retro Camera会直接拍出不同风格的照片，免去用户选择滤镜的麻烦。在图片的生成过程中，Retro Camera模拟了过去相片的冲洗过程，更添一分乐趣。</p>
+<h1 id="camera+"><span style="color: #333333; font-style: normal; line-height: 24px;">camera+</span></h1><p><a href="http://blog.igevin.info/wp-content/uploads/2012/06/camera-plus-icon2.png" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/06/camera-plus-icon2.png" alt="" title="camera-plus-icon2"></a></p>
+<p>传说<a href="https://play.google.com/store/apps/details?id=com.tinypiece.android.cs&amp;feature=search_result" target="_blank" rel="external">camera+</a>相当给力，但它占内存很大，我的手机上app装的比较多，无法顺畅体验，有兴趣的同学可以试试</p>
+<h1 id="pudding_camera"><span style="color: #333333; font-style: normal; line-height: 24px;">pudding camera</span></h1><p><a href="http://blog.igevin.info/wp-content/uploads/2012/06/Pudding-camera-screenshot.png" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/06/Pudding-camera-screenshot.png" alt="" title="Pudding-camera-screenshot"></a></p>
+<p><a href="https://play.google.com/store/apps/details?id=com.kth.PuddingCamera&amp;hl=en" target="_blank" rel="external">pudding camera</a>是一款韩国开发者做的拍照应用，也内置了多种虚拟相机，拍照效果很不错，可以体验一下！</p>
+<h1 id="PicsArt"><span style="color: #333333; font-style: normal; line-height: 24px;">PicsArt</span></h1><p><a href="http://blog.igevin.info/wp-content/uploads/2012/06/PicsArt-1.png" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/06/PicsArt-1.png" alt="" title="PicsArt-1"></a></p>
+<p><a href="https://play.google.com/store/apps/details?id=com.picsart.studio&amp;feature=nav_result#?t=W251bGwsMSwxLDMsImNvbS5waWNzYXJ0LnN0dWRpbyJd" target="_blank" rel="external">PicsArt</a>集拍照和图片处理于一体，除了滤镜，还可以做拼贴，框架，贴纸，文字特效，剪贴画图形，裁剪，旋转，调整颜色，添加艺术效果和魔法效果等，值得一试。</p>
+<h1 id="POCO相机"><span style="color: #333333; font-style: normal; line-height: 24px;">POCO相机</span></h1><p><a href="http://blog.igevin.info/wp-content/uploads/2012/06/poco.jpg" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/06/poco.jpg" alt="" title="poco"></a></p>
+<p><a href="https://play.google.com/store/apps/details?id=my.PCamera&amp;feature=search_result#?t=W251bGwsMSwxLDEsIm15LlBDYW1lcmEiXQ.." target="_blank" rel="external">POCO相机</a>是国内图片原创社区POCO.CN针对手机拍照用户群推出的发烧友级手机拍照工具，内置多种拍照镜头，超过40后期美化模式，支持一键多平台分享。POCO相机使用简单且尊重摄影人的拍摄习惯：选择镜头——拍照——美化照片——分享。</p>
+<p>最后，再附加三款强大的图片处理app</p>
+<ul>
+<li><a href="https://play.google.com/store/apps/details?id=com.littlephoto&amp;feature=search_result" target="_blank" rel="external">Little Photo</a></li>
+<li><a href="https://play.google.com/store/apps/details?id=pixlr.OMatic&amp;feature=search_result" target="_blank" rel="external">Pixlr-o-matic</a></li>
+<li><a href="https://play.google.com/store/apps/details?id=com.motionone.photoshake&amp;feature=search_result" target="_blank" rel="external">PhotoShake</a></li>
+</ul>
+<p>&nbsp;</p>
+<p><div style="margin-top: 15px"></div></p>
+<p></p><p><strong>转载请注明：</strong> 转载自<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin的博客</a></p>
+<p><strong>本文链接地址:</strong> <a href="http://blog.igevin.info/2012/06/awesome-camera-apps-on-android/" target="_blank" rel="external">Android上给力的拍照类app</a></p>
+<p></p>
+<p><div><br>极客趣玩推荐：<a href="http://s.click.taobao.com/t_8?e=7HZ5x%2BOzdZF6pq3H3z1mawcVRxM%3D&#038;p=mm_17737402_0_0" target="_blank" rel="external"><img src="http://blog.igevin.info/wp-content/uploads/2012/05/image.png" alt=""></a><br></div></p>
+<table class="wumii-related-items" cellspacing="0" cellpadding="3" border="0" style="clear: both;"><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">猜您也喜欢：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F05%2Fadvantage-of-instagram%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F06%2Fawesome-camera-apps-on-android%2F" title="instagram哪里好？" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/1evx9eB3f.png?i=hGNKyVjS" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">instagram哪里好？</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F05%2F10-cool-sns-apps%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F06%2Fawesome-camera-apps-on-android%2F" title="10款给力的SNS类APP" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/7o1tA2uY.png?i=9ZU7FQBu" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">10款给力的SNS类APP</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F11%2Ffree-mode-on-internet%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F06%2Fawesome-camera-apps-on-android%2F" title="互联网上的免费" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/3C65YGOh.jpg?i=ugASoxyy" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">互联网上的免费</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F07%2Fsns-thoughts%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F06%2Fawesome-camera-apps-on-android%2F" title="SNS随想" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/tZ4PXG8o.jpg?i=bBu3FKQw" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">SNS随想</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fblog.igevin.info%2F2012%2F04%2Fconfiguration-of-openvpn-in-android-and-windows7%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F06%2Fawesome-camera-apps-on-android%2F" title="Android和Windows 7下OpenVPN的设置" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/ja4heDMT.jpg?i=cg0LPrW9" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">Android和Windows 7下OpenVPN的设置</font>
+</a><br></td><br></tr><br><br><tr><br><td colspan="5"><strong><font size="-1" style="display: block !important; padding: 20px 0 5px !important;">来自无觅网络的相关文章：</font></strong></td><br></tr><br><br><tr><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.portablesoft.org%2Falgolab-photo-vector%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F06%2Fawesome-camera-apps-on-android%2F" title="图片矢量化工具：AlgoLab Photo Vector绿色版(@portablesoft)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/3LXWWbP0.jpg?i=Q9W2GtTJ" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">图片矢量化工具：AlgoLab Photo Vector绿色版(@portablesoft)</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.portablesoft.org%2Fmicrosoft-photo-editor%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F06%2Fawesome-camera-apps-on-android%2F" title="Microsoft Photo Editor绿色免安装版(@portablesoft)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/i4OaoY0A.jpg?i=nOghQNZs" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">Microsoft Photo Editor绿色免安装版(@portablesoft)</font>
+</a><br></td><br><td width="102" valign="top" style="padding: 5px !important; margin: 0 !important; border-left: 1px solid #DDDDDD !important;"><br><a href="http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwuyuans.com%2F2012%2F07%2Fandroid-in-eclipse-file-explore-is-empty%2F&amp;from=http%3A%2F%2Fblog.igevin.info%2F2012%2F06%2Fawesome-camera-apps-on-android%2F" title="Eclipse在android真机开发中file explore为空(@wuyuans)" target="_blank" rel="external"><br><img src="http://static.wumii.cn/site_images/ti/8aVRMVaR.jpg?i=FZTIn8zK" alt=""><br><br><font size="-1" color="#333333" style="display: block !important; line-height: 15px !important; width: 102px !important; font: 12px/15px arial !important; height: 60px !important; margin: 3px 0 0 0 !important; padding: 0 !important; overflow: hidden !important;">Eclipse在android真机开发中file explore为空(@wuyuans)</font>
+</a><br></td><br></tr><br><br><tr><br><td colspan="5" align="right"><br><a href="http://www.wumii.com/widget/relatedItems" title="无觅关联推荐" target="_blank" rel="external"><br><font size="-1" color="#bbbbbb" style="display: block !important; font-family: arial !important; padding: 5px 0 !important; font-size: 12px !important; color: #bbb !important;">无觅</font>
+</a><br></td><br></tr><br></table>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>&nbsp;</p>
+<p>『核心观点』手机镜头既能拍出质量不错的照片，又便于照片处理和网络分享，对于拍客族，强大的拍照类app是必不可少的。Gevin折腾过不少的拍照类app，本文向大家介绍几款给力的！</p>
+<p><a href="http://blog.igevin]]>
+    </summary>
+    
+      <category term="app" scheme="http://blog.igevin.info/tags/app/"/>
+    
+      <category term="wordpress" scheme="http://blog.igevin.info/categories/wordpress/"/>
+    
+  </entry>
+  
+</feed>

@@ -472,8 +472,6 @@ $(document).ready(function(){
   var ai = $('.article-content>iframe'),
       ae = $('.article-content>embed'),
       t  = $('#toc'),
-      h  = $('article h2')
-      ah = $('article h2'),
       ta = $('#toc.toc-aside'),
       o  = $('.openaside'),
       c  = $('.closeaside');
@@ -483,19 +481,18 @@ $(document).ready(function(){
   if(ae.length>0){
    ae.wrap('<div class="video-container" />');
   };
-  if(ah.length==0){
-    t.css('display','none');
-  }else{
-    c.click(function(){
-      ta.css('display', 'block').addClass('fadeIn');
-    });
-    o.click(function(){
-      ta.css('display', 'none');
-    });
-    $(window).scroll(function(){
-      ta.css("top",Math.max(140,320-$(this).scrollTop()));
-    });
-  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+  
+    c.click();
+    
 });
 </script>
 
@@ -594,6 +591,10 @@ $(document).ready(function(){
 
 
 <!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
 
   </body>
 </html>

@@ -1,0 +1,598 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Django权限机制的实现 | Gevin&#39;s blog</title>
+    <!-- google-site-verification --> 
+    <meta name="google-site-verification" content="Cj8n-gGgBXzrcuYXoe9fWtDOqNn0hmakKzmoazwrFAY" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Gevin">
+    
+
+    
+    <meta name="description" content="权限机制能够约束用户行为，控制页面的显示内容，也能使API更加安全和灵活；用好权限机制，能让系统更加强大和健壮。因此，基于Django的开发，理清Django权限机制是非常必要的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django权限机制的实现">
+<meta property="og:url" content="http://blog.igevin.info/2015/06/17/django-permission/index.html">
+<meta property="og:site_name" content="Gevin's blog">
+<meta property="og:description" content="权限机制能够约束用户行为，控制页面的显示内容，也能使API更加安全和灵活；用好权限机制，能让系统更加强大和健壮。因此，基于Django的开发，理清Django权限机制是非常必要的">
+<meta property="og:image" content="http://7d9q7a.com1.z0.glb.clouddn.com/blog4041-34f7e1442009992f.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django权限机制的实现">
+<meta name="twitter:description" content="权限机制能够约束用户行为，控制页面的显示内容，也能使API更加安全和灵活；用好权限机制，能让系统更加强大和健壮。因此，基于Django的开发，理清Django权限机制是非常必要的">
+<meta name="twitter:creator" content="@igevin">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Gevin&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/gevin-pacman.svg" alt="Gevin&#39;s blog" title="Gevin&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Gevin&#39;s blog">Gevin&#39;s blog</a></h1>
+				<h2 class="blog-motto">技术生活都要折腾</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.igevin.info">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/17/django-permission/" title="Django权限机制的实现" itemprop="url">Django权限机制的实现</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://blog.igevin.info/about" title="Gevin" target="_blank" itemprop="author">Gevin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-17T08:42:01.000Z" itemprop="datePublished"> 发表于 2015-06-17</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_Django权限机制概述"><span class="toc-number">1.</span> <span class="toc-text">1. Django权限机制概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1_Django的权限控制"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 Django的权限控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2_Django的权限项"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 Django的权限项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_Django_自带权限机制的应用"><span class="toc-number">2.</span> <span class="toc-text">2. Django 自带权限机制的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_Permission"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 Permission</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_User_Permission管理"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 User Permission管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3_Group_Permission管理"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 Group Permission管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4_permission_required_装饰器"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 permission_required 装饰器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5_Template中的权限检查"><span class="toc-number">2.5.</span> <span class="toc-text">2.5 Template中的权限检查</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_基于Django-guardian的object_permission的应用"><span class="toc-number">3.</span> <span class="toc-text">3. 基于Django-guardian的object permission的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1_添加object_permission"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 添加object permission</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2_权限检查"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 权限检查</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1_Global_permission"><span class="toc-number">3.2.1.</span> <span class="toc-text">3.2.1 Global permission</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2_Object_permission"><span class="toc-number">3.2.2.</span> <span class="toc-text">3.2.2 Object permission</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3_permission_required装饰器"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 permission_required装饰器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_结论"><span class="toc-number">4.</span> <span class="toc-text">4. 结论</span></a></li></ol>
+		
+		</div>
+		
+		<p><img src="http://7d9q7a.com1.z0.glb.clouddn.com/blog4041-34f7e1442009992f.jpg" alt="django-permission"></p>
+<blockquote>
+<p>本文涉及的技术，已应用于我基于django 1.8+ 开发的博客系统——<a href="https://github.com/flyhigher139/mayblog" target="_blank" rel="external">MayBlog</a>，欢迎交流。</p>
+</blockquote>
+<h2 id="1-_Django权限机制概述">1. Django权限机制概述</h2><p>权限机制能够约束用户行为，控制页面的显示内容，也能使API更加安全和灵活；用好权限机制，能让系统更加强大和健壮。因此，基于Django的开发，理清Django权限机制是非常必要的。</p>
+<h3 id="1-1_Django的权限控制">1.1 Django的权限控制</h3><p>Django用user, group和permission完成了权限机制，这个权限机制是将属于model的某个permission赋予user或group，可以理解为全局的权限，即如果用户A对数据模型（model）B有可写权限，那么A能修改model B的所有实例（objects）。group的权限也是如此，如果为group C 赋予model B的可写权限，则隶属于group C 的所有用户，都可以修改model B的所有实例。</p>
+<p>这种权限机制只能解决一些简单的应用需求，而大部分应用场景下，需要更细分的权限机制。以博客系统为例，博客系统的用户可分为『管理员』、『编辑』、『作者』和『读者』四个用户组；博客系统管理员和编辑具有查看、修改和删除所有的文章的权限，作者只能修改和删除自己写的文章，而读者则只有阅读权限。管理员、编辑和读者的权限，我们可以用全局权限做控制，而对于作者，全局权限无法满足需求，仅通过全局权限，要么允许作者编辑不属于自己的文章，要么让作者连自己的文章都无法修改。</p>
+<p>上述的应用场景，Django自带的权限机制无法满足需求，需要引入另一种更细的权限机制：<code>对象权限（object permission）</code>。</p>
+<p>Object Permission是一种对象颗粒度上的权限机制，它允许为每个具体对象授权。仍沿用最开始的例子，如果model B有三个实例 B1，B2 和B3，如果我们把B1的可写权限赋予用户A，则A可以修改B1对象，而对B2，B3无法修改。对group也一样，如果将B2的可写权限赋予group C，则隶属于group C的所有用户均可以修改B2，但无法修改B1和B3。结合Django自带权限机制和object permission，博客系统中作者的权限控制迎刃而解：系统全局上不允许作者编辑文章，而对于属于作者的具体文章，赋予编辑权限即可。</p>
+<p>Django其实包含了object permission的框架，但没有具体实现，object permission的实现需要借助第三方app<a href="https://github.com/lukaszb/django-guardian" target="_blank" rel="external"> django-guardian</a>，我们在开发中用调用django guradian封装好的方法即可。</p>
+<h3 id="1-2_Django的权限项">1.2 Django的权限项</h3><p>Django用permission对象存储权限项，每个model默认都有三个permission，即add model, change model和delete model。例如，定义一个名为『Car』model，定义好Car之后，会自动创建相应的三个permission：<code>add_car</code>, <code>change_car</code>和<code>delete_car</code>。Django还允许自定义permission，例如，我们可以为Car创建新的权限项：<code>drive_car</code>, <code>clean_car</code>, <code>fix_car</code>等等</p>
+<p>需要注意的是，permission总是与model对应的，如果一个object不是model的实例，我们无法为它创建/分配权限。</p>
+<h2 id="2-_Django_自带权限机制的应用">2. Django 自带权限机制的应用</h2><h3 id="2-1_Permission">2.1 Permission</h3><p>如上文所述，Django定义每个model后，默认都会添加该model的add, change和delete三个permission，自定义的permission可以在我们定义model时手动添加：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Task</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        permissions = (</span><br><span class="line">            (<span class="string">"view_task"</span>, <span class="string">"Can see available tasks"</span>),</span><br><span class="line">            (<span class="string">"change_task_status"</span>, <span class="string">"Can change the status of tasks"</span>),</span><br><span class="line">            (<span class="string">"close_task"</span>, <span class="string">"Can remove a task by setting its status as closed"</span>),</span><br><span class="line">        )</span><br></pre></td></tr></table></figure>
+<p>每个permission都是<code>django.contrib.auth.Permission</code>类型的实例，该类型包含三个字段<code>name</code>, <code>codename</code> 和 <code>content_type</code>，其中 <code>content_type</code>反应了permission属于哪个model，<code>codename</code>如上面的<code>view_task</code>，代码逻辑中检查权限时要用， <code>name</code>是permission的描述，将permission打印到屏幕或页面时默认显示的就是<code>name</code></p>
+<p>在model中创建自定义权限，从系统开发的角度，可理解为创建系统的内置权限，如果需求中涉及到用户使用系统时创建自定义权限，则要通过下面方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> myapp.models <span class="keyword">import</span> BlogPost</span><br><span class="line"><span class="keyword">from</span> django.contrib.auth.models <span class="keyword">import</span> Permission</span><br><span class="line"><span class="keyword">from</span> django.contrib.contenttypes.models <span class="keyword">import</span> ContentType</span><br><span class="line"></span><br><span class="line">content_type = ContentType.objects.get_for_model(BlogPost)</span><br><span class="line">permission = Permission.objects.create(codename=<span class="string">'can_publish'</span>,</span><br><span class="line">                                       name=<span class="string">'Can Publish Posts'</span>,</span><br><span class="line">                                       content_type=content_type)</span><br></pre></td></tr></table></figure>
+<h3 id="2-2_User_Permission管理">2.2 User Permission管理</h3><p>User对象的user_permission字段管理用户的权限：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">myuser.user_permissions = [permission_list]</span><br><span class="line">myuser.user_permissions.add(permission, permission, ...) <span class="comment">#增加权限</span></span><br><span class="line">myuser.user_permissions.remove(permission, permission, ...) <span class="comment">#删除权限</span></span><br><span class="line">myuser.user_permissions.clear() <span class="comment">#清空权限</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##############################################################</span></span><br><span class="line"><span class="comment"># 注：上面的permission为django.contrib.auth.Permission类型的实例</span></span><br><span class="line"><span class="comment">##############################################################</span></span><br></pre></td></tr></table></figure>
+<p>检查用户权限用<code>has_perm()</code>方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">myuser.has_perm(<span class="string">'myapp.fix_car'</span>)</span><br></pre></td></tr></table></figure>
+<p><code>has_perm()</code>方法的参数，即permission的<code>codename</code>，但传递参数时需要加上model 所属app的前缀，格式为<code>&lt;app label&gt;.&lt;permission codename&gt;</code>。</p>
+<p>无论permission赋予user还是group，<code>has_perm()</code>方法均适用</p>
+<p><strong>附注：</strong></p>
+<p><code>user.get_all_permissions()</code>方法列出用户的所有权限，返回值是permission name的list<br><code>user.get_group_permissions()</code>方法列出用户所属group的权限，返回值是permission name的list</p>
+<h3 id="2-3_Group_Permission管理">2.3 Group Permission管理</h3><p>group permission管理逻辑与user permission管理一致，group中使用permissions字段做权限管理：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">group.permissions = [permission_list]</span><br><span class="line">group.permissions.add(permission, permission, ...)</span><br><span class="line">group.permissions.remove(permission, permission, ...)</span><br><span class="line">group.permissions.clear()</span><br></pre></td></tr></table></figure>
+<p>权限检查：</p>
+<p>依然使用<code>user.has_perm()</code>方法。</p>
+<h3 id="2-4_permission_required_装饰器">2.4 <code>permission_required</code> 装饰器</h3><p>权限能约束用户行为，当业务逻辑中涉及到权限检查时，decorator能够分离权限验证和核心的业务逻辑，使代码更简洁，逻辑更清晰。permission的decorator为<code>permission_required</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib.auth.decorators <span class="keyword">import</span> permission_required</span><br><span class="line"></span><br><span class="line"><span class="decorator">@permission_required('car.drive_car')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_view</span><span class="params">(request)</span>:</span></span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<h3 id="2-5_Template中的权限检查">2.5 Template中的权限检查</h3><p>Template中使用全局变量<code>perms</code>存储当前用户的所有权限，权限检查可以参考下面例子：</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="template_tag">&#123;% <span class="keyword">if</span> perms.main.add_page %&#125;</span><span class="xml"></span><br><span class="line">            <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"dropdown"</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">class</span>=<span class="value">"dropdown-toggle"</span> <span class="attribute">data-toggle</span>=<span class="value">"dropdown"</span> <span class="attribute">role</span>=<span class="value">"button"</span> <span class="attribute">aria-expanded</span>=<span class="value">"false"</span>&gt;</span>Pages <span class="tag">&lt;<span class="title">span</span> <span class="attribute">class</span>=<span class="value">"caret"</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span><span class="tag">&lt;/<span class="title">a</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">ul</span> <span class="attribute">class</span>=<span class="value">"dropdown-menu"</span> <span class="attribute">role</span>=<span class="value">"menu"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"</span></span></span><span class="template_tag">&#123;% <span class="keyword">url</span> 'main:admin_pages' %&#125;</span><span class="xml"><span class="tag"><span class="value">"</span>&gt;</span>All Pages<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"</span></span></span><span class="template_tag">&#123;% <span class="keyword">url</span> 'main:admin_page' %&#125;</span><span class="xml"><span class="tag"><span class="value">"</span>&gt;</span>New Page<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"</span></span></span><span class="template_tag">&#123;% <span class="keyword">url</span> 'main:admin_pages' %&#125;</span><span class="xml"><span class="tag"><span class="value">?draft=true"</span>&gt;</span>Drafts<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;/<span class="title">ul</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="title">li</span>&gt;</span></span><br><span class="line"></span><span class="template_tag">&#123;% <span class="keyword">endif</span> %&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
+<h2 id="3-_基于Django-guardian的object_permission的应用">3. 基于Django-guardian的object permission的应用</h2><p><a href="https://github.com/lukaszb/django-guardian" target="_blank" rel="external">Django-guardian</a>基于django的原生逻辑扩展了django的权限机制，应用django-guardian后，可以使用django-guardian提供的方法以及django的原生方法检查全局权限，django-guardian提供的object permission机制使django的权限机制更加完善。</p>
+<p>django-guardian详细的使用文档请参考官方文档，其object permission常用方法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> guardian.shortcuts <span class="keyword">import</span> assign_perm, get_perms</span><br><span class="line"><span class="keyword">from</span> guardian.core <span class="keyword">import</span> ObjectPermissionChecker</span><br><span class="line"><span class="keyword">from</span> guardian.decorators <span class="keyword">import</span> permission_required</span><br></pre></td></tr></table></figure>
+<h3 id="3-1_添加object_permission">3.1 添加object permission</h3><p>添加object permission使用<code>assign_perm()</code>方法，如为用户添加对mycar对象的drive_car权限：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">assign_perm(<span class="string">'myapp.drive_car'</span>, request.user, mycar)</span><br></pre></td></tr></table></figure>
+<p><code>assign_perm()</code>方法也可用于group</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">assign_perm(<span class="string">'myapp.drive_car'</span>, mygroup, mycar)</span><br></pre></td></tr></table></figure>
+<h3 id="3-2_权限检查">3.2 权限检查</h3><h4 id="3-2-1_Global_permission">3.2.1 Global permission</h4><p><code>get_perms()</code>方法用于检查用户的“全局权限”（global permission），与<code>user.has_perm()</code>异曲同工，如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#############################</span></span><br><span class="line"><span class="comment"># It works! </span></span><br><span class="line"><span class="comment">#############################</span></span><br><span class="line"> <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">'main.change_post'</span> <span class="keyword">in</span> get_perms(request.user, post):</span><br><span class="line">     <span class="keyword">raise</span> HttpResponse(<span class="string">'Forbidden'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#############################</span></span><br><span class="line"><span class="comment"># It works, too!</span></span><br><span class="line"><span class="comment">#############################</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> request.user.has_perm(<span class="string">'main.change_post'</span>)</span><br><span class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">'Forbidden'</span>)</span><br></pre></td></tr></table></figure>
+<p>例子中虽然把post object作为参数传给get_perms()方法，但它只检查user的全局权限中是否有<code>main.change_post</code>权限，很多情况下可用原生的<code>user.has_perm</code>取代，但user和group均可作为<code>get_perms()</code>的传入参数，某些情况下可以使代码更简洁。</p>
+<h4 id="3-2-2_Object_permission">3.2.2 Object permission</h4><p>Django-guardian中使用<code>ObjectPermissionChecker</code>检查用户的object permission，示例如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">checker = ObjectPermissionChecker(request.user)</span><br><span class="line"><span class="keyword">print</span> checker.has_perm(<span class="string">'main.change_post'</span>, post)</span><br></pre></td></tr></table></figure>
+<h3 id="3-3_permission_required装饰器">3.3 permission_required装饰器</h3><p><code>guardian.decorators.permission_required</code>是django-guardian权限检查的decorator，既可以检查全局权限，又可以检查对象权限（object permission），其中，<code>accept_global_perms</code>参数指出是否检查user的global permission，如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> guardian.decorators <span class="keyword">import</span> permission_required</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DeletePost</span><span class="params">(View)</span>:</span></span><br><span class="line">    <span class="decorator">@method_decorator(permission_required('main.delete_post', </span></span><br><span class="line">                            (models.Post, <span class="string">'id'</span>, <span class="string">'pk'</span>), </span><br><span class="line">                            accept_global_perms=<span class="keyword">True</span>))</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, request, pk)</span>:</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            pk = int(pk)</span><br><span class="line">            cur_post = models.Post.objects.get(pk=pk)</span><br><span class="line">            is_draft = cur_post.is_draft</span><br><span class="line"></span><br><span class="line">            url = reverse(<span class="string">'main:admin_posts'</span>)</span><br><span class="line">            <span class="keyword">if</span> is_draft:</span><br><span class="line">                url = <span class="string">'&#123;0&#125;?draft=true'</span>.format(url)    </span><br><span class="line">            cur_post.delete()</span><br><span class="line">        <span class="keyword">except</span> models.Post.DoesNotExist:</span><br><span class="line">            <span class="keyword">raise</span> Http404</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> redirect(url)</span><br></pre></td></tr></table></figure>
+<p><strong>注：</strong></p>
+<p>decorator中的<code>(models.Post, &#39;id&#39;, &#39;pk&#39;)</code>部分，用于指定object实例，如果忽略这个参数，则不论accept_global_perms值为True还是False，均仅仅检查全局权限。</p>
+<h2 id="4-_结论">4. 结论</h2><p>Django原生提供了一种简单的全局权限（global permission）控制机制，但很多应用场景下，对象权限（object permission）更加有用；django-guardian是目前比较活跃的一个django extension，提供了一种有效的object permission控制机制，与django原生机制一脉相承，推荐使用。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/tech/">tech</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/django/">django</a><a href="/tags/python/">python</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.igevin.info/2015/06/17/django-permission/" data-title="Django权限机制的实现 | Gevin&#39;s blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/02/05/docker-tips/"  title="Docker Tips">
+ <strong>下一篇：</strong><br/> 
+ <span>Docker Tips
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/06/17/django-permission/" data-title="Django权限机制的实现" data-url="http://blog.igevin.info/2015/06/17/django-permission/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_Django权限机制概述"><span class="toc-number">1.</span> <span class="toc-text">1. Django权限机制概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1_Django的权限控制"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 Django的权限控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2_Django的权限项"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 Django的权限项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_Django_自带权限机制的应用"><span class="toc-number">2.</span> <span class="toc-text">2. Django 自带权限机制的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_Permission"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 Permission</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_User_Permission管理"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 User Permission管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3_Group_Permission管理"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 Group Permission管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4_permission_required_装饰器"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 permission_required 装饰器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5_Template中的权限检查"><span class="toc-number">2.5.</span> <span class="toc-text">2.5 Template中的权限检查</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_基于Django-guardian的object_permission的应用"><span class="toc-number">3.</span> <span class="toc-text">3. 基于Django-guardian的object permission的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1_添加object_permission"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 添加object permission</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2_权限检查"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 权限检查</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1_Global_permission"><span class="toc-number">3.2.1.</span> <span class="toc-text">3.2.1 Global permission</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2_Object_permission"><span class="toc-number">3.2.2.</span> <span class="toc-text">3.2.2 Object permission</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3_permission_required装饰器"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 permission_required装饰器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_结论"><span class="toc-number">4.</span> <span class="toc-text">4. 结论</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/github/" title="github">github<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/tech/" title="tech">tech<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/wechat/" title="wechat">wechat<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/wordpress/" title="wordpress">wordpress<sup>44</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程序员/" title="程序员">程序员<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/互联网/" title="互联网">互联网<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/GIS/" title="GIS">GIS<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/微信/" title="微信">微信<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SNS/" title="SNS">SNS<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/app/" title="app">app<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/营销/" title="营销">营销<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/wordpress/" title="wordpress">wordpress<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/黑客文化/" title="黑客文化">黑客文化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/创新/" title="创新">创新<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/django/" title="django">django<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/tip/" title="tip">tip<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/苹果/" title="苹果">苹果<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/LBS/" title="LBS">LBS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/用户体验/" title="用户体验">用户体验<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Stay hungry, stay foolish. <br/>
+			Stop when you are perfect.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/flyhigher139" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/flyhigher139" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/igevin" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="http://blog.igevin.info/about" target="_blank" title="Gevin">Gevin</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+  
+    c.click();
+    
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"gevin-essay"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
